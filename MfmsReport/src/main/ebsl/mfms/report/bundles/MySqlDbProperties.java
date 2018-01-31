@@ -27,6 +27,7 @@ public class MySqlDbProperties extends PropertiesBase implements DbProperties{
 
 	public String getConnectString() {
 		connectString = this.getPropValues("connection_string");
+		connectString += connectString + getHost() + ":" + getPort();
 		return connectString;
 	}
 

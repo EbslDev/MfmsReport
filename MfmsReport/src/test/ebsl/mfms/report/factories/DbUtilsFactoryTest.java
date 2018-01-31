@@ -1,6 +1,6 @@
 package ebsl.mfms.report.factories;
 
-import static org.junit.Assert.*;
+import java.sql.Connection;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -8,10 +8,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ebsl.mfms.report.utils.DbUtils;
+import org.junit.Assert;
+
 public class DbUtilsFactoryTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		
 	}
 
 	@AfterClass
@@ -28,7 +32,13 @@ public class DbUtilsFactoryTest {
 
 	@Test
 	public void testGetInstanceOfMySqlDbUtils() {
-		fail("Not yet implemented");
+		try {
+			DbUtils dbUtils = DbUtilsFactory.getInstanceOfMySqlDbUtils();
+			Connection connection = dbUtils.getConnection();
+			Assert.assertNotNull(connection);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
