@@ -3,7 +3,7 @@ package com.rabbitforever.services;
 import java.util.List;
 
 import com.rabbitforever.daos.OracleDbDao;
-import com.rabbitforever.vos.MetaDataField;
+import com.rabbitforever.models.eos.MetaDataField;
 
 public class OracleDbMgr {
 	private OracleDbDao oracleDbDao;

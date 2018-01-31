@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.rabbitforever.commons.RConnection;
-import com.rabbitforever.vos.MetaDataField;
+import com.rabbitforever.models.eos.MetaDataField;
 
 public class MySqlDbDao {
 

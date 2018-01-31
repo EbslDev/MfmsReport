@@ -3,7 +3,7 @@ package com.rabbitforever.services;
 import java.util.List;
 
 import com.rabbitforever.daos.MySqlDbDao;
-import com.rabbitforever.vos.MetaDataField;
+import com.rabbitforever.models.eos.MetaDataField;
 
 public class MySqlDbMgr {
 	private MySqlDbDao mysqlDbDao;

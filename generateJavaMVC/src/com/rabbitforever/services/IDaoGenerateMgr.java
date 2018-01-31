@@ -7,8 +7,8 @@ import java.util.List;
 
 import com.rabbitforever.commons.JavaOracle;
 import com.rabbitforever.commons.Misc;
+import com.rabbitforever.models.eos.MetaDataField;
 import com.rabbitforever.policies.SystemParams;
-import com.rabbitforever.vos.MetaDataField;
 
 public class IDaoGenerateMgr {
 
