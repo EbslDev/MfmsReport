@@ -1,4 +1,4 @@
-package com.rabbitforever.models.eos;
+package com.rabbitforever.generateJavaMVC.models.eos;
 
 public class MetaDataField {
 

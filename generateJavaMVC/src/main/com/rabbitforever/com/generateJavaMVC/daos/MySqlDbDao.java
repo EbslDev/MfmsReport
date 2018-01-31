@@ -1,4 +1,4 @@
-package com.rabbitforever.daos;
+package com.rabbitforever.com.generateJavaMVC.daos;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -8,12 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rabbitforever.commons.RConnection;
-import com.rabbitforever.models.eos.MetaDataField;
+import com.rabbitforever.generateJavaMVC.commons.RConnection;
+import com.rabbitforever.generateJavaMVC.models.eos.MetaDataField;
 
-public class OracleDbDao {
+public class MySqlDbDao {
 
-	public OracleDbDao()
+	public MySqlDbDao()
 	{
 		
 	}

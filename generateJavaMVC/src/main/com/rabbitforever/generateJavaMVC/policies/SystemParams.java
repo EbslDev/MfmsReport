@@ -1,4 +1,4 @@
-package com.rabbitforever.policies;
+package com.rabbitforever.generateJavaMVC.policies;
 
 public class SystemParams {
 	public final static String OUTPUT_ROOT_DIRECTORY = "c:\\Temp\\java";

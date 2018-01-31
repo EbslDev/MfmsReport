@@ -1,9 +1,9 @@
-package com.rabbitforever.services;
+package com.rabbitforever.generateJavaMVC.services;
 
 import java.util.List;
 
-import com.rabbitforever.daos.OracleDbDao;
-import com.rabbitforever.models.eos.MetaDataField;
+import com.rabbitforever.com.generateJavaMVC.daos.OracleDbDao;
+import com.rabbitforever.generateJavaMVC.models.eos.MetaDataField;
 
 public class OracleDbMgr {
 	private OracleDbDao oracleDbDao;

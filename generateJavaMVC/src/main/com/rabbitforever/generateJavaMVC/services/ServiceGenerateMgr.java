@@ -1,13 +1,13 @@
-package com.rabbitforever.services;
+package com.rabbitforever.generateJavaMVC.services;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rabbitforever.commons.Misc;
-import com.rabbitforever.models.eos.MetaDataField;
-import com.rabbitforever.policies.SystemParams;
+import com.rabbitforever.generateJavaMVC.commons.Misc;
+import com.rabbitforever.generateJavaMVC.models.eos.MetaDataField;
+import com.rabbitforever.generateJavaMVC.policies.SystemParams;
 
 public class ServiceGenerateMgr {
 

@@ -1,4 +1,4 @@
-package com.rabbitforever.commons;
+package com.rabbitforever.generateJavaMVC.commons;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

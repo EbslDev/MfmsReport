@@ -1,11 +1,11 @@
-package com.rabbitforever.pgms;
+package com.rabbitforever.generateJavaMVC.pgms;
 
-import com.rabbitforever.services.DaoGenerateMgr;
-import com.rabbitforever.services.FileArchieveMgr;
-import com.rabbitforever.services.IDaoGenerateMgr;
-import com.rabbitforever.services.IServiceGenerateMgr;
-import com.rabbitforever.services.ServiceGenerateMgr;
-import com.rabbitforever.services.VoGenerateMgr;
+import com.rabbitforever.generateJavaMVC.services.DaoGenerateMgr;
+import com.rabbitforever.generateJavaMVC.services.FileArchieveMgr;
+import com.rabbitforever.generateJavaMVC.services.IDaoGenerateMgr;
+import com.rabbitforever.generateJavaMVC.services.IServiceGenerateMgr;
+import com.rabbitforever.generateJavaMVC.services.ServiceGenerateMgr;
+import com.rabbitforever.generateJavaMVC.services.VoGenerateMgr;
 
 public class MainConsole {
 

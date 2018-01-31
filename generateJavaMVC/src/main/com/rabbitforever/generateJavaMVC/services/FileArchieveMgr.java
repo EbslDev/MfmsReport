@@ -1,8 +1,8 @@
-package com.rabbitforever.services;
+package com.rabbitforever.generateJavaMVC.services;
 
 import java.io.File;
 
-import com.rabbitforever.policies.SystemParams;
+import com.rabbitforever.generateJavaMVC.policies.SystemParams;
 
 public class FileArchieveMgr {
 	public FileArchieveMgr()

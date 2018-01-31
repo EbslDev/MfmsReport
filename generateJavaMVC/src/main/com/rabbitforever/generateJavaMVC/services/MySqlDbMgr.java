@@ -1,9 +1,9 @@
-package com.rabbitforever.services;
+package com.rabbitforever.generateJavaMVC.services;
 
 import java.util.List;
 
-import com.rabbitforever.daos.MySqlDbDao;
-import com.rabbitforever.models.eos.MetaDataField;
+import com.rabbitforever.com.generateJavaMVC.daos.MySqlDbDao;
+import com.rabbitforever.generateJavaMVC.models.eos.MetaDataField;
 
 public class MySqlDbMgr {
 	private MySqlDbDao mysqlDbDao;

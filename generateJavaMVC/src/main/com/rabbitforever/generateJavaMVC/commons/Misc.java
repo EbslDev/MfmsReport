@@ -1,6 +1,6 @@
-package com.rabbitforever.commons;
+package com.rabbitforever.generateJavaMVC.commons;
 
-import com.rabbitforever.policies.SystemParams;
+import com.rabbitforever.generateJavaMVC.policies.SystemParams;
 
 public class Misc {
 	

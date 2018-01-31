@@ -1,22 +1,22 @@
-package com.rabbitforever.services;
+package com.rabbitforever.generateJavaMVC.services;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rabbitforever.commons.JavaOracle;
-import com.rabbitforever.commons.Misc;
-import com.rabbitforever.models.eos.MetaDataField;
-import com.rabbitforever.policies.SystemParams;
+import com.rabbitforever.generateJavaMVC.commons.JavaOracle;
+import com.rabbitforever.generateJavaMVC.commons.Misc;
+import com.rabbitforever.generateJavaMVC.models.eos.MetaDataField;
+import com.rabbitforever.generateJavaMVC.policies.SystemParams;
 
-public class IServiceGenerateMgr {
+public class IDaoGenerateMgr {
 
 	private String tableName;
 	private String voClassName;
 	private String objClassName;
 
-	public IServiceGenerateMgr(String _tableName) {
+	public IDaoGenerateMgr(String _tableName) {
 		tableName = _tableName;
 		voClassName = tableName;
 
@@ -24,14 +24,14 @@ public class IServiceGenerateMgr {
 				.convertTableFieldsFormat2JavaPropertiesFormat(tableName);
 	} // end constructor
 
-	public void generateService() {
+	public void generateDao() {
 		try {
 			// Create file
 
 			voClassName = tableName;
 
 			String voFile = SystemParams.OUTPUT_ROOT_DIRECTORY
-					+ "\\" + SystemParams.PROJECT_FOLDER_ROOT +"\\" + SystemParams.SERVICE_I_DIR_NAME + "\\" + voClassName + "Service.java";
+					+ "\\" + SystemParams.PROJECT_FOLDER_ROOT +"\\" + SystemParams.DAO_I_DIR_NAME + "\\" + voClassName + "Dao.java";
 
 			FileWriter fstream = new FileWriter(voFile);
 			BufferedWriter out = new BufferedWriter(fstream);
@@ -40,7 +40,7 @@ public class IServiceGenerateMgr {
 			StringBuilder sb = new StringBuilder();
 
 			// --- Interface
-			sb.append("public Interface " + voClassName + "Service\n");
+			sb.append("public Interface " + voClassName + "Dao\n");
 			sb.append("{\n");
 
 			OracleDbMgr oracleDbMgr = new OracleDbMgr();
@@ -70,7 +70,7 @@ public class IServiceGenerateMgr {
 		} catch (Exception e) {// Catch exception if any
 			System.err.println("Error: " + e.getMessage());
 		} // end try ... catch ...
-		  System.out.println("Service Interface is generated. : " + voClassName + "Service.java");		
+		  System.out.println("Dao Interface is generated. : " + voClassName + "Dao.java");		
 	} // end generateDao()
 
 	/**
@@ -78,8 +78,8 @@ public class IServiceGenerateMgr {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		IServiceGenerateMgr serviceGenerateMgr = new IServiceGenerateMgr("LACCCDTL");
-		serviceGenerateMgr.generateService();
+		IDaoGenerateMgr daoGenerateMgr = new IDaoGenerateMgr("LACCCDTL");
+		daoGenerateMgr.generateDao();
 	}
 
 }

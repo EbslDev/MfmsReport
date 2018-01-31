@@ -1,4 +1,4 @@
-package com.rabbitforever.commons;
+package com.rabbitforever.generateJavaMVC.commons;
 
 public class JavaMySql {
 	public JavaMySql(){
