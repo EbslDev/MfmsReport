@@ -1,4 +1,4 @@
-package com.rabbitforever.com.generateJavaMVC.daos;
+package com.rabbitforever.generateJavaMVC.daos;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

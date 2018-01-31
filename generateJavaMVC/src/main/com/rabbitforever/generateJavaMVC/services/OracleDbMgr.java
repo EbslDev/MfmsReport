@@ -2,7 +2,7 @@ package com.rabbitforever.generateJavaMVC.services;
 
 import java.util.List;
 
-import com.rabbitforever.com.generateJavaMVC.daos.OracleDbDao;
+import com.rabbitforever.generateJavaMVC.daos.OracleDbDao;
 import com.rabbitforever.generateJavaMVC.models.eos.MetaDataField;
 
 public class OracleDbMgr {
