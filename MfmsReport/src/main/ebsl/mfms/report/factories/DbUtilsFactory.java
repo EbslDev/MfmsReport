@@ -9,8 +9,8 @@ public class DbUtilsFactory {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private String className = this.getClass().getName();
 	private static DbUtils mySqlDbUtils;
-	private static DbUtils db2DbUtils;
-	private static DbUtils msSqlDbUtils;
+//	private static DbUtils db2DbUtils;
+//	private static DbUtils msSqlDbUtils;
 	
 	private DbUtilsFactory(){
 		
