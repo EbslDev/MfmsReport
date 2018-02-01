@@ -1,12 +1,6 @@
 package ebsl.mfms.report.bundles;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class MySqlDbProperties extends PropertiesBase implements DbProperties{
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	private String className = this.getClass().getName();
-	private final static String FILE_NAME = "mysql.db.properties";
+public class MySqlDbProperties implements DbProperties{
 	private String connectString;
 	private String host;
 	private String port;
@@ -15,79 +9,59 @@ public class MySqlDbProperties extends PropertiesBase implements DbProperties{
 	private String schema;
 	private String systemSchema;
 	private String classForName;
-	
-	public MySqlDbProperties() throws Exception {
-		super(FILE_NAME);
-	}
-	
-	public String getSchema() {
-		schema = this.getPropValues("schema");
-		return schema;
-	}
-
 	public String getConnectString() {
-		connectString = this.getPropValues("connection_string");
-		connectString += connectString + getHost() + ":" + getPort();
 		return connectString;
 	}
-
+	public void setConnectString(String connectString) {
+		this.connectString = connectString;
+	}
 	public String getHost() {
-		host = this.getPropValues("host");
 		return host;
 	}
-
+	public void setHost(String host) {
+		this.host = host;
+	}
 	public String getPort() {
-		port = this.getPropValues("port");
 		return port;
 	}
-
+	public void setPort(String port) {
+		this.port = port;
+	}
 	public String getUserName() {
-		userName = this.getPropValues("username");
 		return userName;
 	}
-
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public String getPassword() {
-		password = this.getPropValues("password");
 		return password;
 	}
-
-	public String getClassForName() {
-		classForName = this.getPropValues("class_for_name");
-		return classForName;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-
+	public String getSchema() {
+		return schema;
+	}
+	public void setSchema(String schema) {
+		this.schema = schema;
+	}
 	public String getSystemSchema() {
-		systemSchema = this.getPropValues("system_schema");
 		return systemSchema;
 	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("MySqlDbProperties [logger=");
-		builder.append(logger);
-		builder.append(", className=");
-		builder.append(className);
-		builder.append(", connectString=");
-		builder.append(connectString);
-		builder.append(", host=");
-		builder.append(host);
-		builder.append(", port=");
-		builder.append(port);
-		builder.append(", userName=");
-		builder.append(userName);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append(", schema=");
-		builder.append(schema);
-		builder.append(", systemSchema=");
-		builder.append(systemSchema);
-		builder.append(", classForName=");
-		builder.append(classForName);
-		builder.append("]");
-		return builder.toString();
+	public void setSystemSchema(String systemSchema) {
+		this.systemSchema = systemSchema;
 	}
-	
+	public String getClassForName() {
+		return classForName;
+	}
+	public void setClassForName(String classForName) {
+		this.classForName = classForName;
+	}
+
+
+
+
+
 
 	
 }
