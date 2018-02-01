@@ -16,8 +16,9 @@ import com.rabbitforever.generateJavaMVC.factories.PropertiesFactory;
 public class MySqlDbUtils extends DbUtils{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private String className = this.getClass().getName();
+	private PropertiesFactory propertiesFactory;
 	public MySqlDbUtils() throws Exception{
-		properties = PropertiesFactory.getInstanceOfMySqlDbProperties();	
+		properties = propertiesFactory.getInstanceOfMySqlDbProperties();	
 	}
 	public IDatabaseConnection getDataBaseConnectionWithSchema() throws Exception {
 		String schema = properties.getSchema();

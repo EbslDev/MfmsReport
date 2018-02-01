@@ -15,8 +15,10 @@ public class Misc {
 	private final static String className = PropertiesFactory.class.getName();
 	public final static String LANG_EN = "en";
 	public final static String LANG_TC = "tc";
+	private static PropertiesFactory propertiesFactory;
 	public static String convertBundleNameFormat2ClassNameFormat(String bundleName) throws Exception {
-		SysProperties sysProperties = PropertiesFactory.getInstanceOfSysPropertiesEo();
+		propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+		SysProperties sysProperties = propertiesFactory.getInstanceOfSysProperties();
 		String bundlePrefix = "";
 		String voClassName = "";
 		try {
@@ -76,7 +78,7 @@ public class Misc {
 
 	
 	public static String convertTableNameFormat2ClassNameFormat(String _databaseName) throws Exception {
-		SysProperties sysPropertiesEo = PropertiesFactory.getInstanceOfSysPropertiesEo();
+		SysProperties sysPropertiesEo = propertiesFactory.getInstanceOfSysProperties();
 		String tablePrefix = sysPropertiesEo.getTablePrefix();
 		String voClassName = "";
 		try {

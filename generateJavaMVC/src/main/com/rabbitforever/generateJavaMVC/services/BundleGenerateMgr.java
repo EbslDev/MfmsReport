@@ -17,34 +17,42 @@ public class BundleGenerateMgr {
 	private String className = this.getClass().getName();
 	private String fileName;
 	private String objLowerFirstCharClassName;
+	private PropertiesFactory propertiesFactory;
 	private SysProperties sysProperties;
 	private List<String> lineList;
-	
+
 	public BundleGenerateMgr(List<String> lineList, String fileName) {
-		try{
-		this.fileName = fileName.replace(".properties", "");
-		this.lineList = lineList;
-		objLowerFirstCharClassName = "";
-		sysProperties = PropertiesFactory.getInstanceOfSysPropertiesEo();
-		} catch (Exception e){
+		try {
+			this.fileName = fileName.replace(".properties", "");
+			this.lineList = lineList;
+			objLowerFirstCharClassName = "";
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			
+			sysProperties = propertiesFactory.getInstanceOfSysProperties();
+		} catch (Exception e) {
 			logger.error(className + ".BundleGenerateMgr()", e);
 		}
 	}
-	
+
 	public void generateBundle() throws Exception {
 		String outputRootDirectory = null;
 		String projectFolderRoot = null;
 		String phpSysConfigRoot = null;
+		String bundleDirName = null;
+		String packageName = null;
 		try {
 			outputRootDirectory = sysProperties.getOutputRootDirectory();
-			projectFolderRoot = sysProperties.getProjectFolderRoot();
-			phpSysConfigRoot = sysProperties.getPhpSysConfigRoot();
+			// projectFolderRoot = sysProperties.getProjectFolderRoot();
+			// phpSysConfigRoot = sysProperties.getPhpSysConfigRoot();
 			// Create file
-
+			bundleDirName = sysProperties.getBundleDirName();
+			packageName = sysProperties.getPackageName();
+			
+			
 			objLowerFirstCharClassName = Misc.convertBundleNameFormat2ClassNameFormat(fileName);
 			String objUpperFirstCharClassName = Misc.upperStringFirstChar(objLowerFirstCharClassName);
-			String fileFolder =  outputRootDirectory + "\\models\\bundles";
-			String objFile = fileFolder +"\\" + objUpperFirstCharClassName + "BundlesEo.php";
+			String fileFolder = outputRootDirectory + "\\models\\bundles";
+			String objFile = fileFolder + "\\" + objUpperFirstCharClassName + "BundlesEo.php";
 			FileUtils fileUtils = new FileUtils();
 			fileUtils.createDirectoryIfNotExisted(fileFolder);
 			FileWriter fstream = new FileWriter(objFile);
@@ -52,7 +60,7 @@ public class BundleGenerateMgr {
 			// ################################################## begin writing
 			// file
 			StringBuilder sb = new StringBuilder();
-			sb.append("<?php\n");
+			sb.append("package " + packageName + "." + bundleDirName + ";\n");
 
 			// --- header
 			sb.append("include_once('" + phpSysConfigRoot + "/" + projectFolderRoot + "/systems/Configs.php');\n");
@@ -61,32 +69,32 @@ public class BundleGenerateMgr {
 			// --- class
 			sb.append("class " + objUpperFirstCharClassName + "BundlesEo extends BundlesEo");
 			sb.append("{\n");
-			
+
 			// member variables - EN
-			for (String line: lineList){
+			for (String line : lineList) {
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_EN);
-				if (propertyString != null){
+				if (propertyString != null) {
 					sb.append("\tprivate $" + propertyString + ";\n");
 				}
 			}
 			// member variables - TC
-			for (String line: lineList){
+			for (String line : lineList) {
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_TC);
-				if (propertyString != null){
+				if (propertyString != null) {
 					sb.append("\tprivate $" + propertyString + ";\n");
 				}
 			}
-			
+
 			sb.append("\tpublic function __construct($defaultLang = NULL){\n");
 			sb.append("\t\tparent::__construct($defaultLang);\n");
 			sb.append("\t}\n");
-			
+
 			// methods - EN
-			for (String line: lineList){
+			for (String line : lineList) {
 				String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line, Misc.LANG_EN);
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_EN);
 
-				if (functionString != null){
+				if (functionString != null) {
 					// setter
 					sb.append("\tpublic function set" + functionString + "($" + propertyString + "){\n");
 					sb.append("\t\t$this->" + propertyString + "=$" + propertyString + ";\n");
@@ -97,13 +105,13 @@ public class BundleGenerateMgr {
 					sb.append("\t}\n");
 				}
 			}
-			
+
 			// methods - TC
-			for (String line: lineList){
+			for (String line : lineList) {
 				String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line, Misc.LANG_TC);
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_TC);
 
-				if (functionString != null){
+				if (functionString != null) {
 					// setter
 					sb.append("\tpublic function set" + functionString + "($" + propertyString + "){\n");
 					sb.append("\t\t$this->" + propertyString + "=$" + propertyString + ";\n");
@@ -114,14 +122,13 @@ public class BundleGenerateMgr {
 					sb.append("\t}\n");
 				}
 			}
-			
-			
+
 			// methods - autodetect language
-			for (String line: lineList){
+			for (String line : lineList) {
 				String functionString = Misc.convertBundleFieldsFormat2JavaFnNoLangFormat(line, Misc.LANG_EN);
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesNoLangFormat(line, Misc.LANG_EN);
 
-				if (functionString != null){
+				if (functionString != null) {
 					String upperEnLang = Misc.upperStringFirstChar(Misc.LANG_EN);
 					String upperTcLang = Misc.upperStringFirstChar(Misc.LANG_TC);
 					// getter
@@ -142,7 +149,7 @@ public class BundleGenerateMgr {
 					sb.append("\t}\n");
 				}
 			}
-			
+
 			// __toString() function
 			sb.append("\tpublic function __toString(){\n");
 			sb.append("\t\t$objectString=NULL;\n");
@@ -156,7 +163,7 @@ public class BundleGenerateMgr {
 			sb.append("\t\t}\n");
 			sb.append("\t\treturn $objectString;\n");
 			sb.append("\t}\n");
-			
+
 			// printAllPropertiesToJsBundlesVo() function
 			sb.append("\t public function printAllPropertiesToJsBundleVo(){\n");
 			sb.append("\t\ttry{\n");
@@ -169,9 +176,10 @@ public class BundleGenerateMgr {
 			sb.append("\t\t\t\t\t} else {\n");
 			sb.append("\t\t\t\t\t\t$stringValue = $value;\n");
 			sb.append("\t\t\t\t\t}\n");
-			
-			sb.append("\t\t\t\t\techo '<input type=\"hidden\" class=\"' . $key . '\" value=\"' . $stringValue. '\" />';\n");
-			
+
+			sb.append(
+					"\t\t\t\t\techo '<input type=\"hidden\" class=\"' . $key . '\" value=\"' . $stringValue. '\" />';\n");
+
 			sb.append("\t\t\t\t}\n");
 			sb.append("\t\t\t}\n");
 			sb.append("\t\t} catch (Exception $ex) {\n");
@@ -179,7 +187,7 @@ public class BundleGenerateMgr {
 			sb.append("\t\t\tthrow $ex;\n");
 			sb.append("\t\t}\n");
 			sb.append("\t}\n");
-			
+
 			sb.append("}\n"); // end class Function
 			sb.append("?>");
 			out.write(sb.toString());

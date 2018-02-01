@@ -18,6 +18,7 @@ public class BundleBuilderGenerateMgr {
 	private String fileName;
 	private String objLowerFirstCharClassName;
 	private SysProperties sysProperties;
+	private PropertiesFactory propertiesFactory;
 	private List<String> lineList;
 	
 	public BundleBuilderGenerateMgr(List<String> lineList, String fileName) {
@@ -25,7 +26,8 @@ public class BundleBuilderGenerateMgr {
 		this.fileName = fileName.replace(".properties", "");
 		this.lineList = lineList;
 		objLowerFirstCharClassName = "";
-		sysProperties = PropertiesFactory.getInstanceOfSysPropertiesEo();
+		propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+		sysProperties = propertiesFactory.getInstanceOfSysProperties();
 		} catch (Exception e){
 			logger.error(className + ".BundleBuilderGenerateMgr()", e);
 		}
@@ -37,8 +39,8 @@ public class BundleBuilderGenerateMgr {
 		String phpSysConfigRoot = null;
 		try {
 			outputRootDirectory = sysProperties.getOutputRootDirectory();
-			projectFolderRoot = sysProperties.getProjectFolderRoot();
-			phpSysConfigRoot = sysProperties.getPhpSysConfigRoot();
+//			projectFolderRoot = sysProperties.getProjectFolderRoot();
+//			phpSysConfigRoot = sysProperties.getPhpSysConfigRoot();
 			// Create file
 
 			objLowerFirstCharClassName = Misc.convertBundleNameFormat2ClassNameFormat(fileName);

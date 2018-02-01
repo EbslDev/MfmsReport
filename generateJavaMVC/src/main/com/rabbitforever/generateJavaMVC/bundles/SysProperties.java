@@ -8,12 +8,17 @@ public class SysProperties extends PropertiesBase{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private String className = this.getClass().getName();
 
+	private String database;
+	private String packageName;
 	private String outputRootDirectory;
-	private String projectFolderRoot;
 	private String tablePrefix;
-	private String phpSysConfigRoot;
-
-
+	public String getBundleDirName() {
+		return bundleDirName;
+	}
+	public void setBundleDirName(String bundleDirName) {
+		this.bundleDirName = bundleDirName;
+	}
+	private String bundleDirName;
 
 	public SysProperties() throws Exception {
 		super(FILE_NAME);
@@ -27,34 +32,27 @@ public class SysProperties extends PropertiesBase{
 		}
 		return outputRootDirectory;
 	}
-
-	public String getProjectFolderRoot() throws Exception{
-		try {
-			projectFolderRoot = this.getPropValues("project_folder_root");
-		} catch (Exception e) {
-			logger.error(className + ".getConsumerSleepTime()", e);
-			throw e;
-		}
-		return projectFolderRoot;
+	public String getDatabase() {
+		return database;
 	}
-
-	public String getTablePrefix() throws Exception{
-		try {
-			tablePrefix = this.getPropValues("table_prefix");
-
-		} catch (Exception e) {
-			logger.error(className + ".getProducerThreadPool()", e);
-			throw e;
-		} 
+	public void setDatabase(String database) {
+		this.database = database;
+	}
+	public String getPackageName() {
+		return packageName;
+	}
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
+	public String getTablePrefix() {
 		return tablePrefix;
 	}
-	public String getPhpSysConfigRoot() throws Exception {
-		try{
-			phpSysConfigRoot = this.getPropValues("php_sys_config_root");
-		} catch (Exception e){
-			logger.error(className + ".getPhpSysConfigRoot()", e);
-			throw e;
-		}
-		return phpSysConfigRoot;
+	public void setTablePrefix(String tablePrefix) {
+		this.tablePrefix = tablePrefix;
 	}
+	public void setOutputRootDirectory(String outputRootDirectory) {
+		this.outputRootDirectory = outputRootDirectory;
+	}
+
+
 }
