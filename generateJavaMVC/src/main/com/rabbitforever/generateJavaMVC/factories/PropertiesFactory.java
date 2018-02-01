@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import com.rabbitforever.generateJavaMVC.bundles.MySqlDbProperties;
 import com.rabbitforever.generateJavaMVC.bundles.SysProperties;
-import com.rabbitforever.generateJavaMVC.utils.BundlesBuilder;
-import com.rabbitforever.generateJavaMVC.utils.SysBundlesBuilder;
+import com.rabbitforever.generateJavaMVC.factories.builders.BundlesBuilder;
+import com.rabbitforever.generateJavaMVC.factories.builders.SysBundlesBuilder;
 
 public class PropertiesFactory {
 	private final static Logger logger = LoggerFactory.getLogger(PropertiesFactory.class);
@@ -68,7 +68,7 @@ public class PropertiesFactory {
 			if(sysBundlesUtils == null) {
 				sysBundlesUtils = new SysBundlesBuilder(SYS_PROPERTIES_FILE);
 			}
-			sysProperties = (SysProperties) sysBundlesUtils.getProperties();
+			sysProperties = (SysProperties) sysBundlesUtils.build();
 			if (sysProperties == null) {
 				throw new Exception(SYS_PROPERTIES_FILE + " does not exist!");
 			}

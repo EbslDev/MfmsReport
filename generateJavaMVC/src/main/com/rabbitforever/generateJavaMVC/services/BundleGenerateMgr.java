@@ -36,10 +36,10 @@ public class BundleGenerateMgr {
 
 	public void generateBundle() throws Exception {
 		String outputRootDirectory = null;
-		String projectFolderRoot = null;
-		String phpSysConfigRoot = null;
+
 		String bundleDirName = null;
 		String packageName = null;
+		String propertiesClassSuffix = "Properties";
 		try {
 			outputRootDirectory = sysProperties.getOutputRootDirectory();
 			// projectFolderRoot = sysProperties.getProjectFolderRoot();
@@ -52,7 +52,7 @@ public class BundleGenerateMgr {
 			objLowerFirstCharClassName = Misc.convertBundleNameFormat2ClassNameFormat(fileName);
 			String objUpperFirstCharClassName = Misc.upperStringFirstChar(objLowerFirstCharClassName);
 			String fileFolder = outputRootDirectory + "\\" + bundleDirName;
-			String objFile = fileFolder + "\\" + objUpperFirstCharClassName + "Properties.java";
+			String objFile = fileFolder + "\\" + objUpperFirstCharClassName + propertiesClassSuffix +".java";
 			FileUtils fileUtils = new FileUtils();
 			fileUtils.createDirectoryIfNotExisted(fileFolder);
 			FileWriter fstream = new FileWriter(objFile);
@@ -64,18 +64,18 @@ public class BundleGenerateMgr {
 
 
 			// --- class
-			sb.append("public class " + objUpperFirstCharClassName + "Properties extends PropertiesBase");
+			sb.append("public class " + objUpperFirstCharClassName + propertiesClassSuffix +" extends PropertiesBase");
 			sb.append("{\n");
 
 			sb.append("\tpublic static final String LANG_EN = PropertiesBase.LANG_EN;\n");
 			sb.append("\tpublic static final String LANG_TCHI = PropertiesBase.LANG_TCHI;\n");
 			
-			sb.append("\tpublic " + objUpperFirstCharClassName + "() {\n");
+			sb.append("\tpublic " + objUpperFirstCharClassName + "Properties() {\n");
 			sb.append("\t\tsuper();\n");
 			sb.append("}\n");
 			
 			
-			sb.append("\tpublic " + objUpperFirstCharClassName + "(String lang) {\n");
+			sb.append("\tpublic " + objUpperFirstCharClassName + "Properties(String lang) {\n");
 			sb.append("\t\tsuper(lang);\n");
 			sb.append("}\n");
 			

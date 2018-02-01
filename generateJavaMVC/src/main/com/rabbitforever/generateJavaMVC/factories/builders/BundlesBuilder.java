@@ -1,4 +1,4 @@
-package com.rabbitforever.generateJavaMVC.utils;
+package com.rabbitforever.generateJavaMVC.factories.builders;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -55,6 +55,6 @@ public abstract class BundlesBuilder <T> {
 		}
 		return result;
 	}
-	abstract public T getProperties() throws Exception;
+	abstract public T build() throws Exception;
 	
 }

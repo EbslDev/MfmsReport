@@ -1,4 +1,4 @@
-package com.rabbitforever.generateJavaMVC.utils;
+package com.rabbitforever.generateJavaMVC.factories.builders;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class SysBundlesBuilder extends BundlesBuilder <SysProperties>{
 		return className;
 	}
 	@Override
-	public SysProperties getProperties() throws Exception{
+	public SysProperties build() throws Exception{
 		SysProperties sysProperties = null;
 		try{
 			
@@ -35,6 +35,12 @@ public class SysBundlesBuilder extends BundlesBuilder <SysProperties>{
 			sysProperties.setTablePrefix(tablePrefix);
 			String bundleDirName = getPropValues("bundle_dir_name");
 			sysProperties.setBundleDirName(bundleDirName);
+			String factoriesDirName = getPropValues("factories_dir_name");
+			sysProperties.setFactoriesDirName(factoriesDirName);
+			String factoriesBuilderDirName = getPropValues("factories_builder_dir_name");
+			sysProperties.setFactoriesBuilderDirName(factoriesBuilderDirName);
+			
+
 			
 			
 		} catch (Exception e){

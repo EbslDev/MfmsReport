@@ -20,33 +20,40 @@ public class BundleBuilderGenerateMgr {
 	private SysProperties sysProperties;
 	private PropertiesFactory propertiesFactory;
 	private List<String> lineList;
-	
+
 	public BundleBuilderGenerateMgr(List<String> lineList, String fileName) {
-		try{
-		this.fileName = fileName.replace(".properties", "");
-		this.lineList = lineList;
-		objLowerFirstCharClassName = "";
-		propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
-		sysProperties = propertiesFactory.getInstanceOfSysProperties();
-		} catch (Exception e){
+		try {
+			this.fileName = fileName.replace(".properties", "");
+			this.lineList = lineList;
+			objLowerFirstCharClassName = "";
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			sysProperties = propertiesFactory.getInstanceOfSysProperties();
+		} catch (Exception e) {
 			logger.error(className + ".BundleBuilderGenerateMgr()", e);
 		}
 	}
-	
+
 	public void generateBuilder() throws Exception {
 		String outputRootDirectory = null;
 		String projectFolderRoot = null;
 		String phpSysConfigRoot = null;
+		String packageName = null;
 		try {
 			outputRootDirectory = sysProperties.getOutputRootDirectory();
-//			projectFolderRoot = sysProperties.getProjectFolderRoot();
-//			phpSysConfigRoot = sysProperties.getPhpSysConfigRoot();
+			// projectFolderRoot = sysProperties.getProjectFolderRoot();
+			// phpSysConfigRoot = sysProperties.getPhpSysConfigRoot();
 			// Create file
-
+			String factoriesDirName = sysProperties.getFactoriesDirName();
+			String factoriesBuilderDirName = sysProperties.getFactoriesBuilderDirName();
+			String bundlerDirName = sysProperties.getBundleDirName();
+			packageName = sysProperties.getPackageName();
+			String objUpperFirstCharSystemPropertiesClassName = "SysProperties";
+			String objLowerFirstCharSystemPropertiesObjName = Misc
+					.lowerStringFirstChar(objUpperFirstCharSystemPropertiesClassName);
 			objLowerFirstCharClassName = Misc.convertBundleNameFormat2ClassNameFormat(fileName);
 			String objUpperFirstCharClassName = Misc.upperStringFirstChar(objLowerFirstCharClassName);
-			String fileFolder =  outputRootDirectory + "\\models\\builders";
-			String objFile = fileFolder +"\\" + objUpperFirstCharClassName + "BundlesBuilder.php";
+			String fileFolder = outputRootDirectory + "\\models\\builders";
+			String objFile = fileFolder + "\\" + objUpperFirstCharClassName + "BundlesBuilder.java";
 			FileUtils fileUtils = new FileUtils();
 			fileUtils.createDirectoryIfNotExisted(fileFolder);
 			FileWriter fstream = new FileWriter(objFile);
@@ -54,113 +61,127 @@ public class BundleBuilderGenerateMgr {
 			// ################################################## begin writing
 			// file
 			StringBuilder sb = new StringBuilder();
-			sb.append("<?php\n");
+			sb.append("package " + packageName + "." + factoriesDirName + "." + factoriesBuilderDirName + ";\n");
 
 			// --- header
-			sb.append("include_once('" + phpSysConfigRoot + "/" + projectFolderRoot + "/systems/Configs.php');\n");
-			sb.append("include_once( LOG4PHP_PATH . '/RabbitLogger.php');\n");
-			sb.append("include_once( DAOS_PATH . '/Dao.php');\n");
-			sb.append("include_once (BUILDERS_PATH . '/BundlesBuilder.php');\n");
-			sb.append("include_once (EOS_PATH . '/SystemConfigEo.php');\n");
-			sb.append("include_once (EOS_PATH . '/" + objUpperFirstCharClassName + "BundlesEo.php');\n");
-			
+			sb.append("import org.slf4j.Logger;\n");
+			sb.append("import org.slf4j.LoggerFactory;\n");
+			sb.append("import " + packageName + "." + bundlerDirName + "." + objUpperFirstCharSystemPropertiesClassName
+					+ ";\n");
+
 			// --- class
-			sb.append("class " + objUpperFirstCharClassName + "BundlesBuilder extends BundlesBuilder");
+			sb.append("public class " + objUpperFirstCharClassName + "BundlesBuilder extends BundlesBuilder<"
+					+ objUpperFirstCharSystemPropertiesClassName + ">");
 			sb.append("{\n");
 
 			// member variables
-			sb.append("\tprivate $className;\n");
-			sb.append("\tprivate $logger;\n");
-			
+			sb.append("\tprivate final Logger logger = LoggerFactory.getLogger(this.getClass());\n");
+			sb.append("\tprivate String className;\n");
+
 			// constructor
-			sb.append("\tpublic function __construct($fileName, $bundle = NULL){\n");
-			sb.append("\t\tparent::__construct($fileName, $bundle);\n");
-			sb.append("\t\t$this->fillClassName();\n");
-			sb.append("\t\t$this->logger = RabbitLogger::getLogger(get_class($this));\n");
-			sb.append("\t\tif ($this->bundle === NULL){\n");
-			sb.append("\t\t\t$this->bundle = new " + objUpperFirstCharClassName + "BundlesEo();\n");
-			sb.append("\t\t}\n");
+			sb.append("\tpublic " + objUpperFirstCharClassName + "(String fileName) throws Exception{\n");
+			sb.append("\t\tsuper(fileName);\n");
 			sb.append("\t}\n");
-			
+
 			// init
-			sb.append("\tprivate function init(){\n");
-			sb.append("\t}\n");
-			
-			
-			// fillClassName
-			sb.append("\tprivate function fillClassName(){\n");
-			sb.append("\t\tif(!isset($this->className)){\n");
-			sb.append("\t\t\t$this->className =  __CLASS__;\n");
+			sb.append("\tprivate String getClassName(){\n");
+			sb.append("\t\tif(className == null){\n");
+			sb.append("\t\t\tclassName = this.getClass().getName();\n");
 			sb.append("\t\t}\n");
 			sb.append("\t}\n");
-			
 
 			// buildBundle
-			sb.append("\tpublic function buildBundle(){\n");
-			sb.append("\t\t$bundleEo = NULL;\n");
+			sb.append("\t@Override\n");
+			sb.append("\tpublic " + objUpperFirstCharSystemPropertiesClassName + " build() throw Exception{\n");
+			sb.append("\t\t " + objUpperFirstCharSystemPropertiesClassName + " "
+					+ objLowerFirstCharSystemPropertiesObjName + "= null;\n");
 			sb.append("\t\ttry{\n");
-			sb.append("\t\t\t$fileContent = $this->fileUtils->readTextFile($this->fileName);\n");
-			sb.append("\t\t\t$propertyArray = $this->bundleUtils->parseProperties($fileContent);\n");
-			sb.append("\t\t\tif (isset($propertyArray)){\n");
-			sb.append("\t\t\t\t$bundleEo = new " + objUpperFirstCharClassName + "BundlesEo($this->defaultLanguage);\n");
-			
-			
-			
-			
+
+			sb.append("\t\t\t" + objLowerFirstCharSystemPropertiesObjName + " = new "
+					+ objUpperFirstCharSystemPropertiesClassName + "();\n");
 			// member variables - EN
-			for (String line: lineList){
-				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_EN);
-				String propertyOriginalString = Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line, Misc.LANG_EN);
-				if (propertyString != null){
-					sb.append("\t\t\t\t$" + propertyString + "=$propertyArray['" + propertyOriginalString + "'];\n");
-				}
-			}
-			// member variables - TC
-			for (String line: lineList){
-				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_TC);
-				String propertyOriginalString = Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line, Misc.LANG_TC);
-				if (propertyString != null){
-					sb.append("\t\t\t\t$" + propertyString + "=$propertyArray['" + propertyOriginalString + "'];\n");
-				}
-			}
-			
-			// assign to $this->bundleEo
-			
-			// member variables - EN
-			for (String line: lineList){
+			for (String line : lineList) {
 				String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line, Misc.LANG_EN);
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_EN);
-				String propertyOriginalString = Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line, Misc.LANG_EN);
-				if (propertyString != null){
-					sb.append("\t\t\t\tif(isset($" + propertyString + ")){\n");
-					sb.append("\t\t\t\t\t$bundleEo->set" + functionString + "(trim($" + propertyString + "));\n");
-					sb.append("\t\t\t\t}\n");
+				String propertyOriginalString = Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line,
+						Misc.LANG_EN);
+				if (propertyString != null) {
+
+					sb.append("\t\t\tString " + propertyString + " = getPropValues(\"" + propertyOriginalString
+							+ "\");\n");
+					sb.append("\t\t\t" + propertyString + ".set" + functionString + "(" + propertyString + ");\n");
+
 				}
+
 			}
 			// member variables - TC
-			for (String line: lineList){
+			for (String line : lineList) {
 				String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line, Misc.LANG_TC);
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_TC);
-				String propertyOriginalString = Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line, Misc.LANG_TC);
-				if (propertyString != null){
-					sb.append("\t\t\t\tif(isset($" + propertyString + ")){\n");
-					sb.append("\t\t\t\t\t$bundleEo->set" + functionString + "(trim($" + propertyString + "));\n");
-					sb.append("\t\t\t\t}\n");
+				String propertyOriginalString = Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line,
+						Misc.LANG_TC);
+				if (propertyString != null) {
+
+					sb.append("\t\t\tString " + propertyString + " = getPropValues(\"" + propertyOriginalString
+							+ "\");\n");
+					sb.append("\t\t\t" + propertyString + ".set" + functionString + "(" + propertyString + ");\n");
+
 				}
 			}
-			
-			
-			
-			sb.append("\t\t\t}\n");
-			sb.append("\t\t} catch (Exception $ex) {\n");
-			sb.append("\t\t\t$this->logger->error($this->className . '->buildBundle() - $this->fileName=' . print_r($this->fileName, 1), $ex );\n");
-			sb.append("\t\t\tthrow $ex;\n");
+
+			// member variables - no specific lang
+			for (String line : lineList) {
+				String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line);
+				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line);
+				String propertyOriginalString = Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line);
+				if (propertyString != null) {
+
+					sb.append("\t\t\tString " + propertyString + " = getPropValues(\"" + propertyOriginalString
+							+ "\");\n");
+					sb.append("\t\t\t" + propertyString + ".set" + functionString + "(" + propertyString + ");\n");
+
+				}
+			}
+			// // member variables - EN
+			// for (String line: lineList){
+			// String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line,
+			// Misc.LANG_EN);
+			// String propertyString =
+			// Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_EN);
+			// String propertyOriginalString =
+			// Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line, Misc.LANG_EN);
+			// if (propertyString != null){
+			// sb.append("\t\t\t\tif(isset($" + propertyString + ")){\n");
+			// sb.append("\t\t\t\t\t$bundleEo->set" + functionString + "(trim($" +
+			// propertyString + "));\n");
+			// sb.append("\t\t\t\t}\n");
+			// }
+			// }
+			// // member variables - TC
+			// for (String line: lineList){
+			// String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line,
+			// Misc.LANG_TC);
+			// String propertyString =
+			// Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_TC);
+			// String propertyOriginalString =
+			// Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line, Misc.LANG_TC);
+			// if (propertyString != null){
+			// sb.append("\t\t\t\tif(isset($" + propertyString + ")){\n");
+			// sb.append("\t\t\t\t\t$bundleEo->set" + functionString + "(trim($" +
+			// propertyString + "));\n");
+			// sb.append("\t\t\t\t}\n");
+			// }
+			// }
+			//
+			sb.append("\t\t} catch (Exception e) {\n");
+			sb.append(
+					"\t\t\tthis.logger.error(getClassName() + \".build() - this.fileName=\" + this.fileName, e);\n");
+			sb.append("\t\t\tthrow e;\n");
 			sb.append("\t\t}\n");
-			sb.append("\t\t$this->bundleEo = $bundleEo;\n");
+			sb.append("\t\treturn " +  objLowerFirstCharSystemPropertiesObjName + ";\n");
 			sb.append("\t}\n");
-			
+
 			sb.append("}\n"); // end class Function
-			sb.append("?>");
 			out.write(sb.toString());
 
 			// ################################################## end writing

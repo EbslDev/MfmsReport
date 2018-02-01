@@ -305,17 +305,45 @@ public class Misc {
 			boolean b = m.matches();
 			
 			if (b){
-				javaPropertiesName = "";
 				String fullString = m.group(0);
 				String firstPartString = m.group(1);
 				String secondPartString = m.group(2);
 				String thirdPartString = m.group(3);
-				
-				javaPropertiesName = firstPartString + "." + lang;
+
+				if (fullString.contains(".")) {
+					javaPropertiesName = "";
+					javaPropertiesName = firstPartString + "." + lang;
+				}
 			}
 		} // end if (null != _tableFieldName)
 		return javaPropertiesName;
 	} // end convertBundleFieldsFormat2JavaPropertiesFormat
+	
+	public static String convertBundleFieldsFormat2OriginalUnderScoreFormat(String bundleLineString) {
+		String javaPropertiesName = null;
+		if (null != bundleLineString) {
+			String regEx = "(.*)\\s{0,}=\\s{0,}(.*)";
+			Pattern p = Pattern.compile(regEx);
+			Matcher m = p.matcher(bundleLineString);
+			boolean b = m.matches();
+			
+			if (b){
+
+				String fullString = m.group(0);
+				String firstPartString = m.group(1);
+				String secondPartString = m.group(2);
+
+				if (!firstPartString.contains(".")) {
+					javaPropertiesName = "";
+					
+					javaPropertiesName = firstPartString;					
+				}
+
+			}
+		} // end if (null != _tableFieldName)
+		return javaPropertiesName;
+	} // end convertBundleFieldsFormat2JavaPropertiesFormat
+	
 	
 	public static String convertTableFieldsFormat2JavaPropertiesFormat(String _tableFieldName) {
 		String javaPropertiesName = "";
