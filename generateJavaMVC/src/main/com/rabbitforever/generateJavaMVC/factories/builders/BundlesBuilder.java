@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public abstract class BundlesBuilder <T> {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private Properties properties;
-	private String fileName;
+	protected String fileName;
 	public BundlesBuilder(String fileName) throws Exception{
 		this.fileName = fileName;
 		init();

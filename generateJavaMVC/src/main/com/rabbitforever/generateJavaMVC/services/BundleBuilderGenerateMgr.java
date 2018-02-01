@@ -48,8 +48,7 @@ public class BundleBuilderGenerateMgr {
 			String bundlerDirName = sysProperties.getBundleDirName();
 			packageName = sysProperties.getPackageName();
 			String objUpperFirstCharSystemPropertiesClassName = "SysProperties";
-			String objLowerFirstCharSystemPropertiesObjName = Misc
-					.lowerStringFirstChar(objUpperFirstCharSystemPropertiesClassName);
+			String objLowerFirstCharSystemPropertiesObjName = Misc.lowerStringFirstChar(objUpperFirstCharSystemPropertiesClassName);
 			objLowerFirstCharClassName = Misc.convertBundleNameFormat2ClassNameFormat(fileName);
 			String objUpperFirstCharClassName = Misc.upperStringFirstChar(objLowerFirstCharClassName);
 			String fileFolder = outputRootDirectory + "\\models\\builders";
@@ -79,7 +78,7 @@ public class BundleBuilderGenerateMgr {
 			sb.append("\tprivate String className;\n");
 
 			// constructor
-			sb.append("\tpublic " + objUpperFirstCharClassName + "(String fileName) throws Exception{\n");
+			sb.append("\tpublic " + objUpperFirstCharClassName + "BundlesBuilder(String fileName) throws Exception{\n");
 			sb.append("\t\tsuper(fileName);\n");
 			sb.append("\t}\n");
 
@@ -88,11 +87,12 @@ public class BundleBuilderGenerateMgr {
 			sb.append("\t\tif(className == null){\n");
 			sb.append("\t\t\tclassName = this.getClass().getName();\n");
 			sb.append("\t\t}\n");
+			sb.append("\t\treturn className;\n");
 			sb.append("\t}\n");
 
 			// buildBundle
 			sb.append("\t@Override\n");
-			sb.append("\tpublic " + objUpperFirstCharSystemPropertiesClassName + " build() throw Exception{\n");
+			sb.append("\tpublic " + objUpperFirstCharSystemPropertiesClassName + " build() throws Exception{\n");
 			sb.append("\t\t " + objUpperFirstCharSystemPropertiesClassName + " "
 					+ objLowerFirstCharSystemPropertiesObjName + "= null;\n");
 			sb.append("\t\ttry{\n");
@@ -109,7 +109,7 @@ public class BundleBuilderGenerateMgr {
 
 					sb.append("\t\t\tString " + propertyString + " = getPropValues(\"" + propertyOriginalString
 							+ "\");\n");
-					sb.append("\t\t\t" + propertyString + ".set" + functionString + "(" + propertyString + ");\n");
+					sb.append("\t\t\t" + objLowerFirstCharSystemPropertiesObjName + ".set" + functionString + "(" + propertyString + ");\n");
 
 				}
 
@@ -124,7 +124,7 @@ public class BundleBuilderGenerateMgr {
 
 					sb.append("\t\t\tString " + propertyString + " = getPropValues(\"" + propertyOriginalString
 							+ "\");\n");
-					sb.append("\t\t\t" + propertyString + ".set" + functionString + "(" + propertyString + ");\n");
+					sb.append("\t\t\t" + objLowerFirstCharSystemPropertiesObjName + ".set" + functionString + "(" + propertyString + ");\n");
 
 				}
 			}
@@ -138,7 +138,7 @@ public class BundleBuilderGenerateMgr {
 
 					sb.append("\t\t\tString " + propertyString + " = getPropValues(\"" + propertyOriginalString
 							+ "\");\n");
-					sb.append("\t\t\t" + propertyString + ".set" + functionString + "(" + propertyString + ");\n");
+					sb.append("\t\t\t" + objLowerFirstCharSystemPropertiesObjName + ".set" + functionString + "(" + propertyString + ");\n");
 
 				}
 			}

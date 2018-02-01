@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.rabbitforever.generateJavaMVC.utils.DbUtils;
 import com.rabbitforever.generateJavaMVC.utils.MySqlDbUtils;
 public class DbUtilsFactory {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	private String className = this.getClass().getName();
+	private final static Logger logger = LoggerFactory.getLogger(getClassName());
+
 	private static DbUtils mySqlDbUtils;
 //	private static DbUtils db2DbUtils;
 //	private static DbUtils msSqlDbUtils;
@@ -16,10 +16,18 @@ public class DbUtilsFactory {
 		
 	}
 	public static DbUtils getInstanceOfMySqlDbUtils() throws Exception{
-		if (mySqlDbUtils == null){
-			mySqlDbUtils = new MySqlDbUtils();
+		try {
+			if (mySqlDbUtils == null){
+				mySqlDbUtils = new MySqlDbUtils();
+			}
+		} catch (Exception e) {
+			logger.error(getClassName() + ".getInstanceOfMySqlDbUtils()", e);
 		}
 		return mySqlDbUtils;
+	}
+	public static String getClassName() {
+		String className = DbUtilsFactory.class.getName();
+		return className;
 	}
 //	public static DbUtils getInstanceOfDb2DbUtils() throws Exception{
 //		if (db2DbUtils == null){

@@ -2,19 +2,29 @@ package com.rabbitforever.generateJavaMVC.services;
 
 import java.io.File;
 
+import com.rabbitforever.generateJavaMVC.bundles.SysProperties;
+import com.rabbitforever.generateJavaMVC.factories.PropertiesFactory;
 import com.rabbitforever.generateJavaMVC.policies.SystemParams;
 
 public class FileArchieveMgr {
-	public FileArchieveMgr()
-	{
-		
+	private PropertiesFactory propertiesFactory;
+	private SysProperties sysProperties;
+	public FileArchieveMgr(){
+		try {
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			sysProperties = propertiesFactory.getInstanceOfSysProperties();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	} // end constructor
 	
 	public void maintainFileArchieve()
 	{
 		try
 		{
-			String tempDirPath = SystemParams.OUTPUT_ROOT_DIRECTORY;
+			String tempDirPath = sysProperties.getOutputRootDirectory();
 			
 			File tempDir = new File(tempDirPath);
 	

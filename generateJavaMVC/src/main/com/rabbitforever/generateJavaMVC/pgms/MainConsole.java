@@ -5,7 +5,7 @@ import com.rabbitforever.generateJavaMVC.services.FileArchieveMgr;
 import com.rabbitforever.generateJavaMVC.services.IDaoGenerateMgr;
 import com.rabbitforever.generateJavaMVC.services.IServiceGenerateMgr;
 import com.rabbitforever.generateJavaMVC.services.ServiceGenerateMgr;
-import com.rabbitforever.generateJavaMVC.services.VoGenerateMgr;
+import com.rabbitforever.generateJavaMVC.services.EoGenerateMgr;
 
 public class MainConsole {
 
@@ -18,10 +18,7 @@ public class MainConsole {
 			String argTableName = "";
 			if (args.length < 1)
 			{
-				argTableName = "LACCCDTL.LDTHRGST.LENQLOG.LICR.LICRHTY.LICRST.LICRSTHC.LICRSTHNC.LMDRSTS.LMGICRST." +
-								"LMGICRSTHC.LMGICRSTHNC.LMR.LMRHTY.LMRST.LMRSTHC.LMRSTHNC.LNPR.LNPRHTY.LNPRST.LNPRSTHC." +
-								"LNPRSTHC.LNPRSTHNC.LPMT.LPMTHTY.LPMTST.LPMTSTHC.LPMTSTHNC.LPNV.LPNVHTY.LPNVST." +
-								"LPNVSTHC.LPNVSTHNC.LRSD.LRSDHTY.LSCFLINF.LSDRSTS.LSPERR.LUPDPRN";
+				argTableName = "cmm_announcement";
 			}
 			else
 			{
@@ -37,21 +34,21 @@ public class MainConsole {
 				FileArchieveMgr fileArchieveMgr = new FileArchieveMgr();
 				fileArchieveMgr.maintainFileArchieve();
 				
-				VoGenerateMgr voGeneratorMgr = new VoGenerateMgr(temp[i]);
+				EoGenerateMgr voGeneratorMgr = new EoGenerateMgr(temp[i]);
 				voGeneratorMgr.generateVo();
 	
-				DaoGenerateMgr daoGeneratorMgr = new DaoGenerateMgr(temp[i]);
-				daoGeneratorMgr.generateDao();
-				
-				IDaoGenerateMgr idaoGeneratorMgr = new IDaoGenerateMgr(temp[i]);
-				idaoGeneratorMgr.generateDao();	
-				
-				
-				ServiceGenerateMgr svrGeneratorMgr = new ServiceGenerateMgr(temp[i]);
-				svrGeneratorMgr.generateService();
-				
-				IServiceGenerateMgr isvrGeneratorMgr = new IServiceGenerateMgr(temp[i]);
-				isvrGeneratorMgr.generateService();
+//				DaoGenerateMgr daoGeneratorMgr = new DaoGenerateMgr(temp[i]);
+//				daoGeneratorMgr.generateDao();
+//				
+//				IDaoGenerateMgr idaoGeneratorMgr = new IDaoGenerateMgr(temp[i]);
+//				idaoGeneratorMgr.generateDao();	
+//				
+//				
+//				ServiceGenerateMgr svrGeneratorMgr = new ServiceGenerateMgr(temp[i]);
+//				svrGeneratorMgr.generateService();
+//				
+//				IServiceGenerateMgr isvrGeneratorMgr = new IServiceGenerateMgr(temp[i]);
+//				isvrGeneratorMgr.generateService();
 			}
 			
 //			MySqlDbDao mysqlDbDao = new MySqlDbDao();

@@ -11,6 +11,11 @@ public class SysProperties extends PropertiesBase{
 	private String database;
 	private String packageName;
 	private String outputRootDirectory;
+	private String javaDirName;
+	private String modelsDirName;
+	private String eosDirName;
+	private String servicesDirName;
+	private String daosDirName;
 	private String tablePrefix;
 	private String bundleDirName;
 	private String factoriesDirName;
@@ -32,6 +37,36 @@ public class SysProperties extends PropertiesBase{
 	}
 	public String getOutputRootDirectory(){
 		return this.outputRootDirectory;
+	}
+	public void setJavaDirName(String javaDirName){
+		this.javaDirName = javaDirName;
+	}
+	public String getJavaDirName(){
+		return this.javaDirName;
+	}
+	public void setModelsDirName(String modelsDirName){
+		this.modelsDirName = modelsDirName;
+	}
+	public String getModelsDirName(){
+		return this.modelsDirName;
+	}
+	public void setEosDirName(String eosDirName){
+		this.eosDirName = eosDirName;
+	}
+	public String getEosDirName(){
+		return this.eosDirName;
+	}
+	public void setServicesDirName(String servicesDirName){
+		this.servicesDirName = servicesDirName;
+	}
+	public String getServicesDirName(){
+		return this.servicesDirName;
+	}
+	public void setDaosDirName(String daosDirName){
+		this.daosDirName = daosDirName;
+	}
+	public String getDaosDirName(){
+		return this.daosDirName;
 	}
 	public void setTablePrefix(String tablePrefix){
 		this.tablePrefix = tablePrefix;
@@ -58,3 +93,4 @@ public class SysProperties extends PropertiesBase{
 		return this.factoriesBuilderDirName;
 	}
 }
+
