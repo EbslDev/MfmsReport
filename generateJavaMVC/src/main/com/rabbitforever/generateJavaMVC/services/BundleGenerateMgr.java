@@ -21,7 +21,7 @@ public class BundleGenerateMgr {
 	private SysProperties sysProperties;
 	private List<String> lineList;
 
-	public BundleGenerateMgr(List<String> lineList, String fileName) {
+	public BundleGenerateMgr(List<String> lineList, String fileName) throws Exception{
 		try {
 			this.fileName = fileName.replace(".properties", "");
 			this.lineList = lineList;
@@ -51,8 +51,8 @@ public class BundleGenerateMgr {
 			
 			objLowerFirstCharClassName = Misc.convertBundleNameFormat2ClassNameFormat(fileName);
 			String objUpperFirstCharClassName = Misc.upperStringFirstChar(objLowerFirstCharClassName);
-			String fileFolder = outputRootDirectory + "\\models\\bundles";
-			String objFile = fileFolder + "\\" + objUpperFirstCharClassName + "BundlesEo.php";
+			String fileFolder = outputRootDirectory + "\\" + bundleDirName;
+			String objFile = fileFolder + "\\" + objUpperFirstCharClassName + "Properties.java";
 			FileUtils fileUtils = new FileUtils();
 			fileUtils.createDirectoryIfNotExisted(fileFolder);
 			FileWriter fstream = new FileWriter(objFile);
@@ -62,33 +62,63 @@ public class BundleGenerateMgr {
 			StringBuilder sb = new StringBuilder();
 			sb.append("package " + packageName + "." + bundleDirName + ";\n");
 
-			// --- header
-			sb.append("include_once('" + phpSysConfigRoot + "/" + projectFolderRoot + "/systems/Configs.php');\n");
-			sb.append("include_once( LOG4PHP_PATH . '/RabbitLogger.php');\n");
-			sb.append("include_once( EOS_PATH . '/BundlesEo.php');\n");
+
 			// --- class
-			sb.append("class " + objUpperFirstCharClassName + "BundlesEo extends BundlesEo");
+			sb.append("public class " + objUpperFirstCharClassName + "Properties extends PropertiesBase");
 			sb.append("{\n");
 
+			sb.append("\tpublic static final String LANG_EN = PropertiesBase.LANG_EN;\n");
+			sb.append("\tpublic static final String LANG_TCHI = PropertiesBase.LANG_TCHI;\n");
+			
+			sb.append("\tpublic " + objUpperFirstCharClassName + "() {\n");
+			sb.append("\t\tsuper();\n");
+			sb.append("}\n");
+			
+			
+			sb.append("\tpublic " + objUpperFirstCharClassName + "(String lang) {\n");
+			sb.append("\t\tsuper(lang);\n");
+			sb.append("}\n");
+			
+			// member variables - No language specification
+			for (String line : lineList) {
+				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line);
+				if (propertyString != null) {
+					sb.append("\tprivate String " + propertyString + ";\n");
+				}
+			}
+			
 			// member variables - EN
 			for (String line : lineList) {
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_EN);
 				if (propertyString != null) {
-					sb.append("\tprivate $" + propertyString + ";\n");
+					sb.append("\tprivate String " + propertyString + ";\n");
 				}
 			}
 			// member variables - TC
 			for (String line : lineList) {
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_TC);
 				if (propertyString != null) {
-					sb.append("\tprivate $" + propertyString + ";\n");
+					sb.append("\tprivate String " + propertyString + ";\n");
 				}
 			}
 
-			sb.append("\tpublic function __construct($defaultLang = NULL){\n");
-			sb.append("\t\tparent::__construct($defaultLang);\n");
-			sb.append("\t}\n");
+			// methods - no language specification
+			for (String line : lineList) {
+				String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line);
+				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line);
 
+				if (functionString != null) {
+					// setter
+					sb.append("\tpublic void set" + functionString + "(String " + propertyString + "){\n");
+					sb.append("\t\tthis." + propertyString + " = " + propertyString + ";\n");
+					sb.append("\t}\n");
+					// getter
+					sb.append("\tpublic String get" + functionString + "(){\n");
+					sb.append("\t\treturn this." + propertyString + ";\n");
+					sb.append("\t}\n");
+				}
+			}
+			
 			// methods - EN
 			for (String line : lineList) {
 				String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line, Misc.LANG_EN);
@@ -96,12 +126,12 @@ public class BundleGenerateMgr {
 
 				if (functionString != null) {
 					// setter
-					sb.append("\tpublic function set" + functionString + "($" + propertyString + "){\n");
-					sb.append("\t\t$this->" + propertyString + "=$" + propertyString + ";\n");
+					sb.append("\tpublic void set" + functionString + "(String " + propertyString + "){\n");
+					sb.append("\t\tthis." + propertyString + " = " + propertyString + ";\n");
 					sb.append("\t}\n");
 					// getter
-					sb.append("\tpublic function get" + functionString + "(){\n");
-					sb.append("\t\treturn $this->" + propertyString + ";\n");
+					sb.append("\tpublic String get" + functionString + "(){\n");
+					sb.append("\t\treturn this." + propertyString + ";\n");
 					sb.append("\t}\n");
 				}
 			}
@@ -113,13 +143,14 @@ public class BundleGenerateMgr {
 
 				if (functionString != null) {
 					// setter
-					sb.append("\tpublic function set" + functionString + "($" + propertyString + "){\n");
-					sb.append("\t\t$this->" + propertyString + "=$" + propertyString + ";\n");
+					sb.append("\tpublic void set" + functionString + "(String" + propertyString + "){\n");
+					sb.append("\t\tthis." + propertyString + " = " + propertyString + ";\n");
 					sb.append("\t}\n");
 					// getter
-					sb.append("\tpublic function get" + functionString + "(){\n");
-					sb.append("\t\treturn $this->" + propertyString + ";\n");
+					sb.append("\tpublic String get" + functionString + "(){\n");
+					sb.append("\t\treturn this." + propertyString + ";\n");
 					sb.append("\t}\n");
+					"".equals("");
 				}
 			}
 
@@ -132,64 +163,25 @@ public class BundleGenerateMgr {
 					String upperEnLang = Misc.upperStringFirstChar(Misc.LANG_EN);
 					String upperTcLang = Misc.upperStringFirstChar(Misc.LANG_TC);
 					// getter
-					sb.append("\tpublic function get" + functionString + "(){\n");
-					sb.append("\t\t$property = NULL;\n");
-					sb.append("\t\tif(!isset($this->lang)){\n");
-					sb.append("\t\t\t$this->lang = $this->defaultLang;\n");
+					sb.append("\tpublic void get" + functionString + "(){\n");
+					sb.append("\t\tString property = null;\n");
+					sb.append("\t\tif(this.lang == null)){\n");
+					sb.append("\t\t\tthis.lang = LANG_EN;\n");
 					sb.append("\t\t}\n");
-					sb.append("\t\tif(isset($this->lang) && $this->lang == SystemConfigEo::$LANG_TCHI){\n");
-					sb.append("\t\t\t$property = $this->get" + functionString + upperTcLang + "();\n");
+					sb.append("\t\tif(this.lang.equals(LANG_TCHI)){\n");
+					sb.append("\t\t\tproperty = this.get" + functionString + upperTcLang + "();\n");
 					sb.append("\t\t} else\n");
-					sb.append("\t\tif(isset($this->lang) && $this->lang == SystemConfigEo::$LANG_EN){\n");
-					sb.append("\t\t\t$property = $this->get" + functionString + upperEnLang + "();\n");
+					sb.append("\t\tif(this.lang.equals(LANG_EN){\n");
+					sb.append("\t\t\tproperty = this.get" + functionString + upperEnLang + "();\n");
 					sb.append("\t\t} else {\n");
-					sb.append("\t\t\t$property = $this->get" + functionString + upperEnLang + "();\n");
+					sb.append("\t\t\tproperty = this.get" + functionString + upperEnLang + "();\n");
 					sb.append("\t\t}\n");
-					sb.append("\t\treturn $property;\n");
+					sb.append("\t\treturn property;\n");
 					sb.append("\t}\n");
 				}
 			}
 
-			// __toString() function
-			sb.append("\tpublic function __toString(){\n");
-			sb.append("\t\t$objectString=NULL;\n");
-			sb.append("\t\t$count = 0;\n");
-			sb.append("\t\tforeach($this as $key => $value){\n");
-			sb.append("\t\t\tif($count > 0){\n");
-			sb.append("\t\t\t\t$objString = $objectString . ',';\n");
-			sb.append("\t\t\t}\n");
-			sb.append("\t\t\t$objectString = $objectString . '$key => $value ';\n");
-			sb.append("\t\t\t$count = $count + 1;\n");
-			sb.append("\t\t}\n");
-			sb.append("\t\treturn $objectString;\n");
-			sb.append("\t}\n");
-
-			// printAllPropertiesToJsBundlesVo() function
-			sb.append("\t public function printAllPropertiesToJsBundleVo(){\n");
-			sb.append("\t\ttry{\n");
-			sb.append("\t\t\tforeach ($this as $key => $value){\n");
-			sb.append("\t\t\t\tif (gettype($value) != \"object\"){\n");
-
-			sb.append("\t\t\t\t\t$stringValue = '';\n");
-			sb.append("\t\t\t\t\tif (gettype($value) == \"integer\"){\n");
-			sb.append("\t\t\t\t\t\t$stringValue = strval($value);\n");
-			sb.append("\t\t\t\t\t} else {\n");
-			sb.append("\t\t\t\t\t\t$stringValue = $value;\n");
-			sb.append("\t\t\t\t\t}\n");
-
-			sb.append(
-					"\t\t\t\t\techo '<input type=\"hidden\" class=\"' . $key . '\" value=\"' . $stringValue. '\" />';\n");
-
-			sb.append("\t\t\t\t}\n");
-			sb.append("\t\t\t}\n");
-			sb.append("\t\t} catch (Exception $ex) {\n");
-			sb.append("\t\t\t$this->logger->error ($this->className . '->printAllPropertiesToJsBundleVo()', $ex);\n");
-			sb.append("\t\t\tthrow $ex;\n");
-			sb.append("\t\t}\n");
-			sb.append("\t}\n");
-
 			sb.append("}\n"); // end class Function
-			sb.append("?>");
 			out.write(sb.toString());
 
 			// ################################################## end writing

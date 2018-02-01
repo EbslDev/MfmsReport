@@ -134,6 +134,40 @@ public class Misc {
 		} // end if (null != _tableFieldName)
 		return javaPropertiesName;
 	} // end convertBundleFieldsFormat2JavaFnNoLangFormat
+	
+	public static String convertBundleFieldsFormat2JavaPropertiesFormat(String bundleLineString) {
+		String javaPropertiesName = null;
+		if (null != bundleLineString) {
+			String regEx = "(.*)\\s{0,}=\\s{0,}(.*)";
+			Pattern p = Pattern.compile(regEx);
+			Matcher m = p.matcher(bundleLineString);
+			boolean b = m.matches();
+			
+			if (b){
+
+				String fullString = m.group(0);
+				String firstPartString = m.group(1);
+				String secondPartString = m.group(2);
+//				String thirdPartString = m.group(3);
+				if (!firstPartString.contains(".")) {
+					javaPropertiesName = "";				
+					String[] splitTableFieldName = firstPartString.split("_");
+					String upperLang = "";
+					for (int i = 0; i < splitTableFieldName.length; i++) {
+						if (i == 0) {
+							javaPropertiesName += Misc.lowerStringFirstChar(splitTableFieldName[i]);
+						} else {
+							javaPropertiesName += Misc.upperStringFirstChar(splitTableFieldName[i]);
+						}
+					} // end for
+					javaPropertiesName += upperLang;
+				}
+			}
+		} // end if (null != _tableFieldName)
+		return javaPropertiesName;
+	} // end convertBundleFieldsFormat2JavaPropertiesFormat
+	
+	
 	public static String convertBundleFieldsFormat2JavaPropertiesFormat(String bundleLineString, String lang) {
 		String javaPropertiesName = null;
 		if (null != bundleLineString) {
@@ -165,6 +199,42 @@ public class Misc {
 		return javaPropertiesName;
 	} // end convertBundleFieldsFormat2JavaPropertiesFormat
 
+	
+	public static String convertBundleFieldsFormat2JavaFnFormat(String bundleLineString) {
+		String javaPropertiesName = null;
+		if (null != bundleLineString) {
+			String regEx = "(.*)\\s{0,}=\\s{0,}(.*)";
+			Pattern p = Pattern.compile(regEx);
+			Matcher m = p.matcher(bundleLineString);
+			boolean b = m.matches();
+			
+			if (b){
+
+				String fullString = m.group(0);
+				String firstPartString = m.group(1);
+				String secondPartString = m.group(2);
+
+				if (!firstPartString.contains(".")) {
+					javaPropertiesName = "";					
+				
+				
+				
+					String[] splitTableFieldName = firstPartString.split("_");
+					String upperLang = "";
+					for (int i = 0; i < splitTableFieldName.length; i++) {
+						if (i == 0) {
+							javaPropertiesName += Misc.upperStringFirstChar(splitTableFieldName[i]);
+						} else {
+							javaPropertiesName += Misc.upperStringFirstChar(splitTableFieldName[i]);
+						}
+					} // end for
+					javaPropertiesName += upperLang;
+				}
+			}
+		} // end if (null != _tableFieldName)
+		return javaPropertiesName;
+	} // end convertBundleFieldsFormat2JavaFnFormat
+	
 	public static String convertBundleFieldsFormat2JavaFnFormat(String bundleLineString, String lang) {
 		String javaPropertiesName = null;
 		if (null != bundleLineString) {

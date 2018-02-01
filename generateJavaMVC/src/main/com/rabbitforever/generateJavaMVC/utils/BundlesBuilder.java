@@ -8,11 +8,11 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class BundlesUtils <T> {
+public abstract class BundlesBuilder <T> {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private Properties properties;
 	private String fileName;
-	public BundlesUtils(String fileName) throws Exception{
+	public BundlesBuilder(String fileName) throws Exception{
 		this.fileName = fileName;
 		init();
 	}

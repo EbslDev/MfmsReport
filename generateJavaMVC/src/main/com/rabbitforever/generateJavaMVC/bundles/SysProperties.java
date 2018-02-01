@@ -1,37 +1,22 @@
 package com.rabbitforever.generateJavaMVC.bundles;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class SysProperties extends PropertiesBase{
-	private final static String FILE_NAME = "system.properties";
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	private String className = this.getClass().getName();
-
+	public static final String LANG_EN = PropertiesBase.LANG_EN;
+	public static final String LANG_TCHI = PropertiesBase.LANG_TCHI;
 	private String database;
 	private String packageName;
 	private String outputRootDirectory;
 	private String tablePrefix;
-	public String getBundleDirName() {
-		return bundleDirName;
-	}
-	public void setBundleDirName(String bundleDirName) {
-		this.bundleDirName = bundleDirName;
-	}
 	private String bundleDirName;
-
-	public SysProperties() throws Exception {
-		super(FILE_NAME);
+	
+	public SysProperties() {
+		super();
 	}
-	public String getOutputRootDirectory() throws Exception{
-		try {
-			outputRootDirectory = this.getPropValues("output_root_directory");
-		} catch (Exception e) {
-			logger.error(className + ".getConsumerThreadPool()", e);
-			throw e;
-		}
-		return outputRootDirectory;
+	
+	public SysProperties(String lang) {
+		super(lang);
 	}
+	
 	public String getDatabase() {
 		return database;
 	}
@@ -44,14 +29,23 @@ public class SysProperties extends PropertiesBase{
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
 	}
+	public String getOutputRootDirectory() {
+		return outputRootDirectory;
+	}
+	public void setOutputRootDirectory(String outputRootDirectory) {
+		this.outputRootDirectory = outputRootDirectory;
+	}
 	public String getTablePrefix() {
 		return tablePrefix;
 	}
 	public void setTablePrefix(String tablePrefix) {
 		this.tablePrefix = tablePrefix;
 	}
-	public void setOutputRootDirectory(String outputRootDirectory) {
-		this.outputRootDirectory = outputRootDirectory;
+	public String getBundleDirName() {
+		return bundleDirName;
+	}
+	public void setBundleDirName(String bundleDirName) {
+		this.bundleDirName = bundleDirName;
 	}
 
 

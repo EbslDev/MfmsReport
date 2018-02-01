@@ -5,15 +5,18 @@ import org.slf4j.LoggerFactory;
 
 import com.rabbitforever.generateJavaMVC.bundles.SysProperties;
 
-public class SysBundlesUtils extends BundlesUtils <SysProperties>{
+public class SysBundlesBuilder extends BundlesBuilder <SysProperties>{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	public SysBundlesUtils(String fileName) throws Exception {
+	private String className;
+	public SysBundlesBuilder(String fileName) throws Exception {
 		super(fileName);
 	}
 
 
 	private String getClassName(){
-		String className = this.getClassName();
+		if (className == null) {
+			className = this.getClass().getName();
+		}
 		return className;
 	}
 	@Override
@@ -25,13 +28,13 @@ public class SysBundlesUtils extends BundlesUtils <SysProperties>{
 			String database = getPropValues("database");
 			sysProperties.setDatabase(database);
 			String packageName = getPropValues("package_name");
-			sysProperties.setDatabase(packageName);
+			sysProperties.setPackageName(packageName);
 			String outputRootDirectory = getPropValues("output_root_directory");
-			sysProperties.setDatabase(outputRootDirectory);
+			sysProperties.setOutputRootDirectory(outputRootDirectory);
 			String tablePrefix = getPropValues("table_prefix");
-			sysProperties.setDatabase(tablePrefix);
+			sysProperties.setTablePrefix(tablePrefix);
 			String bundleDirName = getPropValues("bundle_dir_name");
-			sysProperties.setDatabase(bundleDirName);
+			sysProperties.setBundleDirName(bundleDirName);
 			
 			
 		} catch (Exception e){

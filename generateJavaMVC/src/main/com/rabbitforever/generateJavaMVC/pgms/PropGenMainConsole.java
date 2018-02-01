@@ -16,13 +16,13 @@ public class PropGenMainConsole {
 		try {
 			FileUtils fileUtils = new FileUtils();
 			String path = new File(".").getCanonicalPath();
-			final String FILE_NAME_ROOT = "D:/xampp/htdocs/rabbitforever/bundles";
+			final String FILE_NAME_ROOT = path + "/properties";
 			String fileNamesString = null;
 			List<String> fileNameStringList = null;
-			boolean isUsingFileNameRoot = true;
+			boolean isUsingFileNameRoot = false;
 			if (args.length < 1) {
 				if (!isUsingFileNameRoot) {
-					fileNamesString = "common_page.properties,movie_waiting_page.properties,movie_lookup_page.properties,control_page.properties";
+					fileNamesString = "sys.properties";
 				} else {
 					List<File> fileList = new ArrayList<File>();
 					fileUtils.traverseDir(FILE_NAME_ROOT, fileList);
