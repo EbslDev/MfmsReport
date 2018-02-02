@@ -5,8 +5,10 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rabbitforever.generateJavaMVC.bundles.SysProperties;
 import com.rabbitforever.generateJavaMVC.commons.JavaOracle;
 import com.rabbitforever.generateJavaMVC.commons.Misc;
+import com.rabbitforever.generateJavaMVC.factories.PropertiesFactory;
 import com.rabbitforever.generateJavaMVC.models.eos.MetaDataField;
 import com.rabbitforever.generateJavaMVC.policies.SystemParams;
 
@@ -15,25 +17,64 @@ public class DaoGenerateMgr {
 	private String tableName;
 	private String voClassName;
 	private String objClassName;
-
+	private PropertiesFactory propertiesFactory;
+	private SysProperties sysProperties;
 	public DaoGenerateMgr(String _tableName) {
-		tableName = _tableName;
-		voClassName = tableName;
 
-		objClassName = Misc
-				.convertTableFieldsFormat2JavaPropertiesFormat(tableName);
+
+		try {
+			tableName = _tableName;
+			voClassName = tableName;
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			sysProperties = propertiesFactory.getInstanceOfSysProperties();
+			
+			objClassName = Misc
+					.convertTableFieldsFormat2JavaPropertiesFormat(tableName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	} // end constructor
 
 	public void generateDao() {
+		String outputRootDirectory = null;
+		String projectFolderRoot = null;
+		String phpSysConfigRoot = null;
+		String packageName = null;
+		String factoriesDirName = null;
+		String factoriesBuilderDirName = null;
+		String bundlerDirName = null;
+		String javaDirName = null;
+		String systemRootDirectory = null;
+		String upperFirstPropertiesName = null;
+		String lowerFirstPropertiesName = null;
+		String modelsDirName = null;
+		String eosDirName = null;
+		String daoDirName = null;
+		String systemRootDir = null;
+		String daoSuffix = "Dao";
+		String daoClassName = null;
 		try {
 			// Create file
 
-			voClassName = tableName;
+			daoClassName = 	Misc.convertTableNameFormat2ClassNameFormat(tableName);
+			outputRootDirectory = sysProperties.getOutputRootDirectory();
+			modelsDirName = sysProperties.getModelsDirName();
+			eosDirName = sysProperties.getEosDirName();
+			javaDirName = sysProperties.getJavaDirName();
+			systemRootDir = sysProperties.getSystemRootDirectory();
+			factoriesDirName = sysProperties.getFactoriesDirName();
+			factoriesBuilderDirName = sysProperties.getFactoriesBuilderDirName();
+			bundlerDirName = sysProperties.getBundleDirName();
+			packageName = sysProperties.getPackageName();
+			javaDirName = sysProperties.getJavaDirName();
+			daoDirName = sysProperties.getDaosDirName();
+			systemRootDirectory = sysProperties.getSystemRootDirectory();
 
-			String voFile = SystemParams.OUTPUT_ROOT_DIRECTORY
-					+ "\\" + SystemParams.PROJECT_FOLDER_ROOT +"\\" + SystemParams.DAO_DIR_NAME + "\\" + voClassName + "DaoImpl.java";
+			String daoFile = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDir + "\\" 
+					+ daoDirName + "\\" + daoClassName + daoSuffix + ".java";
 
-			FileWriter fstream = new FileWriter(voFile);
+			FileWriter fstream = new FileWriter(daoFile);
 			BufferedWriter out = new BufferedWriter(fstream);
 			// ################################################## begin writing
 			// file
@@ -43,7 +84,7 @@ public class DaoGenerateMgr {
 			sb.append("public class " + voClassName + "DaoImpl implements " + voClassName + "Dao\n");
 			sb.append("{\n");
 
-			OracleDbMgr oracleDbMgr = new OracleDbMgr();
+			MySqlDbMgr oracleDbMgr = new MySqlDbMgr();
 			List<MetaDataField> metaDataFieldList = new ArrayList<MetaDataField>();
 			metaDataFieldList = oracleDbMgr.getMetaDataList(tableName);
 

@@ -1,5 +1,6 @@
 package com.rabbitforever.generateJavaMVC.pgms;
 
+import com.rabbitforever.generateJavaMVC.services.DaoGenerateMgr;
 import com.rabbitforever.generateJavaMVC.services.EoGenerateMgr;
 import com.rabbitforever.generateJavaMVC.services.FileArchieveMgr;
 
@@ -33,8 +34,8 @@ public class MainConsole {
 				EoGenerateMgr voGeneratorMgr = new EoGenerateMgr(temp[i]);
 				voGeneratorMgr.generateVo();
 	
-//				DaoGenerateMgr daoGeneratorMgr = new DaoGenerateMgr(temp[i]);
-//				daoGeneratorMgr.generateDao();
+				DaoGenerateMgr daoGeneratorMgr = new DaoGenerateMgr(temp[i]);
+				daoGeneratorMgr.generateDao();
 //				
 //				IDaoGenerateMgr idaoGeneratorMgr = new IDaoGenerateMgr(temp[i]);
 //				idaoGeneratorMgr.generateDao();	
