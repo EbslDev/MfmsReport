@@ -11,6 +11,7 @@ public class SysProperties extends PropertiesBase{
 	private String database;
 	private String packageName;
 	private String outputRootDirectory;
+	private String systemRootDirectory;
 	private String javaDirName;
 	private String modelsDirName;
 	private String eosDirName;
@@ -37,6 +38,12 @@ public class SysProperties extends PropertiesBase{
 	}
 	public String getOutputRootDirectory(){
 		return this.outputRootDirectory;
+	}
+	public void setSystemRootDirectory(String systemRootDirectory){
+		this.systemRootDirectory = systemRootDirectory;
+	}
+	public String getSystemRootDirectory(){
+		return this.systemRootDirectory;
 	}
 	public void setJavaDirName(String javaDirName){
 		this.javaDirName = javaDirName;
@@ -93,4 +100,3 @@ public class SysProperties extends PropertiesBase{
 		return this.factoriesBuilderDirName;
 	}
 }
-

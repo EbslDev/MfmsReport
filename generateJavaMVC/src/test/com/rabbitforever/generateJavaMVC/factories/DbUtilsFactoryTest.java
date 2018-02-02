@@ -32,7 +32,8 @@ public class DbUtilsFactoryTest {
 	@Test
 	public void testGetInstanceOfMySqlDbUtils() {
 		try {
-			DbUtils dbUtils = DbUtilsFactory.getInstanceOfMySqlDbUtils();
+			DbUtilsFactory dbUtilsFactory= DbUtilsFactory.getInstanceOfDbUtilsFactory();
+			DbUtils dbUtils = dbUtilsFactory.getInstanceOfMySqlDbUtils();
 			Connection connection = dbUtils.getConnection();
 			Assert.assertNotNull(connection);
 		} catch (Exception e) {

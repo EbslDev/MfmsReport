@@ -36,9 +36,17 @@ public class BundleGenerateMgr {
 
 	public void generateBundle() throws Exception {
 		String outputRootDirectory = null;
-
-		String bundleDirName = null;
+		String projectFolderRoot = null;
+		String phpSysConfigRoot = null;
 		String packageName = null;
+		String factoriesDirName = null;
+		String factoriesBuilderDirName = null;
+		String bundlerDirName = null;
+		String javaDirName = null;
+		String systemRootDirectory = null;
+		
+		String bundleDirName = null;
+
 		String propertiesClassSuffix = "Properties";
 		try {
 			outputRootDirectory = sysProperties.getOutputRootDirectory();
@@ -47,11 +55,16 @@ public class BundleGenerateMgr {
 			// Create file
 			bundleDirName = sysProperties.getBundleDirName();
 			packageName = sysProperties.getPackageName();
-			
+			factoriesDirName = sysProperties.getFactoriesDirName();
+			factoriesBuilderDirName = sysProperties.getFactoriesBuilderDirName();
+			bundlerDirName = sysProperties.getBundleDirName();
+			packageName = sysProperties.getPackageName();
+			javaDirName = sysProperties.getJavaDirName();
+			systemRootDirectory = sysProperties.getSystemRootDirectory();
 			
 			objLowerFirstCharClassName = Misc.convertBundleNameFormat2ClassNameFormat(fileName);
 			String objUpperFirstCharClassName = Misc.upperStringFirstChar(objLowerFirstCharClassName);
-			String fileFolder = outputRootDirectory + "\\" + bundleDirName;
+			String fileFolder = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirectory + "\\" + bundleDirName;
 			String objFile = fileFolder + "\\" + objUpperFirstCharClassName + propertiesClassSuffix +".java";
 			FileUtils fileUtils = new FileUtils();
 			fileUtils.createDirectoryIfNotExisted(fileFolder);

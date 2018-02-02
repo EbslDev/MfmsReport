@@ -25,6 +25,8 @@ public class SysBundlesBuilder extends BundlesBuilder<SysProperties>{
 			sysProperties.setPackageName(packageName);
 			String outputRootDirectory = getPropValues("output_root_directory");
 			sysProperties.setOutputRootDirectory(outputRootDirectory);
+			String systemRootDirectory = getPropValues("system_root_directory");
+			sysProperties.setSystemRootDirectory(systemRootDirectory);
 			String javaDirName = getPropValues("java_dir_name");
 			sysProperties.setJavaDirName(javaDirName);
 			String modelsDirName = getPropValues("models_dir_name");

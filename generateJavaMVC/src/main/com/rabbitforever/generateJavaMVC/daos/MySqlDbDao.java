@@ -9,13 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.rabbitforever.generateJavaMVC.commons.RConnection;
+import com.rabbitforever.generateJavaMVC.factories.DbUtilsFactory;
 import com.rabbitforever.generateJavaMVC.models.eos.MetaDataField;
+import com.rabbitforever.generateJavaMVC.utils.DbUtils;
 
 public class MySqlDbDao {
-
-	public MySqlDbDao()
+	private DbUtilsFactory dbUtilsFactory;
+	private DbUtils dbUtils;
+	public MySqlDbDao() throws Exception
 	{
-		
+		try {
+			dbUtilsFactory = DbUtilsFactory.getInstanceOfDbUtilsFactory();
+			dbUtils = dbUtilsFactory.getInstanceOfMySqlDbUtils();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	public List<MetaDataField> getMetaDataList(String _database)
@@ -25,7 +34,8 @@ public class MySqlDbDao {
 
 		try
 		{
-			conn = RConnection.getInstanceOfConnection("ORACLE");
+			
+			conn = dbUtils.getConnection();
 			
 		    ResultSet rsColumns = null;
 		    DatabaseMetaData meta = conn.getMetaData();

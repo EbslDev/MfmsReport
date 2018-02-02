@@ -1,12 +1,12 @@
 package com.rabbitforever.generateJavaMVC.bundles;
 
 public interface DbProperties {
-	public String getSchema() throws Exception;
-	public String getConnectString() throws Exception;
-	public String getHost() throws Exception;
-	public String getPort() throws Exception;
-	public String getUserName() throws Exception;
-	public String getPassword() throws Exception;
-	public String getClassForName() throws Exception;
-	public String getSystemSchema() throws Exception;
+	public String getSchema();
+	public String getConnectString();
+	public String getHost();
+	public String getPort();
+	public String getUsername();
+	public String getPassword();
+	public String getClassForName();
+	public String getSystemSchema();
 }

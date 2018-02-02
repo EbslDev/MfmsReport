@@ -35,22 +35,47 @@ public class EoGenerateMgr {
 	public void generateVo() {
 		try {
 			// Create file
-
-			eoClassName = tableName;
-			String outputRootDirectory = sysProperties.getOutputRootDirectory();
-			String modelsDirName = sysProperties.getModelsDirName();
-			String eosDirName = sysProperties.getEosDirName();
+			String outputRootDirectory = null;
+			String projectFolderRoot = null;
+			String phpSysConfigRoot = null;
+			String packageName = null;
+			String factoriesDirName = null;
+			String factoriesBuilderDirName = null;
+			String bundlerDirName = null;
+			String javaDirName = null;
+			String systemRootDirectory = null;
+			String upperFirstPropertiesName = null;
+			String lowerFirstPropertiesName = null;
+			String modelsDirName = null;
+			String eosDirName = null;
+			String systemRootDir = null;
+			String eoSuffix = "Eo";
+			eoClassName =
+			Misc.convertTableNameFormat2ClassNameFormat(tableName);
+			outputRootDirectory = sysProperties.getOutputRootDirectory();
+			modelsDirName = sysProperties.getModelsDirName();
+			eosDirName = sysProperties.getEosDirName();
+			javaDirName = sysProperties.getJavaDirName();
+			systemRootDir = sysProperties.getSystemRootDirectory();
+			factoriesDirName = sysProperties.getFactoriesDirName();
+			factoriesBuilderDirName = sysProperties.getFactoriesBuilderDirName();
+			bundlerDirName = sysProperties.getBundleDirName();
+			packageName = sysProperties.getPackageName();
+			javaDirName = sysProperties.getJavaDirName();
+			systemRootDirectory = sysProperties.getSystemRootDirectory();
 			
-			String eoFile = outputRootDirectory + "\\" + modelsDirName + "\\"
-					+ eosDirName + "\\" + eoClassName + ".java";
+			String eoFile = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDir + "\\" + modelsDirName + "\\"
+					+ eosDirName + "\\" + eoClassName + eoSuffix + ".java";
 
 			FileWriter fstream = new FileWriter(eoFile);
 			BufferedWriter out = new BufferedWriter(fstream);
 			// ################################################## begin writing file
 			StringBuilder sb = new StringBuilder();
 
+			sb.append("package " + packageName + "." +  modelsDirName + ".eos;\n");
+			
 			// --- class
-			sb.append("public class " + eoClassName + "\n");
+			sb.append("public class " + eoClassName + eoSuffix +  "\n");
 			sb.append("{\n");
 
 			MySqlDbMgr oracleDbMgr = new MySqlDbMgr();
@@ -70,7 +95,7 @@ public class EoGenerateMgr {
 			// ################################################## end writing file
 			out.close();
 		} catch (Exception e) {// Catch exception if any
-			System.err.println("Error: " + e.getMessage());
+			e.printStackTrace();
 		} // end try ... catch ...
 
 		System.out.println("Vo is generated. : " + eoClassName + ".java");

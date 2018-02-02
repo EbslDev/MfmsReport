@@ -16,13 +16,13 @@ public class PropGenMainConsole {
 		try {
 			FileUtils fileUtils = new FileUtils();
 			String path = new File(".").getCanonicalPath();
-			final String FILE_NAME_ROOT = path + "/properties";
+			final String FILE_NAME_ROOT = "d:/universe_git/MfmsReport/properties";
 			String fileNamesString = null;
 			List<String> fileNameStringList = null;
 			boolean isUsingFileNameRoot = false;
 			if (args.length < 1) {
 				if (!isUsingFileNameRoot) {
-					fileNamesString = "sys.properties";
+					fileNamesString = "mysql.db.properties,sys.properties";
 				} else {
 					List<File> fileList = new ArrayList<File>();
 					fileUtils.traverseDir(FILE_NAME_ROOT, fileList);

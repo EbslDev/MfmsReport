@@ -7,9 +7,14 @@ import com.rabbitforever.generateJavaMVC.models.eos.MetaDataField;
 
 public class MySqlDbMgr {
 	private MySqlDbDao mysqlDbDao;
-	public MySqlDbMgr()
+	public MySqlDbMgr() throws Exception
 	{
-		mysqlDbDao = new MySqlDbDao();
+		try {
+			mysqlDbDao = new MySqlDbDao();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	} // end constructor
 	public List<MetaDataField> getMetaDataList(String _database)
 	{

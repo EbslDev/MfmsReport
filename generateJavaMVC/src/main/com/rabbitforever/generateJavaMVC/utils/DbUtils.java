@@ -16,12 +16,12 @@ public abstract class DbUtils {
 	// public static final String DB_TYPE_MYSQL = "mysql";
 	// public static final String DB_TYPE_DB2 = "db2";
 	protected DbProperties properties;
-
+	
 	public Connection getConnection() throws Exception {
 		Connection jdbcConnection = null;
 		try {
 			String connectionString = properties.getConnectString();
-			String userName = properties.getUserName();
+			String userName = properties.getUsername();
 			String password = properties.getPassword();
 			String schema = properties.getSchema();
 			Class.forName(properties.getClassForName());

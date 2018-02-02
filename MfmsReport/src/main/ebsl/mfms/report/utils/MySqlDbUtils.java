@@ -17,8 +17,15 @@ import ebsl.mfms.report.factories.PropertiesFactory;
 public class MySqlDbUtils extends DbUtils{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private String className = this.getClass().getName();
+	private PropertiesFactory propertiesFactory;
 	public MySqlDbUtils() throws Exception{
-		properties = (DbProperties) PropertiesFactory.getInstanceOfMySqlDbProperties();	
+		try {
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			properties = (DbProperties) propertiesFactory.getInstanceOfMySqlDbProperties();	
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	public IDatabaseConnection getDataBaseConnectionWithSchema() throws Exception {
 		String schema = properties.getSchema();
@@ -49,7 +56,7 @@ public class MySqlDbUtils extends DbUtils{
 		try {
 			String schema = properties.getSchema();
 			String classForName = properties.getClassForName();
-			String username = properties.getUserName();
+			String username = properties.getUsername();
 			String password = properties.getPassword();
 			String connectionString = properties.getConnectString();
 			databaseTester = new JdbcDatabaseTester(classForName, connectionString, username, password);

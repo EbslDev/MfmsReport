@@ -94,7 +94,7 @@ public class TblLocationDao extends DaoBase<TblLocationEo>{
 			}
 			
 			int pcount = 1;
-			preparedStatement = connection.prepareStatement(whereSql.toString());
+			preparedStatement = connection.prepareStatement(selectSql + whereSql.toString());
 			if (tblLocationSo.getlKey() != null) {
 				preparedStatement.setInt(pcount, tblLocationSo.getlKey());
 				pcount++;
@@ -138,6 +138,13 @@ public class TblLocationDao extends DaoBase<TblLocationEo>{
 		} finally {
 			if (preparedStatement != null) {
 				preparedStatement.close();
+				preparedStatement = null;
+			}
+			if (connectionType.equals(CONNECTION_TYPE_JDBC)) {
+				if (connection != null) {
+					connection.close();
+					connection = null;
+				}
 			}
 		}
 		

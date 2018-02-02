@@ -9,13 +9,20 @@ public class DbUtilsFactory {
 	private final static Logger logger = LoggerFactory.getLogger(getClassName());
 
 	private static DbUtils mySqlDbUtils;
+	private static DbUtilsFactory dbUtilsFactory;
 //	private static DbUtils db2DbUtils;
 //	private static DbUtils msSqlDbUtils;
 	
 	private DbUtilsFactory(){
 		
 	}
-	public static DbUtils getInstanceOfMySqlDbUtils() throws Exception{
+	public static DbUtilsFactory getInstanceOfDbUtilsFactory() {
+		if (dbUtilsFactory == null) {
+			dbUtilsFactory = new DbUtilsFactory();
+		}
+		return dbUtilsFactory;
+	}
+	public DbUtils getInstanceOfMySqlDbUtils() throws Exception{
 		try {
 			if (mySqlDbUtils == null){
 				mySqlDbUtils = new MySqlDbUtils();

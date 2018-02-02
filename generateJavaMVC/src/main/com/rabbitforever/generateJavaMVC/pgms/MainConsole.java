@@ -1,11 +1,7 @@
 package com.rabbitforever.generateJavaMVC.pgms;
 
-import com.rabbitforever.generateJavaMVC.services.DaoGenerateMgr;
-import com.rabbitforever.generateJavaMVC.services.FileArchieveMgr;
-import com.rabbitforever.generateJavaMVC.services.IDaoGenerateMgr;
-import com.rabbitforever.generateJavaMVC.services.IServiceGenerateMgr;
-import com.rabbitforever.generateJavaMVC.services.ServiceGenerateMgr;
 import com.rabbitforever.generateJavaMVC.services.EoGenerateMgr;
+import com.rabbitforever.generateJavaMVC.services.FileArchieveMgr;
 
 public class MainConsole {
 
@@ -18,14 +14,14 @@ public class MainConsole {
 			String argTableName = "";
 			if (args.length < 1)
 			{
-				argTableName = "cmm_announcement";
+				argTableName = "tbl_location,tbl_patrolphoto,tbl_patrolresult,tbl_patrolresultreadingrecord,tbl_routedef";
 			}
 			else
 			{
 				argTableName = args[0];
 			}
 			
-			String delimiter = "\\.";
+			String delimiter = ",";
 			String temp[];
 			temp = argTableName.split(delimiter);
 			

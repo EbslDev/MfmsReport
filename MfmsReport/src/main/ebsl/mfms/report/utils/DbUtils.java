@@ -22,7 +22,7 @@ public abstract class DbUtils {
 		Connection jdbcConnection = null;
 		try {
 			String connectionString = properties.getConnectString();
-			String userName = properties.getUserName();
+			String userName = properties.getUsername();
 			String password = properties.getPassword();
 			String schema = properties.getSchema();
 			Class.forName(properties.getClassForName());

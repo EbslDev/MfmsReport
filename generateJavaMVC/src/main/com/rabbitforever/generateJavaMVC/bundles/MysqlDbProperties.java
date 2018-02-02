@@ -1,67 +1,75 @@
 package com.rabbitforever.generateJavaMVC.bundles;
 
-public class MySqlDbProperties extends PropertiesBase implements DbProperties{
-	private String className = this.getClass().getName();
-	private String connectString;
+public class MysqlDbProperties extends PropertiesBase implements DbProperties{
+	public static final String LANG_EN = PropertiesBase.LANG_EN;
+	public static final String LANG_TCHI = PropertiesBase.LANG_TCHI;
+	public MysqlDbProperties() {
+		super();
+}
+	public MysqlDbProperties(String lang) {
+		super(lang);
+}
+	private String connectionString;
+	private String classForName;
 	private String host;
 	private String port;
-	private String userName;
-	private String password;
 	private String schema;
+	private String username;
+	private String password;
 	private String systemSchema;
-	private String classForName;
-	public String getConnectString() {
-		return connectString;
+	public void setConnectionString(String connectionString){
+		this.connectionString = connectionString;
 	}
-	public void setConnectString(String connectString) {
-		this.connectString = connectString;
+	public String getConnectionString(){
+		return this.connectionString;
 	}
-	public String getHost() {
-		return host;
-	}
-	public void setHost(String host) {
-		this.host = host;
-	}
-	public String getPort() {
-		return port;
-	}
-	public void setPort(String port) {
-		this.port = port;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getSchema() {
-		return schema;
-	}
-	public void setSchema(String schema) {
-		this.schema = schema;
-	}
-	public String getSystemSchema() {
-		return systemSchema;
-	}
-	public void setSystemSchema(String systemSchema) {
-		this.systemSchema = systemSchema;
-	}
-	public String getClassForName() {
-		return classForName;
-	}
-	public void setClassForName(String classForName) {
+	public void setClassForName(String classForName){
 		this.classForName = classForName;
 	}
+	public String getClassForName(){
+		return this.classForName;
+	}
+	public void setHost(String host){
+		this.host = host;
+	}
+	public String getHost(){
+		return this.host;
+	}
+	public void setPort(String port){
+		this.port = port;
+	}
+	public String getPort(){
+		return this.port;
+	}
+	public void setSchema(String schema){
+		this.schema = schema;
+	}
+	public String getSchema(){
+		return this.schema;
+	}
+	public void setUsername(String username){
+		this.username = username;
+	}
+	public String getUsername(){
+		return this.username;
+	}
+	public void setPassword(String password){
+		this.password = password;
+	}
+	public String getPassword(){
+		return this.password;
+	}
+	public void setSystemSchema(String systemSchema){
+		this.systemSchema = systemSchema;
+	}
+	public String getSystemSchema(){
+		return this.systemSchema;
+	}
+	@Override
+	public String getConnectString(){
+		String connString = "";
+		connString = connectionString + host + ":" + port + "/" + schema;
+		return connString;
+	}
 
-	
-
-	
-
-	
 }

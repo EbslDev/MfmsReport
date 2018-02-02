@@ -3,9 +3,10 @@ package com.rabbitforever.generateJavaMVC.factories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rabbitforever.generateJavaMVC.bundles.MySqlDbProperties;
+import com.rabbitforever.generateJavaMVC.bundles.MysqlDbProperties;
 import com.rabbitforever.generateJavaMVC.bundles.SysProperties;
 import com.rabbitforever.generateJavaMVC.factories.builders.BundlesBuilder;
+import com.rabbitforever.generateJavaMVC.factories.builders.MysqlDbBundlesBuilder;
 import com.rabbitforever.generateJavaMVC.factories.builders.SysBundlesBuilder;
 
 public class PropertiesFactory {
@@ -15,9 +16,10 @@ public class PropertiesFactory {
 	
 	private BundlesBuilder<SysProperties> sysBundlesUtils;
 	private final String SYS_PROPERTIES_FILE = "sys.properties";
+	private final String MYSQL_DB_PROPERTIES_FILE = "mysql.db.properties";
 	
 	private static PropertiesFactory propertiesFactory;
-	private static MySqlDbProperties mysqlDbProperties;
+	private static MysqlDbProperties mysqlDbProperties;
 	private static SysProperties sysProperties;
 	private String getClassName() {
 		String className = this.getClassName();
@@ -51,10 +53,11 @@ public class PropertiesFactory {
 		return propertiesFactory;
 	}
 	
-	public MySqlDbProperties getInstanceOfMySqlDbProperties() throws Exception {
+	public MysqlDbProperties getInstanceOfMySqlDbProperties() throws Exception {
 		try {
 			if (mysqlDbProperties == null) {
-				mysqlDbProperties = new MySqlDbProperties();
+				BundlesBuilder<MysqlDbProperties> mysqlDbBundlesBuilder = new MysqlDbBundlesBuilder(MYSQL_DB_PROPERTIES_FILE);
+				mysqlDbProperties = mysqlDbBundlesBuilder.build();
 			}
 
 		} catch (Exception e) {

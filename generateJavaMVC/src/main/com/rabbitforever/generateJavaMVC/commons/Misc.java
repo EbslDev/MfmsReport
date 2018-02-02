@@ -17,11 +17,12 @@ public class Misc {
 	public final static String LANG_TC = "tc";
 	private static PropertiesFactory propertiesFactory;
 	public static String convertBundleNameFormat2ClassNameFormat(String bundleName) throws Exception {
-		propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
-		SysProperties sysProperties = propertiesFactory.getInstanceOfSysProperties();
+		SysProperties sysProperties = null;
 		String bundlePrefix = "";
 		String voClassName = "";
 		try {
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			sysProperties = propertiesFactory.getInstanceOfSysProperties();
 			if (null != bundleName) {
 				int idxOfTablePrefix = bundleName.indexOf(bundlePrefix);
 
@@ -34,6 +35,16 @@ public class Misc {
 					for (int i = 0; i < splitClassName.length; i++) {
 						voClassName += Misc.upperStringFirstChar(splitClassName[i]);
 					} // end for
+					
+					String voNewClassName = "";
+					String [] splitdotted = voClassName.split("\\.");
+					if (splitdotted.length > 0) {
+						for (int i = 0; i < splitdotted.length; i++) {
+							voNewClassName += Misc.upperStringFirstChar(splitdotted[i]);
+						} // end for
+						
+						voClassName = voNewClassName;
+					}
 				} // end if (idxOfTablePrefix != -1)
 			} // end if (null != databaseName)
 		} catch (Exception e) {
@@ -78,10 +89,13 @@ public class Misc {
 
 	
 	public static String convertTableNameFormat2ClassNameFormat(String _databaseName) throws Exception {
-		SysProperties sysPropertiesEo = propertiesFactory.getInstanceOfSysProperties();
-		String tablePrefix = sysPropertiesEo.getTablePrefix();
+		SysProperties sysPropertiesEo = null; 
+		String tablePrefix = "";
 		String voClassName = "";
 		try {
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			sysPropertiesEo = propertiesFactory.getInstanceOfSysProperties();
+			sysPropertiesEo.getTablePrefix();
 			if (null != _databaseName) {
 				int idxOfTablePrefix = _databaseName.indexOf(tablePrefix);
 

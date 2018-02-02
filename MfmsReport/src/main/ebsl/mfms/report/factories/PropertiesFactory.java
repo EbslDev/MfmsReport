@@ -5,35 +5,59 @@ import org.slf4j.LoggerFactory;
 
 import ebsl.mfms.report.bundles.MysqlDbProperties;
 import ebsl.mfms.report.bundles.SysProperties;
+import ebsl.mfms.report.factories.builders.BundlesBuilder;
+import ebsl.mfms.report.factories.builders.MysqlDbBundlesBuilder;
+import ebsl.mfms.report.factories.builders.SysBundlesBuilder;
 
 public class PropertiesFactory {
 	private final static Logger logger = LoggerFactory.getLogger(PropertiesFactory.class);
 	private final static String className = PropertiesFactory.class.getName();
-
+	
+	
+	private BundlesBuilder<SysProperties> sysBundlesUtils;
+	private final String SYS_PROPERTIES_FILE = "sys.properties";
+	private final String MYSQL_DB_PROPERTIES_FILE = "mysql.db.properties";
+	
+	private static PropertiesFactory propertiesFactory;
 	private static MysqlDbProperties mysqlDbProperties;
-//	private static MsSqlDbProperties mssqlDbProperties;
-//	private static Db2DbProperties db2DbProperties;
 	private static SysProperties sysProperties;
-
-	private PropertiesFactory() {
-
+	private String getClassName() {
+		String className = this.getClassName();
+		return className;
+	}
+	private PropertiesFactory() throws Exception{
+		try {
+			init();
+		} catch (Exception e) {
+			logger.error(getClassName() + ".PropertiesFactory()", e);
+		}
 	}
 
-//	public static Db2DbProperties getInstanceOfDb2DbProperties() throws Exception {
-//		try {
-//			if (db2DbProperties == null) {
-//				db2DbProperties = new Db2DbProperties();
-//			}
-//		} catch (Exception e) {
-//			logger.error(className + ".getInstanceOfDb2DbProperties() - ", e);
-//		}
-//		return db2DbProperties;
-//	}
+	private void init() throws Exception {
+		try {
 
-	public static MysqlDbProperties getInstanceOfMySqlDbProperties() throws Exception {
+
+		} catch (Exception e) {
+			logger.error(getClassName() + ".BundlesFactory()", e);
+		}
+	}
+	
+	public static PropertiesFactory getInstanceOfPropertiesFactory() throws Exception {
+		try {
+			if (propertiesFactory == null) {
+				propertiesFactory = new PropertiesFactory();
+			}
+		} catch (Exception e) {
+			logger.error(className + ".getInstanceOfPropertiesFactory() - ", e);
+		}
+		return propertiesFactory;
+	}
+	
+	public MysqlDbProperties getInstanceOfMySqlDbProperties() throws Exception {
 		try {
 			if (mysqlDbProperties == null) {
-				mysqlDbProperties = new MysqlDbProperties();
+				BundlesBuilder<MysqlDbProperties> mysqlDbBundlesBuilder = new MysqlDbBundlesBuilder(MYSQL_DB_PROPERTIES_FILE);
+				mysqlDbProperties = mysqlDbBundlesBuilder.build();
 			}
 
 		} catch (Exception e) {
@@ -41,26 +65,20 @@ public class PropertiesFactory {
 		}
 		return mysqlDbProperties;
 	}
-
-//	public static MsSqlDbProperties getInstanceOfMsSqlDbProperties() throws Exception {
-//		try {
-//			if (mssqlDbProperties == null) {
-//				mssqlDbProperties = new MsSqlDbProperties();
-//			}
-//
-//		} catch (Exception e) {
-//			logger.error(className + ".getInstanceOfMsSqlDbProperties() - ", e);
-//		}
-//		return mssqlDbProperties;
-//	}
 	
-	public static SysProperties getInstanceOfSysProperties() throws Exception {
+	public SysProperties getInstanceOfSysProperties() throws Exception {
 		try {
-			if (sysProperties == null) {
-				sysProperties = new SysProperties();
+			if(sysBundlesUtils == null) {
+				sysBundlesUtils = new SysBundlesBuilder(SYS_PROPERTIES_FILE);
 			}
-		} catch (Exception e) {
-			logger.error(className + ".getInstanceOfSysProperties() - ", e);
+			sysProperties = (SysProperties) sysBundlesUtils.build();
+			if (sysProperties == null) {
+				throw new Exception(SYS_PROPERTIES_FILE + " does not exist!");
+			}
+
+		} catch (Exception ex) {
+			logger.error(className + ".getInstanceOfSysProperties() - ", ex);
+			throw ex;
 		}
 		return sysProperties;
 	}

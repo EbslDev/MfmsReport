@@ -25,6 +25,13 @@ public class FileArchieveMgr {
 		try
 		{
 			String tempDirPath = sysProperties.getOutputRootDirectory();
+			String outputRootDirectory = sysProperties.getOutputRootDirectory();
+			String modelsDirName = sysProperties.getModelsDirName();
+			String eosDirName = sysProperties.getEosDirName();
+			String daosDirName = sysProperties.getDaosDirName();
+			String servicesDirName = sysProperties.getServicesDirName();
+			String javaDirName = sysProperties.getJavaDirName();
+			String systemRootDirName = sysProperties.getSystemRootDirectory();
 			
 			File tempDir = new File(tempDirPath);
 	
@@ -35,7 +42,7 @@ public class FileArchieveMgr {
 				tempDir.mkdir();
 			}
 			
-			String javaDirPath = SystemParams.OUTPUT_ROOT_DIRECTORY + "\\" + SystemParams.PROJECT_FOLDER_ROOT;
+			String javaDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName;
 			File javaDir = new File(javaDirPath);
 			if (!javaDir.exists())
 			{
@@ -43,8 +50,37 @@ public class FileArchieveMgr {
 				javaDir.mkdir();
 			}
 			
-			// vo
-			String vosDirPath = SystemParams.OUTPUT_ROOT_DIRECTORY + "\\" + SystemParams.PROJECT_FOLDER_ROOT +"\\" + SystemParams.VO_DIR_NAME;
+			// java
+			String javaDirCPath = outputRootDirectory + "\\" + javaDirName;
+			File javaCDir = new File(javaDirCPath);
+			if (!javaCDir.exists())
+			{
+				System.out.println("creating directory: " + javaCDir);
+				javaCDir.mkdir();
+			}		
+			
+			// systemRoot
+			String sysDirName = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName;
+			File sysDir = new File(sysDirName);
+			if (!sysDir.exists())
+			{
+				System.out.println("creating directory: " + sysDir);
+				sysDir.mkdir();
+			}	
+			
+			
+			// models
+			String modelsDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName +"\\" + modelsDirName;
+			File modelsDir = new File(modelsDirPath);
+			if (!modelsDir.exists())
+			{
+				System.out.println("creating directory: " + modelsDirPath);
+				modelsDir.mkdir();
+			}		
+			
+			
+			// eo
+			String vosDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName +"\\" + modelsDirName + "\\" + eosDirName;
 			File vosDir = new File(vosDirPath);
 			if (!vosDir.exists())
 			{
@@ -52,17 +88,17 @@ public class FileArchieveMgr {
 				vosDir.mkdir();
 			}			
 			
-			// service Interface
-			String servicesIDirPath = SystemParams.OUTPUT_ROOT_DIRECTORY + "\\" + SystemParams.PROJECT_FOLDER_ROOT +"\\" + SystemParams.SERVICE_I_DIR_NAME;
-			File servicesIDir = new File(servicesIDirPath);
-			if (!servicesIDir.exists())
-			{
-				System.out.println("creating directory: " + servicesIDirPath);
-				servicesIDir.mkdir();
-			}					
+//			// service Interface
+//			String servicesIDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName +"\\" + SystemParams.SERVICE_I_DIR_NAME;
+//			File servicesIDir = new File(servicesIDirPath);
+//			if (!servicesIDir.exists())
+//			{
+//				System.out.println("creating directory: " + servicesIDirPath);
+//				servicesIDir.mkdir();
+//			}					
 			
 			// service
-			String servicesDirPath = SystemParams.OUTPUT_ROOT_DIRECTORY + "\\" + SystemParams.PROJECT_FOLDER_ROOT +"\\" + SystemParams.SERVICE_DIR_NAME;
+			String servicesDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName +"\\" + servicesDirName;
 			File servicesDir = new File(servicesDirPath);
 			if (!servicesDir.exists())
 			{
@@ -70,18 +106,18 @@ public class FileArchieveMgr {
 				servicesDir.mkdir();
 			}			
 			
-			// dao Interface
-			String daosIDirPath = SystemParams.OUTPUT_ROOT_DIRECTORY + "\\" + SystemParams.PROJECT_FOLDER_ROOT +"\\" + SystemParams.DAO_I_DIR_NAME;
-			File daosIDir = new File(daosIDirPath);
-			if (!daosIDir.exists())
-			{
-				System.out.println("creating directory: " + daosIDirPath);
-				daosIDir.mkdir();
-			}					
+//			// dao Interface
+//			String daosIDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName +"\\" + SystemParams.DAO_I_DIR_NAME;
+//			File daosIDir = new File(daosIDirPath);
+//			if (!daosIDir.exists())
+//			{
+//				System.out.println("creating directory: " + daosIDirPath);
+//				daosIDir.mkdir();
+//			}					
 			
 			
 			// dao
-			String daosDirPath = SystemParams.OUTPUT_ROOT_DIRECTORY + "\\" + SystemParams.PROJECT_FOLDER_ROOT +"\\" + SystemParams.DAO_DIR_NAME;
+			String daosDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName +"\\" + daosDirName;
 			File daosDir = new File(daosDirPath);
 			if (!daosDir.exists())
 			{
@@ -89,14 +125,14 @@ public class FileArchieveMgr {
 				daosDir.mkdir();
 			}				
 			
-			// cmd
-			String cmdsDirPath = SystemParams.OUTPUT_ROOT_DIRECTORY + "\\" + SystemParams.PROJECT_FOLDER_ROOT +"\\cmds";
-			File cmdsDir = new File(cmdsDirPath);
-			if (!cmdsDir.exists())
-			{
-				System.out.println("creating directory: " + cmdsDirPath);
-				cmdsDir.mkdir();
-			}				
+//			// cmd
+//			String cmdsDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName +"\\cmds";
+//			File cmdsDir = new File(cmdsDirPath);
+//			if (!cmdsDir.exists())
+//			{
+//				System.out.println("creating directory: " + cmdsDirPath);
+//				cmdsDir.mkdir();
+//			}				
 			
 		}
 		catch (Exception ex)

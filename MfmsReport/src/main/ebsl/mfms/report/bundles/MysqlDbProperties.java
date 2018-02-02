@@ -1,6 +1,6 @@
 package ebsl.mfms.report.bundles;
 
-public class MysqlDbProperties extends PropertiesBase{
+public class MysqlDbProperties extends PropertiesBase implements DbProperties{
 	public static final String LANG_EN = PropertiesBase.LANG_EN;
 	public static final String LANG_TCHI = PropertiesBase.LANG_TCHI;
 	public MysqlDbProperties() {
@@ -65,4 +65,11 @@ public class MysqlDbProperties extends PropertiesBase{
 	public String getSystemSchema(){
 		return this.systemSchema;
 	}
+	@Override
+	public String getConnectString(){
+		String connString = "";
+		connString = connectionString + host + ":" + port + "/" + schema;
+		return connString;
+	}
+
 }

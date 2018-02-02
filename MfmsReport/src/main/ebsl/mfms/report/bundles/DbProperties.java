@@ -5,7 +5,7 @@ public interface DbProperties {
 	public String getConnectString();
 	public String getHost();
 	public String getPort();
-	public String getUserName();
+	public String getUsername();
 	public String getPassword();
 	public String getClassForName();
 	public String getSystemSchema();
