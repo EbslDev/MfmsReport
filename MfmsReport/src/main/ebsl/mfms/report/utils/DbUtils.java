@@ -17,6 +17,7 @@ public abstract class DbUtils {
 	// public static final String DB_TYPE_DB2 = "db2";
 	protected DbProperties properties;
 
+	
 	public Connection getConnection() throws Exception {
 		Connection jdbcConnection = null;
 		try {

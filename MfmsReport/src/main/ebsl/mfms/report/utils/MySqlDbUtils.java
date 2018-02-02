@@ -11,13 +11,14 @@ import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ebsl.mfms.report.bundles.DbProperties;
 import ebsl.mfms.report.factories.PropertiesFactory;
 
 public class MySqlDbUtils extends DbUtils{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private String className = this.getClass().getName();
 	public MySqlDbUtils() throws Exception{
-		properties = PropertiesFactory.getInstanceOfMySqlDbProperties();	
+		properties = (DbProperties) PropertiesFactory.getInstanceOfMySqlDbProperties();	
 	}
 	public IDatabaseConnection getDataBaseConnectionWithSchema() throws Exception {
 		String schema = properties.getSchema();

@@ -3,14 +3,14 @@ package ebsl.mfms.report.factories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ebsl.mfms.report.bundles.MySqlDbProperties;
+import ebsl.mfms.report.bundles.MysqlDbProperties;
 import ebsl.mfms.report.bundles.SysProperties;
 
 public class PropertiesFactory {
 	private final static Logger logger = LoggerFactory.getLogger(PropertiesFactory.class);
 	private final static String className = PropertiesFactory.class.getName();
 
-	private static MySqlDbProperties mysqlDbProperties;
+	private static MysqlDbProperties mysqlDbProperties;
 //	private static MsSqlDbProperties mssqlDbProperties;
 //	private static Db2DbProperties db2DbProperties;
 	private static SysProperties sysProperties;
@@ -30,10 +30,10 @@ public class PropertiesFactory {
 //		return db2DbProperties;
 //	}
 
-	public static MySqlDbProperties getInstanceOfMySqlDbProperties() throws Exception {
+	public static MysqlDbProperties getInstanceOfMySqlDbProperties() throws Exception {
 		try {
 			if (mysqlDbProperties == null) {
-				mysqlDbProperties = new MySqlDbProperties();
+				mysqlDbProperties = new MysqlDbProperties();
 			}
 
 		} catch (Exception e) {

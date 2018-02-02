@@ -63,10 +63,10 @@ public abstract class DaoBase <T>{
 			throw e;
 		}
 	}
-	public abstract List<T> read(Object so);
-	public abstract Integer create(T eo);
-	public abstract void update(T eo);
-	public abstract void delete(T eo);
+	public abstract List<T> read(Object so) throws Exception;
+	public abstract void create(T eo) throws Exception;
+	public abstract void update(T eo) throws Exception;
+	public abstract void delete(T eo) throws Exception;
 
 	
 }
