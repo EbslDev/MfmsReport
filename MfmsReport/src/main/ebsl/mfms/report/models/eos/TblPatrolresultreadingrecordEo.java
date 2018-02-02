@@ -2,7 +2,7 @@ package ebsl.mfms.report.models.eos;
 
 import java.util.Date;
 
-public class TblPatrolresultreadingrecord
+public class TblPatrolresultreadingrecordEo
 {
 	protected Integer prrrKey;
 	protected Integer prrrSiteKey;

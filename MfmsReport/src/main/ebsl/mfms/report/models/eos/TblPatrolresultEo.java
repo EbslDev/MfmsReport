@@ -2,7 +2,7 @@ package ebsl.mfms.report.models.eos;
 
 import java.sql.Date;
 
-public class TblPatrolresult {
+public class TblPatrolresultEo {
 	protected Integer prKey;
 	protected Integer prSiteKey;
 	protected Integer prRouteDefKey;

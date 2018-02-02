@@ -2,7 +2,7 @@ package ebsl.mfms.report.models.eos;
 
 import java.util.Date;
 
-public class TblRoutedef
+public class TblRoutedefEo
 {
 	protected Integer rdKey;
 	protected Integer rdSiteKey;

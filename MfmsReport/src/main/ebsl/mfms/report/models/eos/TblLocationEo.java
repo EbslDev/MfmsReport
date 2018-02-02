@@ -2,7 +2,7 @@ package ebsl.mfms.report.models.eos;
 
 import java.util.Date;
 
-public class TblLocation {
+public class TblLocationEo {
 	protected Integer lKey;
 	protected Integer lSiteKey;
 	protected String lCode;
