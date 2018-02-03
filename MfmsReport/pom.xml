@@ -151,11 +151,11 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>hksarg.swd.csss</groupId>
 			<artifactId>frw</artifactId>
 			<version>1.0</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
