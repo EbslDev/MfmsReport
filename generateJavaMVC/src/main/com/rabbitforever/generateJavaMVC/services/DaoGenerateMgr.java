@@ -241,16 +241,28 @@ public class DaoGenerateMgr {
 					sb.append(");\n");
 					
 				}
-			
+			sb.append("\t\t\t\t" + daoObjectName + eoSuffix + "List.add(eo);\n");
 				
 			sb.append("\t\t\t}\n");
 			
 			sb.append("\t\t}\n");
 			sb.append("\t\tcatch (Exception ex){\n");
-
+			sb.append("\t\t\tlogger.error(getClassName() + \".read() - so=\" + so, e);\n");
+			sb.append("\t\t\tthrow e;\n");
 			sb.append("\t\t} // end try ... catch\n");			
-			
-			sb.append("\t\t\treturn " + objClassName + "List;\n");
+			sb.append("\t\tfinally {\n");
+			sb.append("\t\t\tif(preparedStatement != null){\n");
+			sb.append("\t\t\t\tpreparedStatement.close();\n");
+			sb.append("\t\t\t\tpreparedStatement = null;\n");
+			sb.append("\t\t\t}\n");
+			sb.append("\t\t\tif (connectionType.equals(CONNECTION_TYPE_JDBC)){\n");
+			sb.append("\t\t\t\tif(connection != null) {\n");
+			sb.append("\t\t\t\t\tconnection.close();\n");
+			sb.append("\t\t\t\t\tconnction = null;\n");
+			sb.append("\t\t\t\t}\n");
+			sb.append("\t\t\t}\n");
+			sb.append("\t\t}\n");
+			sb.append("\t\treturn " + objClassName + "List;\n");
 			sb.append("\t} // end select function\n");
 
 			// ###############################
