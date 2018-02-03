@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="maven-antrun-" default="main"  >
 <target name="main">
-  <ant antfile="D:\universe_git\generateJavaMVC/build.xml">
+  <ant antfile="C:\universe_consultant\MfmsReport\generateJavaMVC/build.xml">
     <target name="install_jars_to_maven_respository"/>
   </ant>
 </target>

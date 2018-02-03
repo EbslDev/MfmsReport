@@ -15,7 +15,7 @@ import com.rabbitforever.generateJavaMVC.policies.SystemParams;
 public class DaoGenerateMgr {
 
 	private String tableName;
-	private String voClassName;
+	private String className;
 	private String objClassName;
 	private PropertiesFactory propertiesFactory;
 	private SysProperties sysProperties;
@@ -24,7 +24,7 @@ public class DaoGenerateMgr {
 
 		try {
 			tableName = _tableName;
-			voClassName = tableName;
+
 			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
 			sysProperties = propertiesFactory.getInstanceOfSysProperties();
 			
@@ -53,11 +53,14 @@ public class DaoGenerateMgr {
 		String daoDirName = null;
 		String systemRootDir = null;
 		String daoSuffix = "Dao";
+		String eoSuffix = "Eo";
 		String daoClassName = null;
+		String daoObjectName = null;
 		try {
 			// Create file
 
 			daoClassName = 	Misc.convertTableNameFormat2ClassNameFormat(tableName);
+			daoObjectName = Misc.convertTableFieldsFormat2JavaPropertiesFormat(tableName);
 			outputRootDirectory = sysProperties.getOutputRootDirectory();
 			modelsDirName = sysProperties.getModelsDirName();
 			eosDirName = sysProperties.getEosDirName();
@@ -79,9 +82,18 @@ public class DaoGenerateMgr {
 			// ################################################## begin writing
 			// file
 			StringBuilder sb = new StringBuilder();
-
+			sb.append("package " + packageName + "." + daoDirName + ";\n");
+			
+			// import
+			sb.append("import java.sql.PreparedStatement;\n");
+			sb.append("import java.sql.ResultSet;\n");
+			sb.append("import java.util.ArrayList;\n");
+			sb.append("import java.util.List;\n");
+			sb.append("import org.slf4j.Logger;\n");
+			sb.append("import org.slf4j.LoggerFactory;\n");
+			
 			// --- class
-			sb.append("public class " + voClassName + "DaoImpl implements " + voClassName + "Dao\n");
+			sb.append("public class " + daoClassName + daoSuffix + " extends DaoBase" + "<" + daoClassName + eoSuffix + ">");
 			sb.append("{\n");
 
 			MySqlDbMgr oracleDbMgr = new MySqlDbMgr();
@@ -89,88 +101,157 @@ public class DaoGenerateMgr {
 			metaDataFieldList = oracleDbMgr.getMetaDataList(tableName);
 
 			// properties
-			sb.append("private Connection conn;\n");
-			sb.append("private PreparedStatement  pstmt;\n");
-			sb.append("private ResultSet rs;\n");
-			sb.append("private Logger log;\n");
-			// constructor
-			sb.append("public " + voClassName + "DaoImpl(){\n");
-			sb.append("this.conn = \"SysParams.getConn();\";\n");
-			sb.append("this.pstmt = null;\n");
-			sb.append("this.rs = null;\n");
-			sb.append("log = Log4j.getInstanceOfLog(" + voClassName + "DaoImpl.class);\n");
-			sb.append("} // end constructor\n");
+			sb.append("private final Logger logger = LoggerFactory.getLogger(getClassName());\n");
+			sb.append("private static DbUtils mySqlDbUtils;\n");
+			sb.append("private static DbUtilsFactory dbUtilsFactory;\n");
+
+
 
 			// ###############################
 			// select statement
 			// ###############################
 			sb.append("private final String SELECT_SQL=\n");
-			sb.append("\t\t\t\"select ");
+			sb.append("\t\t\t\"select \" + \n");
 
 			for (int i = 0; i < metaDataFieldList.size(); i++) {
 				MetaDataField metaDataField = new MetaDataField();
 				metaDataField = metaDataFieldList.get(i);
 
-				sb.append(metaDataField.getColumnName());
-
-				if (i != metaDataFieldList.size() - 1) {
-					sb.append(", ");
-				} else {
-					sb.append(" ");
+				sb.append("\t\t\t\"");
+				if (i > 0) {
+					sb.append(",");
 				}
+				sb.append("" + metaDataField.getColumnName());
+				sb.append(" \" + ");
+
+				sb.append("\n");
 			} // end for (int i = 0; i < metaDataFieldList.size(); i++)
 
-			sb.append("from " + tableName + "\";\n");
+			sb.append("\t\t\t\"from " + tableName + " \";\n");
 
+			// getClassName()
+			sb.append("\tprivate String getClassName(){\n");
+			sb.append("\t\treturn this.getClass().getName();\n");
+			sb.append("\t}\n");
+			
+			// constructors
+			sb.append("\tpublic " + daoClassName +  daoSuffix + "() throws Exception {\n");
+			sb.append("\t\tsuper();\n");
+			sb.append("\t}\n");
+			
+			sb.append("\tpublic " + daoClassName + daoSuffix + "(String connectionType) throws Exception {\n");
+			sb.append("\t\tsuper(connectionType);\n");
+			sb.append("\t}\n");
+			
 			// select function
-			sb.append("public List<" + voClassName + "> " + "selectAll(){\n");
-			sb.append("List<" + voClassName + "> " + objClassName
-					+ "List = new ArrayList<" + voClassName + ">();\n");
-			sb.append("try{\n");
-			sb.append("pstmt = conn.prepareStatement(SELECT_SQL);\n");
-			sb.append("//pstmt.setString(1, xxx);\n");
-			sb.append("rs = pstmt.executeQuery();\n");
-
-			// while select recordset
-			sb.append("while (rs.next()){\n");
-			sb.append(voClassName + " " + objClassName + " = new "
-					+ voClassName + "();\n");
-
-			// loop field name
+			sb.append("\t@Override\n");
+			sb.append("\tpublic List<" + daoClassName + eoSuffix + "> " + "read(Object so) throws Exception{\n");
+			sb.append("\t\tList<" + daoClassName + "> " + objClassName + "List = null;\n");
+			sb.append("\t\tStringBuilder whereSql = null;\n");
+			sb.append("\t\tPreparedStatement preparedStatement = null;\n");
+			sb.append("\t\ttry{\n");
+			sb.append("\t\t\tif (so instanceof " + daoClassName + "So == false) {\n");
+			sb.append("\t\t\t\tthrow new Exception(\"so is not an instanceof " + daoClassName + "So\");\n");
+			sb.append("\t\t\t}\n");
+			
+			sb.append("\t\t\t" + daoClassName + "So " + daoObjectName + "So = (" + daoClassName + "So) so;\n");
+			
+			sb.append("\t\t\twhereSql = new StringBuilder(\"where \"\n");
+			sb.append("\t\t\tint wcount = 0;\n");
+			
+			// loop wcount field name
 			for (int i = 0; i < metaDataFieldList.size(); i++) {
 				MetaDataField metaDataField = new MetaDataField();
 				metaDataField = metaDataFieldList.get(i);
-
-				sb.append(objClassName
-						+ ".set"
+				
+				sb.append("\t\t\tif(" + daoObjectName + "So.get"
 						+ Misc.upperStringFirstChar(Misc
 								.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
-										.getColumnName()))
-						+ "("
-						+ "rs.get"
-						+ JavaOracle.mapOracleType2JavaType(metaDataField
-								.getTypeName()) + "(\""
-						+ metaDataField.getColumnName() + "\")" + ");\n");
-				sb.append(objClassName + "List.add(" + objClassName + ");\n");
+										.getColumnName())
+						));
+				sb.append("() != null){\n");
+				sb.append("\t\t\t\tif (wcount > 0) {\n");
+				sb.append("\t\t\t\t\twhereSql.append(\"and \");\n");
+				sb.append("\t\t\t\t}\n");
+				sb.append("\t\t\t\twhereSql.append(\"" + metaDataField.getColumnName() + " = ? \");\n");
+				sb.append("\t\t\t}\n");
+			}
 
-			} // end for (int i = 0; i < metaDataFieldList.size(); i++)
-
-			sb.append("} // end while (rs.next())\n");
-
-			sb.append("rs.close();\n");
-			sb.append("pstmt.close();\n");
-			sb.append("conn.close();\n");
-
-			sb.append("}\n");
-			sb.append("catch (Exception ex){\n");
-			sb.append("if ( log.isDebugEnabled() ){\n");
-			//sb.append("log = Log4j.getInstanceOfLog(" + voClassName + "Dao.class);\n");
-			sb.append("log.error(ex.getStackTrace());\n");
-			sb.append("}// end if (log.isDebugEnabled())\n");
-			sb.append("} // end try ... catch\n");			
+			// pcount
+			sb.append("\t\t\tint pcount = 1;\n");
+			sb.append("\t\t\tpreparedStatement = connection.preparStatement(selectSql + whereSql.toString());\n");
 			
-			sb.append("return " + objClassName + "List;\n");
-			sb.append("} // end select function\n");
+			// loop pcount field name
+			for (int i = 0; i < metaDataFieldList.size(); i++) {
+				MetaDataField metaDataField = new MetaDataField();
+				metaDataField = metaDataFieldList.get(i);
+				
+				sb.append("\t\t\tif(" + daoObjectName + "So.get"
+						+ Misc.upperStringFirstChar(Misc
+								.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
+										.getColumnName())
+						));
+				sb.append("() != null){\n");
+				sb.append("\t\t\t\tpreparedStatement.setString(pcount, " + daoObjectName + "So.get" + 
+						Misc.upperStringFirstChar(Misc
+								.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
+										.getColumnName())
+								)
+				);
+				sb.append("());\n");
+				sb.append("\t\t\t\tpcount++;\n");
+				sb.append("\t\t\t}\n");
+			}
+			sb.append("\t\t\tResultSet rs = preparedStatement.executeQuery();\n");
+			sb.append("\t\t\twhile(rs.next()) {\n");
+			sb.append("\t\t\t\tif (" + daoObjectName + eoSuffix + "List == null){\n");
+			sb.append("\t\t\t\t\t" + daoObjectName + eoSuffix + "List = new ArrayList<" + daoClassName + eoSuffix + ">();\n");
+			sb.append("\t\t\t\t}\n");
+				
+				sb.append("\t\t\t\t" + daoClassName + eoSuffix + " eo = new " + daoClassName + eoSuffix + "();\n");
+			
+				// loop while(rs.next() content....
+				for (int i = 0; i < metaDataFieldList.size(); i++) {
+					MetaDataField metaDataField = new MetaDataField();
+					metaDataField = metaDataFieldList.get(i);
+					sb.append("\t\t\t\tString " + 
+							Misc
+							.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
+									.getColumnName())
+							);
+					sb.append(" = rs.getString(\"" +  
+							Misc.upperStringFirstChar(Misc
+									.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
+											.getColumnName())
+									)
+							+ "\");");
+					sb.append("\n");
+					sb.append("\t\t\t\teo.set" + 
+							Misc.upperStringFirstChar(Misc
+									.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
+											.getColumnName())
+									)
+							);
+					sb.append("(");
+					sb.append(
+							Misc
+							.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
+									.getColumnName())
+							);
+					sb.append(");\n");
+					
+				}
+			
+				
+			sb.append("\t\t\t}\n");
+			
+			sb.append("\t\t}\n");
+			sb.append("\t\tcatch (Exception ex){\n");
+
+			sb.append("\t\t} // end try ... catch\n");			
+			
+			sb.append("\t\t\treturn " + objClassName + "List;\n");
+			sb.append("\t} // end select function\n");
 
 			// ###############################
 			// insert statement
@@ -208,8 +289,8 @@ public class DaoGenerateMgr {
 			sb.append(")\";\n");
 
 			// insert function
-			sb.append("public " + voClassName + " insert(" + voClassName + " " + objClassName +"){\n");
-				sb.append(voClassName + " " + objClassName + "Rtn = new " + voClassName + "();\n");
+			sb.append("public " + daoClassName + " insert(" + daoClassName + " " + objClassName +"){\n");
+				sb.append(daoClassName + " " + objClassName + "Rtn = new " + daoClassName + "();\n");
 				sb.append("try{\n");
 				sb.append("pstmt = conn.prepareStatement(INSERT_SQL);\n");
 				
@@ -234,7 +315,7 @@ public class DaoGenerateMgr {
 				sb.append("}\n");
 				sb.append("catch (Exception ex){\n");
 				sb.append("if ( log.isDebugEnabled() ){\n");
-				//sb.append("log = Log4j.getInstanceOfLog(" + voClassName + "DaoImpl.class);\n");
+				//sb.append("log = Log4j.getInstanceOfLog(" + daoClassName + "DaoImpl.class);\n");
 				sb.append("log.error(ex.getStackTrace());\n");
 				sb.append("}// end if (log.isDebugEnabled())\n");
 				sb.append("} // end try ... catch\n");	
@@ -266,8 +347,8 @@ public class DaoGenerateMgr {
 			
 			
 			// update function
-			sb.append("public " + voClassName + " update(" + voClassName + " " + objClassName +"){\n");
-				sb.append(voClassName + " " + objClassName + "Rtn = new " + voClassName + "();\n");
+			sb.append("public " + daoClassName + " update(" + daoClassName + " " + objClassName +"){\n");
+				sb.append(daoClassName + " " + objClassName + "Rtn = new " + daoClassName + "();\n");
 				sb.append("try{\n");
 				sb.append("pstmt = conn.prepareStatement(UPDATE_SQL);\n");
 				
@@ -292,7 +373,7 @@ public class DaoGenerateMgr {
 				sb.append("}\n");
 				sb.append("catch (Exception ex){\n");
 				sb.append("if ( log.isDebugEnabled() ){\n");
-				//sb.append("log = Log4j.getInstanceOfLog(" + voClassName + "DaoImpl.class);\n");
+				//sb.append("log = Log4j.getInstanceOfLog(" + daoClassName + "DaoImpl.class);\n");
 				sb.append("log.error(ex.getStackTrace());\n");
 				sb.append("}// end if (log.isDebugEnabled())\n");
 				sb.append("} // end try ... catch\n");					
@@ -306,7 +387,7 @@ public class DaoGenerateMgr {
 			sb.append("\t\t\t\"delete from " + this.tableName + " where TMSMTPLSTUPD = ? and xxx = ?\";\n");
 
 			// delete function
-			sb.append("public int delete(" + voClassName + " " + objClassName +"){\n");
+			sb.append("public int delete(" + daoClassName + " " + objClassName +"){\n");
 				sb.append("int result;\n");
 				sb.append("try{\n");
 				sb.append("pstmt = conn.prepareStatement(DELETE_SQL);\n");
@@ -321,7 +402,7 @@ public class DaoGenerateMgr {
 				sb.append("}\n");
 				sb.append("catch (Exception ex){\n");
 				sb.append("if ( log.isDebugEnabled() ){\n");
-				//sb.append("log = Log4j.getInstanceOfLog(" + voClassName + "DaoImpl.class);\n");
+				//sb.append("log = Log4j.getInstanceOfLog(" + daoClassName + "DaoImpl.class);\n");
 				sb.append("log.error(ex.getStackTrace());\n");
 				sb.append("}// end if (log.isDebugEnabled())\n");
 				sb.append("} // end try ... catch\n");					
@@ -341,7 +422,7 @@ public class DaoGenerateMgr {
 		} catch (Exception e) {// Catch exception if any
 			System.err.println("Error: " + e.getMessage());
 		} // end try ... catch ...
-		  System.out.println("Dao is generated. : " + voClassName + "DaoImpl.java");		
+		  System.out.println("Dao is generated. : " + daoClassName + "DaoImpl.java");		
 	} // end generateDao()
 
 	/**
