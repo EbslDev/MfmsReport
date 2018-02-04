@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ebsl.mfms.report.factories.DbUtilsFactory;
+import ebsl.mfms.report.factories.GeneralUtilsFactory;
 import ebsl.mfms.report.models.eos.TblLocationEo;
 import ebsl.mfms.report.utils.DbUtils;
+import ebsl.mfms.report.utils.MiscUtils;
 
 public abstract class DaoBase <T>{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -16,6 +18,8 @@ public abstract class DaoBase <T>{
 	public final static String CONNECTION_TYPE_JNDI = "jndi";
 	protected DbUtilsFactory dbUtilsFactory;
 	protected DbUtils dbUtils;
+	protected GeneralUtilsFactory generalUtilsFactory;
+	protected MiscUtils miscUtils;
 	protected Connection connection;
 	protected String connectionType;
 	private String getClassName() {
@@ -57,6 +61,8 @@ public abstract class DaoBase <T>{
 			
 			dbUtilsFactory = DbUtilsFactory.getInstanceOfDbUtilsFactory();
 			dbUtils = dbUtilsFactory.getInstanceOfMySqlDbUtils();
+			generalUtilsFactory = GeneralUtilsFactory.getInstanceOfGeneralUtilsFactory();
+			miscUtils = generalUtilsFactory.getInstanceOfMiscUtils();
 			connection = dbUtils.getConnection();
 		} catch (Exception e) {
 			logger.error(getClassName() + ".init() - connectionType=" + connectionType, e);
@@ -64,9 +70,9 @@ public abstract class DaoBase <T>{
 		}
 	}
 	public abstract List<T> read(Object so) throws Exception;
-	public abstract void create(T eo) throws Exception;
-	public abstract void update(T eo) throws Exception;
-	public abstract void delete(T eo) throws Exception;
+	public abstract Integer create(T eo) throws Exception;
+	public abstract Integer update(T eo) throws Exception;
+	public abstract Integer delete(T eo) throws Exception;
 
 	
 }

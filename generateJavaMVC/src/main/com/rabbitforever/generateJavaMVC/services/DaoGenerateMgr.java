@@ -101,16 +101,16 @@ public class DaoGenerateMgr {
 			metaDataFieldList = oracleDbMgr.getMetaDataList(tableName);
 
 			// properties
-			sb.append("private final Logger logger = LoggerFactory.getLogger(getClassName());\n");
-			sb.append("private static DbUtils mySqlDbUtils;\n");
-			sb.append("private static DbUtilsFactory dbUtilsFactory;\n");
+			sb.append("\tprivate final Logger logger = LoggerFactory.getLogger(getClassName());\n");
+			sb.append("\tprivate static DbUtils mySqlDbUtils;\n");
+			sb.append("\tprivate static DbUtilsFactory dbUtilsFactory;\n");
 
 
 
 			// ###############################
 			// select statement
 			// ###############################
-			sb.append("private final String SELECT_SQL=\n");
+			sb.append("\tprivate final String SELECT_SQL=\n");
 			sb.append("\t\t\t\"select \" + \n");
 
 			for (int i = 0; i < metaDataFieldList.size(); i++) {
@@ -129,6 +129,77 @@ public class DaoGenerateMgr {
 
 			sb.append("\t\t\t\"from " + tableName + " \";\n");
 
+			// ###############################
+			// insert statement
+			// ###############################
+			sb.append("\tprivate final String INSERT_SQL=\n");
+			sb.append("\t\t\t\"insert \" + \n");
+			sb.append("\t\t\t\"into \" + \n");
+			sb.append("\t\t\t\"" + tableName + " \" + \n");
+			sb.append("\t\t\t\"( \" + \n");
+			for (int i = 0; i < metaDataFieldList.size(); i++) {
+				MetaDataField metaDataField = new MetaDataField();
+				metaDataField = metaDataFieldList.get(i);
+
+				sb.append("\t\t\t\"");
+				if (i > 0) {
+					sb.append(",");
+				}
+				sb.append("" + metaDataField.getColumnName());
+				sb.append(" \" + ");
+
+				sb.append("\n");
+			} // end for (int i = 0; i < metaDataFieldList.size(); i++)
+			sb.append("\t\t\t\") \" + \n");
+			sb.append("\t\t\t\"values\" + \n");
+			sb.append("\t\t\t\"( \" + \n");
+			for (int i = 0; i < metaDataFieldList.size(); i++) {
+				MetaDataField metaDataField = new MetaDataField();
+				metaDataField = metaDataFieldList.get(i);
+
+				sb.append("\t\t\t\"");
+				if (i > 0) {
+					sb.append(",");
+				}
+				sb.append("" + "?");
+				sb.append(" \" + ");
+
+				sb.append("\n");
+			} // end for (int i = 0; i < metaDataFieldList.size(); i++)
+			sb.append("\t\t\t\") \";\n");		
+			
+			// ###############################
+			// update statement
+			// ###############################
+			sb.append("\tprivate final String UPDATE_SQL=\n");
+			sb.append("\t\t\t\"update \" + \n");
+			sb.append("\t\t\t\"" + tableName + " \" + \n");
+			sb.append("\t\t\t\"set \" + \n");
+			for (int i = 0; i < metaDataFieldList.size(); i++) {
+				MetaDataField metaDataField = new MetaDataField();
+				metaDataField = metaDataFieldList.get(i);
+
+				sb.append("\t\t\t\"");
+				if (i > 0) {
+					sb.append(",");
+				}
+				sb.append("" + metaDataField.getColumnName());
+				sb.append("= ? \" + ");
+
+				sb.append("\n");
+			} // end for (int i = 0; i < metaDataFieldList.size(); i++)
+
+			sb.append("\t\t\t\"where xxx = ? \";\n");	
+			
+			// ###############################
+			// delete statement
+			// ###############################
+			sb.append("\tprivate final String DELETE_SQL=\n");
+			sb.append("\t\t\t\"delete \" + \n");
+			sb.append("\t\t\t\"from \" + \n");
+			sb.append("\t\t\t\"" + tableName + " \" + \n");
+			sb.append("\t\t\t\"where xxx = ? \";\n");	
+			
 			// getClassName()
 			sb.append("\tprivate String getClassName(){\n");
 			sb.append("\t\treturn this.getClass().getName();\n");
@@ -179,7 +250,7 @@ public class DaoGenerateMgr {
 
 			// pcount
 			sb.append("\t\t\tint pcount = 1;\n");
-			sb.append("\t\t\tpreparedStatement = connection.prepareStatement(selectSql + whereSql.toString());\n");
+			sb.append("\t\t\tpreparedStatement = connection.prepareStatement(SELECT_SQL + whereSql.toString());\n");
 			
 			// loop pcount field name
 			for (int i = 0; i < metaDataFieldList.size(); i++) {
@@ -220,10 +291,7 @@ public class DaoGenerateMgr {
 									.getColumnName())
 							);
 					sb.append(" = rs.getString(\"" +  
-							Misc.lowerStringFirstChar(Misc
-									.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
-											.getColumnName())
-									)
+							metaDataField.getColumnName()
 							+ "\");");
 					sb.append("\n");
 					sb.append("\t\t\t\teo.set" + 

@@ -108,4 +108,5 @@ public class TblLocationEo {
 	public void setlLastModifyTimeForSync(Date lLastModifyTimeForSync) {
 		this.lLastModifyTimeForSync = lLastModifyTimeForSync;
 	}
+
 }
