@@ -146,7 +146,7 @@ public class DaoGenerateMgr {
 			// select function
 			sb.append("\t@Override\n");
 			sb.append("\tpublic List<" + daoClassName + eoSuffix + "> " + "read(Object so) throws Exception{\n");
-			sb.append("\t\tList<" + daoClassName + "> " + objClassName + "List = null;\n");
+			sb.append("\t\tList<" + daoClassName + eoSuffix + "> " + objClassName + eoSuffix + "List = null;\n");
 			sb.append("\t\tStringBuilder whereSql = null;\n");
 			sb.append("\t\tPreparedStatement preparedStatement = null;\n");
 			sb.append("\t\ttry{\n");
@@ -156,7 +156,7 @@ public class DaoGenerateMgr {
 			
 			sb.append("\t\t\t" + daoClassName + "So " + daoObjectName + "So = (" + daoClassName + "So) so;\n");
 			
-			sb.append("\t\t\twhereSql = new StringBuilder(\"where \"\n");
+			sb.append("\t\t\twhereSql = new StringBuilder(\"where \");\n");
 			sb.append("\t\t\tint wcount = 0;\n");
 			
 			// loop wcount field name
@@ -165,7 +165,7 @@ public class DaoGenerateMgr {
 				metaDataField = metaDataFieldList.get(i);
 				
 				sb.append("\t\t\tif(" + daoObjectName + "So.get"
-						+ Misc.upperStringFirstChar(Misc
+						+ Misc.lowerStringFirstChar(Misc
 								.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
 										.getColumnName())
 						));
@@ -179,7 +179,7 @@ public class DaoGenerateMgr {
 
 			// pcount
 			sb.append("\t\t\tint pcount = 1;\n");
-			sb.append("\t\t\tpreparedStatement = connection.preparStatement(selectSql + whereSql.toString());\n");
+			sb.append("\t\t\tpreparedStatement = connection.prepareStatement(selectSql + whereSql.toString());\n");
 			
 			// loop pcount field name
 			for (int i = 0; i < metaDataFieldList.size(); i++) {
@@ -187,13 +187,13 @@ public class DaoGenerateMgr {
 				metaDataField = metaDataFieldList.get(i);
 				
 				sb.append("\t\t\tif(" + daoObjectName + "So.get"
-						+ Misc.upperStringFirstChar(Misc
+						+ Misc.lowerStringFirstChar(Misc
 								.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
 										.getColumnName())
 						));
 				sb.append("() != null){\n");
 				sb.append("\t\t\t\tpreparedStatement.setString(pcount, " + daoObjectName + "So.get" + 
-						Misc.upperStringFirstChar(Misc
+						Misc.lowerStringFirstChar(Misc
 								.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
 										.getColumnName())
 								)
@@ -220,14 +220,14 @@ public class DaoGenerateMgr {
 									.getColumnName())
 							);
 					sb.append(" = rs.getString(\"" +  
-							Misc.upperStringFirstChar(Misc
+							Misc.lowerStringFirstChar(Misc
 									.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
 											.getColumnName())
 									)
 							+ "\");");
 					sb.append("\n");
 					sb.append("\t\t\t\teo.set" + 
-							Misc.upperStringFirstChar(Misc
+							Misc.lowerStringFirstChar(Misc
 									.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
 											.getColumnName())
 									)
@@ -246,7 +246,7 @@ public class DaoGenerateMgr {
 			sb.append("\t\t\t}\n");
 			
 			sb.append("\t\t}\n");
-			sb.append("\t\tcatch (Exception ex){\n");
+			sb.append("\t\tcatch (Exception e){\n");
 			sb.append("\t\t\tlogger.error(getClassName() + \".read() - so=\" + so, e);\n");
 			sb.append("\t\t\tthrow e;\n");
 			sb.append("\t\t} // end try ... catch\n");			
@@ -258,11 +258,11 @@ public class DaoGenerateMgr {
 			sb.append("\t\t\tif (connectionType.equals(CONNECTION_TYPE_JDBC)){\n");
 			sb.append("\t\t\t\tif(connection != null) {\n");
 			sb.append("\t\t\t\t\tconnection.close();\n");
-			sb.append("\t\t\t\t\tconnction = null;\n");
+			sb.append("\t\t\t\t\tconnection = null;\n");
 			sb.append("\t\t\t\t}\n");
 			sb.append("\t\t\t}\n");
 			sb.append("\t\t}\n");
-			sb.append("\t\treturn " + objClassName + "List;\n");
+			sb.append("\t\treturn " + objClassName + eoSuffix + "List;\n");
 			sb.append("\t} // end select function\n");
 
 			// ###############################
@@ -325,7 +325,7 @@ public class DaoGenerateMgr {
 				sb.append("conn.close();\n");	
 				
 				sb.append("}\n");
-				sb.append("catch (Exception ex){\n");
+				sb.append("catch (Exception e){\n");
 				sb.append("if ( log.isDebugEnabled() ){\n");
 				//sb.append("log = Log4j.getInstanceOfLog(" + daoClassName + "DaoImpl.class);\n");
 				sb.append("log.error(ex.getStackTrace());\n");

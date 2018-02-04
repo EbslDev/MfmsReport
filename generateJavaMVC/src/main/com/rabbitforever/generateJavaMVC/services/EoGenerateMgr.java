@@ -85,8 +85,12 @@ public class EoGenerateMgr {
 				MetaDataField metaDataField = new MetaDataField();
 				metaDataField = metaDataFieldList.get(i);
 
-				sb.append("protected " + JavaOracle.mapOracleType2JavaType(metaDataField.getTypeName()) + " "
-						+ Misc.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField.getColumnName()) + ";\n");
+				sb.append("protected String " + 
+						Misc.lowerStringFirstChar(Misc
+								.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
+										.getColumnName())
+								) +
+						";\n");
 			} // end for (int i = 0; i < metaDataFieldList.size(); i++)
 
 			sb.append("}\n");
