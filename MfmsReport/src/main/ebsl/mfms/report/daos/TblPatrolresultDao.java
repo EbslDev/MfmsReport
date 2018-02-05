@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ebsl.mfms.report.models.eos.TblPatrolresultEo;
+import ebsl.mfms.report.models.sos.ExportPatrolRoutineSo;
 import ebsl.mfms.report.models.sos.TblPatrolresultSo;
+import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 public class TblPatrolresultDao extends DaoBase<TblPatrolresultEo>{
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
 	private final String SELECT_SQL=
@@ -126,6 +128,21 @@ public class TblPatrolresultDao extends DaoBase<TblPatrolresultEo>{
 			"from " + 
 			"tbl_patrolresult " + 
 			"where pr_Key = ? ";
+	private final String SELECT_JOIN_SQL = 
+			"select " +
+		    "rd.rd_Code, " +
+			"prrr.prrr_PatrolResultKey, " +
+		    "l.l_Code, " +
+			"l.l_Name, " +
+		    "pr.pr_TimeAttended " +
+			"from " +
+		    "tbl_patrolresult pr " +
+			"inner join tbl_patrolresultreadingrecord prrr " +
+		    "on prrr.prrr_PatrolResultKey = pr.pr_Key " +
+			"inner join tbl_routedef rd on " +
+		    "pr.pr_RouteDefKey = rd.rd_Key " +
+			"inner join tbl_location l on " +
+		    "pr.pr_LocationKey = l.l_Key ";
 	private String getClassName(){
 		return this.getClass().getName();
 	}
@@ -135,6 +152,130 @@ public class TblPatrolresultDao extends DaoBase<TblPatrolresultEo>{
 	public TblPatrolresultDao(String connectionType) throws Exception {
 		super(connectionType);
 	}
+	public List<ExportPatrolRoutineVo> readByExportPatrolRoutineSo(Object so) throws Exception{
+		List<ExportPatrolRoutineVo> exportPatrolRoutineVoList = null;
+		StringBuilder whereSql = null;
+		PreparedStatement preparedStatement = null;
+		try{
+			if (so instanceof ExportPatrolRoutineVo == false) {
+				throw new Exception("so is not an instanceof ExportPatrolRoutineVo");
+			}
+			ExportPatrolRoutineSo exportPatrolRoutineSo = (ExportPatrolRoutineSo) so;
+			whereSql = new StringBuilder("where ");
+			int wcount = 0;
+			
+			if(exportPatrolRoutineSo.getSiteKey() != null){
+				if (wcount > 0) {
+					whereSql.append("and ");
+				}
+				whereSql.append("pr.pr_SiteKey = ? ");
+			}
+			if(exportPatrolRoutineSo.getResultStartDate() != null && exportPatrolRoutineSo.getResultEndDate() != null){
+				if (wcount > 0) {
+					whereSql.append("and ");
+				}
+				whereSql.append("(pr.pr_TimeAttended between ? and ?) ");
+			}
+			if(exportPatrolRoutineSo.getRouteKeyList() != null && 
+					exportPatrolRoutineSo.getRouteKeyList().size() > 0){
+				if (wcount > 0) {
+					whereSql.append("and ");
+				}
+				
+				
+				whereSql.append("pr.pr_RouteDefKey in ");
+				whereSql.append("( ");
+				
+				List<String> routeKeyList = exportPatrolRoutineSo.getRouteKeyList();
+				
+				for (int i =0; i < routeKeyList.size(); i ++) {
+					String routeKey = routeKeyList.get(i);
+					if (i > 0) {
+						whereSql.append(", ");
+					}
+					whereSql.append(routeKey + " ");	
+				}
+				whereSql.append(") ");
+				
+			}
+			if(exportPatrolRoutineSo.getRouteLocationKeyList() != null && 
+					exportPatrolRoutineSo.getRouteLocationKeyList().size() > 0){
+				if (wcount > 0) {
+					whereSql.append("and ");
+				}
+				
+				
+				whereSql.append("pr.pr_LocationKey in ");
+				whereSql.append("( ");
+				
+				List<String> routeLocationKeyList = exportPatrolRoutineSo.getRouteLocationKeyList();
+				
+				for (int i =0; i < routeLocationKeyList.size(); i ++) {
+					String routeLocationKey = routeLocationKeyList.get(i);
+					if (i > 0) {
+						whereSql.append(", ");
+					}
+					whereSql.append(routeLocationKey + " ");	
+				}
+				whereSql.append(") ");
+				
+			}
+			
+			int pcount = 1;
+			preparedStatement = connection.prepareStatement(SELECT_JOIN_SQL + whereSql.toString());
+			
+			if(exportPatrolRoutineSo.getSiteKey() != null){
+				preparedStatement.setInt(pcount, exportPatrolRoutineSo.getSiteKey());
+				pcount++;
+			}
+			if(exportPatrolRoutineSo.getResultStartDate() != null && 
+					exportPatrolRoutineSo.getResultEndDate() != null){
+				preparedStatement.setDate(pcount, miscUtils.convertUtilDate2SqlDate(exportPatrolRoutineSo.getResultStartDate()));
+				pcount++;
+				preparedStatement.setDate(pcount, miscUtils.convertUtilDate2SqlDate(exportPatrolRoutineSo.getResultEndDate()));
+				pcount++;
+			}
+	
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+				if (exportPatrolRoutineVoList == null){
+					exportPatrolRoutineVoList = new ArrayList<ExportPatrolRoutineVo>();
+				}
+				ExportPatrolRoutineVo vo = new ExportPatrolRoutineVo();
+				String routeCode = rs.getString("rd_Code");
+				vo.setRouteCode(routeCode);
+				Integer patrolResultKey = rs.getInt("prrr_PatrolResultKey");
+				vo.setReadingResult(patrolResultKey);
+				String locationCode = rs.getString("l_Code");
+				vo.setLocationCode(locationCode);
+				String locationName = rs.getString("l_Name");
+				vo.setLocationName(locationName);
+				Date timeAttended = rs.getDate("pr_timeAttended");
+				vo.setCollectionDateTime(timeAttended);
+				exportPatrolRoutineVoList.add(vo);
+			}
+		}
+		catch (Exception e){
+			logger.error(getClassName() + ".readByExportPatrolRoutineSo() - so=" + so, e);
+			throw e;
+		} // end try ... catch
+		finally {
+			if(preparedStatement != null){
+				preparedStatement.close();
+				preparedStatement = null;
+			}
+			if (connectionType.equals(CONNECTION_TYPE_JDBC)){
+				if(connection != null) {
+					connection.close();
+					connection = null;
+				}
+			}
+		}
+		return exportPatrolRoutineVoList;
+	} // end select function
+	
+	
+	
 	@Override
 	public List<TblPatrolresultEo> read(Object so) throws Exception{
 		List<TblPatrolresultEo> tblPatrolresultEoList = null;
