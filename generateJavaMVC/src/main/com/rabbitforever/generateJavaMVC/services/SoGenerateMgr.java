@@ -12,19 +12,22 @@ import com.rabbitforever.generateJavaMVC.factories.PropertiesFactory;
 import com.rabbitforever.generateJavaMVC.models.eos.MetaDataField;
 import com.rabbitforever.generateJavaMVC.policies.SystemParams;
 
-public class EoGenerateMgr {
+public class SoGenerateMgr {
 
 	private String tableName;
-	private String eoClassName;
+	private String soClassName;
+	private String objClassName;
 	private PropertiesFactory propertiesFactory;
 	private SysProperties sysProperties;
-	public EoGenerateMgr(String _tableName) {
+	public SoGenerateMgr(String _tableName) {
 		try {
 			tableName = _tableName;
-			eoClassName = tableName;
+			soClassName = tableName;
 
 			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
 			sysProperties = propertiesFactory.getInstanceOfSysProperties();
+			objClassName = Misc
+					.convertTableFieldsFormat2JavaPropertiesFormat(tableName);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,13 +51,16 @@ public class EoGenerateMgr {
 			String lowerFirstPropertiesName = null;
 			String modelsDirName = null;
 			String eosDirName = null;
+			String sosDirName = null;
 			String systemRootDir = null;
 			String eoSuffix = "Eo";
-			eoClassName =
+			String soSuffix = "So";
+			soClassName =
 			Misc.convertTableNameFormat2ClassNameFormat(tableName);
 			outputRootDirectory = sysProperties.getOutputRootDirectory();
 			modelsDirName = sysProperties.getModelsDirName();
 			eosDirName = sysProperties.getEosDirName();
+			sosDirName = sysProperties.getSosDirName();
 			javaDirName = sysProperties.getJavaDirName();
 			systemRootDir = sysProperties.getSystemRootDirectory();
 			factoriesDirName = sysProperties.getFactoriesDirName();
@@ -64,35 +70,72 @@ public class EoGenerateMgr {
 			javaDirName = sysProperties.getJavaDirName();
 			systemRootDirectory = sysProperties.getSystemRootDirectory();
 			
-			String eoFile = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDir + "\\" + modelsDirName + "\\"
-					+ eosDirName + "\\" + eoClassName + eoSuffix + ".java";
+			String soFile = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDir + "\\" + modelsDirName + "\\"
+					+ sosDirName + "\\" + soClassName + soSuffix + ".java";
 
-			FileWriter fstream = new FileWriter(eoFile);
+			FileWriter fstream = new FileWriter(soFile);
 			BufferedWriter out = new BufferedWriter(fstream);
 			// ################################################## begin writing file
 			StringBuilder sb = new StringBuilder();
 
-			sb.append("package " + packageName + "." +  modelsDirName + ".eos;\n");
+			sb.append("package " + packageName + "." +  modelsDirName + ".sos;\n");
 			
 			// --- class
-			sb.append("public class " + eoClassName + eoSuffix +  "\n");
+			sb.append("public class " + soClassName + soSuffix +  " extends " + soClassName + eoSuffix + " implements So\n");
 			sb.append("{\n");
 
 			MySqlDbMgr oracleDbMgr = new MySqlDbMgr();
 			List<MetaDataField> metaDataFieldList = new ArrayList<MetaDataField>();
 			metaDataFieldList = oracleDbMgr.getMetaDataList(tableName);
-			for (int i = 0; i < metaDataFieldList.size(); i++) {
-				MetaDataField metaDataField = new MetaDataField();
-				metaDataField = metaDataFieldList.get(i);
 
-				sb.append("protected String " + 
-						Misc.lowerStringFirstChar(Misc
-								.convertTableFieldsFormat2JavaPropertiesFormat(metaDataField
-										.getColumnName())
-								) +
-						";\n");
-			} // end for (int i = 0; i < metaDataFieldList.size(); i++)
+			sb.append("\tprotected Date createDateTimeFrom;\n");
+			sb.append("\tprotected Date createDateTimeTo;\n");
+			sb.append("\tprotected Date lastModifyDateTimeFrom;\n");
+			sb.append("\tprotected Date lastModifyDateTimeTo;\n");
 
+			sb.append("\t@Override\n");
+			sb.append("\tpublic void setCreateDateTimeFrom(Date createDateTimeFrom){\n");
+			sb.append("\t\tthis.createDateTimeFrom = createDateTimeFrom;\n");
+			sb.append("\t}\n");
+			
+			sb.append("\t@Override\n");
+			sb.append("\tpublic void setCreateDateTimeTo(Date createDateTimeTo){\n");
+			sb.append("\t\tthis.createDateTimeTo = createDateTimeTo;\n");
+			sb.append("\t}\n");
+			
+			sb.append("\t@Override\n");
+			sb.append("\tpublic void setLastModifyDateTimeFrom(Date lastModifyDateTimeFrom){\n");
+			sb.append("\t\tthis.lastModifyDateTimeFrom = lastModifyDateTimeFrom;\n");
+			sb.append("\t}\n");
+			
+			sb.append("\t@Override\n");
+			sb.append("\tpublic void setLastModifyDateTimeTo(Date lastModifyDateTimeTo){\n");
+			sb.append("\t\tthis.lastModifyDateTimeTo = lastModifyDateTimeTo;\n");
+			sb.append("\t}\n");
+			
+			
+			
+			sb.append("\t@Override\n");
+			sb.append("\tpublic Date getCreateDateTimeFrom(){\n");
+			sb.append("\t\treturn this.createDateTimeFrom;\n");
+			sb.append("\t}\n");
+			
+			sb.append("\t@Override\n");
+			sb.append("\tpublic Date getCreateDateTimeTo(){\n");
+			sb.append("\t\treturn this.createDateTimeTo;\n");
+			sb.append("\t}\n");
+			
+			sb.append("\t@Override\n");
+			sb.append("\tpublic Date getLastModifyDateTimeFrom(){\n");
+			sb.append("\t\treturn this.lastModifyDateTimeFrom;\n");
+			sb.append("\t}\n");
+			
+			sb.append("\t@Override\n");
+			sb.append("\tpublic Date getLastModifyDateTimeTo(){\n");
+			sb.append("\t\treturn this.lastModifyDateTimeTo;\n");
+			sb.append("\t}\n");
+			
+			
 			sb.append("}\n");
 			out.write(sb.toString());
 
@@ -102,6 +145,6 @@ public class EoGenerateMgr {
 			e.printStackTrace();
 		} // end try ... catch ...
 
-		System.out.println("Eo is generated. : " + eoClassName + ".java");
+		System.out.println("So is generated. : " + soClassName + ".java");
 	} // end generateVo()
 } // end VoGenerateMgr

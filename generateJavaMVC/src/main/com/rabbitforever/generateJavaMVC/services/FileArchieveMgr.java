@@ -28,6 +28,7 @@ public class FileArchieveMgr {
 			String outputRootDirectory = sysProperties.getOutputRootDirectory();
 			String modelsDirName = sysProperties.getModelsDirName();
 			String eosDirName = sysProperties.getEosDirName();
+			String sosDirName = sysProperties.getSosDirName();
 			String daosDirName = sysProperties.getDaosDirName();
 			String servicesDirName = sysProperties.getServicesDirName();
 			String javaDirName = sysProperties.getJavaDirName();
@@ -86,6 +87,15 @@ public class FileArchieveMgr {
 			{
 				System.out.println("creating directory: " + vosDirPath);
 				vosDir.mkdir();
+			}			
+			
+			// so
+			String sosDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName +"\\" + modelsDirName + "\\" + sosDirName;
+			File sosDir = new File(sosDirPath);
+			if (!sosDir.exists())
+			{
+				System.out.println("creating directory: " + sosDirPath);
+				sosDir.mkdir();
 			}			
 			
 //			// service Interface

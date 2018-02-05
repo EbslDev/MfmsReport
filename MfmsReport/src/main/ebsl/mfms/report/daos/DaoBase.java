@@ -13,7 +13,7 @@ import ebsl.mfms.report.utils.DbUtils;
 import ebsl.mfms.report.utils.MiscUtils;
 
 public abstract class DaoBase <T>{
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClassName());
 	public final static String CONNECTION_TYPE_JDBC = "jdbc";
 	public final static String CONNECTION_TYPE_JNDI = "jndi";
 	protected DbUtilsFactory dbUtilsFactory;

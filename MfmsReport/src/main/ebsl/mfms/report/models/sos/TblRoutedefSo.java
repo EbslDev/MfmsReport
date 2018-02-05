@@ -2,9 +2,9 @@ package ebsl.mfms.report.models.sos;
 
 import java.util.Date;
 
-import ebsl.mfms.report.models.eos.TblLocationEo;
+import ebsl.mfms.report.models.eos.TblRoutedefEo;
 
-public class TblLocationSo extends TblLocationEo implements So
+public class TblRoutedefSo extends TblRoutedefEo implements So
 {
 	protected Date createDateTimeFrom;
 	protected Date createDateTimeTo;

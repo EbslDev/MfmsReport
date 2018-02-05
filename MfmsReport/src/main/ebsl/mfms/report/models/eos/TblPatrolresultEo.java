@@ -1,6 +1,6 @@
 package ebsl.mfms.report.models.eos;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class TblPatrolresultEo {
 	protected Integer prKey;
@@ -19,7 +19,7 @@ public class TblPatrolresultEo {
 	protected Integer prLastModifyBy;
 	protected Date prLastModifyDateTime;
 	protected String prDeleted;
-	protected Integer prLastModifyTimeForSync;
+	protected Date prLastModifyTimeForSync;
 	protected String prPatrolScheduleKey;
 	protected String prPatrolStatus;
 	protected Integer prMinPtDur;
@@ -155,11 +155,13 @@ public class TblPatrolresultEo {
 		this.prDeleted = prDeleted;
 	}
 
-	public Integer getPrLastModifyTimeForSync() {
+
+
+	public Date getPrLastModifyTimeForSync() {
 		return prLastModifyTimeForSync;
 	}
 
-	public void setPrLastModifyTimeForSync(Integer prLastModifyTimeForSync) {
+	public void setPrLastModifyTimeForSync(Date prLastModifyTimeForSync) {
 		this.prLastModifyTimeForSync = prLastModifyTimeForSync;
 	}
 

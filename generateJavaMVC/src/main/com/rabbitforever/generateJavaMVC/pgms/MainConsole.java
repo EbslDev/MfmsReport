@@ -3,6 +3,8 @@ package com.rabbitforever.generateJavaMVC.pgms;
 import com.rabbitforever.generateJavaMVC.services.DaoGenerateMgr;
 import com.rabbitforever.generateJavaMVC.services.EoGenerateMgr;
 import com.rabbitforever.generateJavaMVC.services.FileArchieveMgr;
+import com.rabbitforever.generateJavaMVC.services.ServiceGenerateMgr;
+import com.rabbitforever.generateJavaMVC.services.SoGenerateMgr;
 
 public class MainConsole {
 
@@ -33,6 +35,10 @@ public class MainConsole {
 				
 				EoGenerateMgr voGeneratorMgr = new EoGenerateMgr(temp[i]);
 				voGeneratorMgr.generateVo();
+				
+				SoGenerateMgr soGeneratorMgr = new SoGenerateMgr(temp[i]);
+				soGeneratorMgr.generateVo();
+				
 	
 				DaoGenerateMgr daoGeneratorMgr = new DaoGenerateMgr(temp[i]);
 				daoGeneratorMgr.generateDao();
@@ -41,8 +47,8 @@ public class MainConsole {
 //				idaoGeneratorMgr.generateDao();	
 //				
 //				
-//				ServiceGenerateMgr svrGeneratorMgr = new ServiceGenerateMgr(temp[i]);
-//				svrGeneratorMgr.generateService();
+				ServiceGenerateMgr svrGeneratorMgr = new ServiceGenerateMgr(temp[i]);
+				svrGeneratorMgr.generateService();
 //				
 //				IServiceGenerateMgr isvrGeneratorMgr = new IServiceGenerateMgr(temp[i]);
 //				isvrGeneratorMgr.generateService();

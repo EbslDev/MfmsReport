@@ -33,6 +33,8 @@ public class SysBundlesBuilder extends BundlesBuilder<SysProperties>{
 			sysProperties.setModelsDirName(modelsDirName);
 			String eosDirName = getPropValues("eos_dir_name");
 			sysProperties.setEosDirName(eosDirName);
+			String sosDirName = getPropValues("sos_dir_name");
+			sysProperties.setSosDirName(sosDirName);
 			String servicesDirName = getPropValues("services_dir_name");
 			sysProperties.setServicesDirName(servicesDirName);
 			String daosDirName = getPropValues("daos_dir_name");

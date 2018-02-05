@@ -9,16 +9,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ebsl.mfms.report.factories.DbUtilsFactory;
-import ebsl.mfms.report.factories.GeneralUtilsFactory;
 import ebsl.mfms.report.models.eos.TblLocationEo;
 import ebsl.mfms.report.models.sos.TblLocationSo;
-import ebsl.mfms.report.utils.DbUtils;
-import ebsl.mfms.report.utils.MiscUtils;
 
 public class TblLocationDao extends DaoBase<TblLocationEo>{
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
-	private DbUtils mySqlDbUtils;
+//	private DbUtils mySqlDbUtils;
 //	private static DbUtils db2DbUtils;
 //	private static DbUtils msSqlDbUtils;
 
@@ -431,15 +427,132 @@ public class TblLocationDao extends DaoBase<TblLocationEo>{
 
 	@Override
 	public Integer update(TblLocationEo eo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-		
+		PreparedStatement preparedStatement = null;
+		Integer noOfAffectedRow = null;
+		try{
+			int pcount = 1;
+			preparedStatement = connection.prepareStatement(UPDATE_SQL);
+			if(eo.getlKey() != null){
+				preparedStatement.setInt(pcount, eo.getlKey());
+				pcount++;
+			}
+			if(eo.getlSiteKey() != null){
+				preparedStatement.setInt(pcount, eo.getlSiteKey());
+				pcount++;
+			}
+			if(eo.getlCode() != null){
+				preparedStatement.setString(pcount, eo.getlCode());
+				pcount++;
+			}
+			if(eo.getlName() != null){
+				preparedStatement.setString(pcount, eo.getlName());
+				pcount++;
+			}
+			if(eo.getlDesc() != null){
+				preparedStatement.setString(pcount, eo.getlDesc());
+				pcount++;
+			}
+			if(eo.getlTagID() != null){
+				preparedStatement.setString(pcount, eo.getlTagID());
+				pcount++;
+			}
+			if(eo.getlParentKey() != null){
+				preparedStatement.setInt(pcount, eo.getlParentKey());
+				pcount++;
+			}
+			if(eo.getlLevelKey() != null){
+				preparedStatement.setInt(pcount, eo.getlLevelKey());
+				pcount++;
+			}
+			if(eo.getlChain() != null){
+				preparedStatement.setString(pcount, eo.getlChain());
+				pcount++;
+			}
+			if(eo.getlCreateBy() != null){
+				preparedStatement.setInt(pcount, eo.getlCreateBy());
+				pcount++;
+			}
+			if(eo.getlCreateDateTime() != null){
+				preparedStatement.setDate(pcount, miscUtils.convertUtilDate2SqlDate(eo.getlCreateDateTime()));
+				pcount++;
+			}
+			if(eo.getlLastModifyBy() != null){
+				preparedStatement.setInt(pcount, eo.getlLastModifyBy());
+				pcount++;
+			}
+			if(eo.getlLastModifyDateTime() != null){
+				preparedStatement.setDate(pcount, miscUtils.convertUtilDate2SqlDate(eo.getlLastModifyDateTime()));
+				pcount++;
+			}
+			if(eo.getlDeleted() != null){
+				preparedStatement.setString(pcount, eo.getlDeleted());
+				pcount++;
+			}
+			if(eo.getlLastModifyTimeForSync() != null){
+				preparedStatement.setTimestamp(pcount, miscUtils.convertUtilDate2Timestamp(eo.getlLastModifyTimeForSync()));
+				pcount++;
+			}
+			if(eo.getlKey() != null){
+				preparedStatement.setInt(pcount, eo.getlKey());
+				pcount++;
+			}
+			noOfAffectedRow = preparedStatement.executeUpdate();
+			if (noOfAffectedRow.intValue() != 1) {
+				throw new Exception("insert failed! affectedRow=" + noOfAffectedRow);
+			}
+		}
+		catch (Exception e){
+			logger.error(getClassName() + ".update() - eo=" + eo, e);
+			throw e;
+		} // end try ... catch
+		finally {
+			if(preparedStatement != null){
+				preparedStatement.close();
+				preparedStatement = null;
+			}
+			if (connectionType.equals(CONNECTION_TYPE_JDBC)){
+				if(connection != null) {
+					connection.close();
+					connection = null;
+				}
+			}
+		}	
+		return noOfAffectedRow;
 	}
 
 	@Override
 	public Integer delete(TblLocationEo eo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement preparedStatement = null;
+		Integer noOfAffectedRow = null;
+		try{
+			int pcount = 1;
+			preparedStatement = connection.prepareStatement(DELETE_SQL);
+			if(eo.getlKey() != null){
+				preparedStatement.setInt(pcount, eo.getlKey());
+				pcount++;
+			}
+			noOfAffectedRow = preparedStatement.executeUpdate();
+			if (noOfAffectedRow.intValue() != 1) {
+				throw new Exception("delete failed! affectedRow=" + noOfAffectedRow);
+			}
+		}
+		catch (Exception e){
+			logger.error(getClassName() + ".delete() - eo=" + eo, e);
+			throw e;
+		} // end try ... catch
+		finally {
+			if(preparedStatement != null){
+				preparedStatement.close();
+				preparedStatement = null;
+			}
+			if (connectionType.equals(CONNECTION_TYPE_JDBC)){
+				if(connection != null) {
+					connection.close();
+					connection = null;
+				}
+			}
+		}	
+		return noOfAffectedRow;
 	}
 
 

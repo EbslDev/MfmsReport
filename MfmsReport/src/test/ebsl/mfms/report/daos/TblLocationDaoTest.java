@@ -97,15 +97,95 @@ public class TblLocationDaoTest {
 		
 
 	}
-
+	@Ignore
 	@Test
 	public void testUpdateTblLocationEo() {
-		fail("Not yet implemented");
+		TblLocationDao dao;
+		try {
+			dao = new TblLocationDao(DaoBase.CONNECTION_TYPE_JDBC);
+			TblLocationEo eo = new TblLocationEo();
+			Integer lKey = 823;
+			Integer lSiteKey = 2;
+			String lCode = "TEST Code VV";
+			String lName = "TEST Name VV";
+			String lDesc = "Test Desc";
+			String lTagId = "Test TagID";
+			Integer lParentKey = 742;
+			Integer lLevelKey = 4;
+			String lChain = "144742823";
+			Integer lCreatedBy = 1;
+			Date lCreateDateTime = new Date();
+			Integer lLastModifyBy = 1;
+			Date lLastModifyDateTime = new Date();
+			String lDelete = "N";
+			Date lLastModifyTimeForSync = new Date();
+			eo.setlKey(lKey);
+			eo.setlSiteKey(lSiteKey);
+			eo.setlCode(lCode);
+			eo.setlName(lName);
+			eo.setlDesc(lDesc);
+			eo.setlTagID(lTagId);
+			eo.setlParentKey(lParentKey);
+			eo.setlLevelKey(lLevelKey);
+			eo.setlChain(lChain);
+			eo.setlParentKey(lParentKey);
+			eo.setlChain(lChain);
+			eo.setlCreateBy(lCreatedBy);
+			eo.setlCreateDateTime(lCreateDateTime);
+			eo.setlLastModifyBy(lLastModifyBy);
+			eo.setlLastModifyDateTime(lLastModifyDateTime);
+			eo.setlDeleted(lDelete);
+			eo.setlLastModifyTimeForSync(lLastModifyTimeForSync);
+			Integer noOfAffectedRow = dao.update(eo);
+			Assert.assertTrue(noOfAffectedRow > 0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testDeleteTblLocationEo() {
-		fail("Not yet implemented");
+		TblLocationDao dao;
+		try {
+			dao = new TblLocationDao(DaoBase.CONNECTION_TYPE_JDBC);
+			TblLocationEo eo = new TblLocationEo();
+			Integer lKey = 823;
+			Integer lSiteKey = 2;
+			String lCode = "TEST Code VV";
+			String lName = "TEST Name VV";
+			String lDesc = "Test Desc";
+			String lTagId = "Test TagID";
+			Integer lParentKey = 742;
+			Integer lLevelKey = 4;
+			String lChain = "144742823";
+			Integer lCreatedBy = 1;
+			Date lCreateDateTime = new Date();
+			Integer lLastModifyBy = 1;
+			Date lLastModifyDateTime = new Date();
+			String lDelete = "N";
+			Date lLastModifyTimeForSync = new Date();
+			eo.setlKey(lKey);
+			eo.setlSiteKey(lSiteKey);
+			eo.setlCode(lCode);
+			eo.setlName(lName);
+			eo.setlDesc(lDesc);
+			eo.setlTagID(lTagId);
+			eo.setlParentKey(lParentKey);
+			eo.setlLevelKey(lLevelKey);
+			eo.setlChain(lChain);
+			eo.setlParentKey(lParentKey);
+			eo.setlChain(lChain);
+			eo.setlCreateBy(lCreatedBy);
+			eo.setlCreateDateTime(lCreateDateTime);
+			eo.setlLastModifyBy(lLastModifyBy);
+			eo.setlLastModifyDateTime(lLastModifyDateTime);
+			eo.setlDeleted(lDelete);
+			eo.setlLastModifyTimeForSync(lLastModifyTimeForSync);
+			Integer noOfAffectedRow = dao.delete(eo);
+			Assert.assertTrue(noOfAffectedRow > 0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

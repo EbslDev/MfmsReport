@@ -10,8 +10,8 @@ public class TblPatrolresultreadingrecordEo
 	protected Integer prrrPatrolScheduleKey;
 	protected Integer prrrRouteDefKey;
 	protected Integer prrrLocationKey;
-	protected Integer prrrReadingResult;
-	protected Integer prrrRecordStatus;
+	protected String prrrReadingResult;
+	protected String prrrRecordStatus;
 	protected String prrrEnableChecking;
 	protected Integer prrrCreateBy;
 	protected Date prrrCreateDateTime;
@@ -56,16 +56,18 @@ public class TblPatrolresultreadingrecordEo
 	public void setPrrrLocationKey(Integer prrrLocationKey) {
 		this.prrrLocationKey = prrrLocationKey;
 	}
-	public Integer getPrrrReadingResult() {
+
+	public String getPrrrReadingResult() {
 		return prrrReadingResult;
 	}
-	public void setPrrrReadingResult(Integer prrrReadingResult) {
+	public void setPrrrReadingResult(String prrrReadingResult) {
 		this.prrrReadingResult = prrrReadingResult;
 	}
-	public Integer getPrrrRecordStatus() {
+
+	public String getPrrrRecordStatus() {
 		return prrrRecordStatus;
 	}
-	public void setPrrrRecordStatus(Integer prrrRecordStatus) {
+	public void setPrrrRecordStatus(String prrrRecordStatus) {
 		this.prrrRecordStatus = prrrRecordStatus;
 	}
 	public String getPrrrEnableChecking() {

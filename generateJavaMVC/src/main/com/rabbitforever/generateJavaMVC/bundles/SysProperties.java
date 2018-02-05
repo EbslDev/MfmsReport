@@ -17,10 +17,18 @@ public class SysProperties extends PropertiesBase{
 	private String eosDirName;
 	private String servicesDirName;
 	private String daosDirName;
+	private String sosDirName;
+
 	private String tablePrefix;
 	private String bundleDirName;
 	private String factoriesDirName;
 	private String factoriesBuilderDirName;
+	public String getSosDirName() {
+		return sosDirName;
+	}
+	public void setSosDirName(String sosDirName) {
+		this.sosDirName = sosDirName;
+	}
 	public void setDatabase(String database){
 		this.database = database;
 	}
