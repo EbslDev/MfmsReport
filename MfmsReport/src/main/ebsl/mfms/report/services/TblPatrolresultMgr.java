@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import ebsl.mfms.report.daos.TblPatrolresultDao;
 import ebsl.mfms.report.models.eos.TblPatrolresultEo;
+import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 public class TblPatrolresultMgr extends ServiceBase{
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
 	private TblPatrolresultDao dao;
@@ -36,6 +37,17 @@ public class TblPatrolresultMgr extends ServiceBase{
 			throw e;
 		}
 	} // end constructor
+	public List<ExportPatrolRoutineVo> readByExportPatrolRoutineSo(Object so) throws Exception{
+		List<ExportPatrolRoutineVo> exportPatrolRoutineVoList = null;
+		try{
+			exportPatrolRoutineVoList = dao.readByExportPatrolRoutineSo(so);
+		}
+		catch (Exception e){
+			logger.error(getClassName() + ".readByExportPatrolRoutineSo() - so=" + so, e);
+			throw e;
+		} // end try ... catch
+		return exportPatrolRoutineVoList;
+	}
 	public List<TblPatrolresultEo> read(Object so) throws Exception{
 		List<TblPatrolresultEo> tblPatrolresultEoList = null;
 		try{
