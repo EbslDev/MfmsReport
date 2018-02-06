@@ -37,6 +37,10 @@
 			<name>alfresco</name>
 			<url>https://artifacts.alfresco.com/nexus/content/groups/public/</url>
 		</repository>
+		<repository>
+			<id>JBoss repository</id>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+		</repository>	
 	</repositories>  
 	<dependencies>
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
@@ -44,6 +48,12 @@
 		    <groupId>org.apache.poi</groupId>
 		    <artifactId>poi</artifactId>
 		    <version>3.9</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jaxrs -->
+		<dependency>
+		    <groupId>org.jboss.resteasy</groupId>
+		    <artifactId>resteasy-jaxrs</artifactId>
+		    <version>3.1.4.Final</version>
 		</dependency>
 
 <!-- 		<dependency>
