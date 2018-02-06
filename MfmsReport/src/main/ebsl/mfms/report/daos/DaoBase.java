@@ -3,12 +3,15 @@ package ebsl.mfms.report.daos;
 import java.sql.Connection;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ebsl.mfms.report.factories.DbUtilsFactory;
 import ebsl.mfms.report.factories.GeneralUtilsFactory;
-import ebsl.mfms.report.models.eos.TblLocationEo;
 import ebsl.mfms.report.utils.DbUtils;
 import ebsl.mfms.report.utils.MiscUtils;
 
@@ -59,11 +62,18 @@ public abstract class DaoBase <T>{
 				this.connectionType = connectionType;
 			}
 			
-			dbUtilsFactory = DbUtilsFactory.getInstanceOfDbUtilsFactory();
-			dbUtils = dbUtilsFactory.getInstanceOfMySqlDbUtils();
-			generalUtilsFactory = GeneralUtilsFactory.getInstanceOfGeneralUtilsFactory();
-			miscUtils = generalUtilsFactory.getInstanceOfMiscUtils();
-			connection = dbUtils.getConnection();
+			if (this.connectionType.equals(CONNECTION_TYPE_JDBC)) {
+				dbUtilsFactory = DbUtilsFactory.getInstanceOfDbUtilsFactory();
+				dbUtils = dbUtilsFactory.getInstanceOfMySqlDbUtils();
+				generalUtilsFactory = GeneralUtilsFactory.getInstanceOfGeneralUtilsFactory();
+				miscUtils = generalUtilsFactory.getInstanceOfMiscUtils();
+				connection = dbUtils.getConnection();
+			} else if (this.connectionType.equals(CONNECTION_TYPE_JNDI)) {
+				Context initContext = new InitialContext();
+				Context envContext  = (Context)initContext.lookup("java:/comp/env");
+				DataSource ds = (DataSource)envContext.lookup("jdbc/MySqlEpatrolDB");
+				connection = ds.getConnection();
+			}
 		} catch (Exception e) {
 			logger.error(getClassName() + ".init() - connectionType=" + connectionType, e);
 			throw e;
