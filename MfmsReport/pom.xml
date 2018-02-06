@@ -38,9 +38,9 @@
 			<url>https://artifacts.alfresco.com/nexus/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>JBoss repository</id>
-			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
-		</repository>	
+	       <id>org.jboss.resteasy</id>
+		  	<url>http://repository.jboss.org/maven2/</url>
+		 </repository>
 	</repositories>  
 	<dependencies>
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
@@ -49,12 +49,13 @@
 		    <artifactId>poi</artifactId>
 		    <version>3.9</version>
 		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jaxrs -->
-		<dependency>
+ 		<dependency>
 		    <groupId>org.jboss.resteasy</groupId>
 		    <artifactId>resteasy-jaxrs</artifactId>
-		    <version>3.1.4.Final</version>
-		</dependency>
+		    <version>3.0.19.Final</version>
+		</dependency> 
 
 <!-- 		<dependency>
 			<groupId>org.hibernate</groupId>
