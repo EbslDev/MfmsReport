@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 import ebsl.mfms.report.models.sos.ExportPatrolRoutineSo;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.services.TblPatrolresultMgr;
-//http://localhost:8080/MfmsReport/rest/generateReportWs/test
-//http://localhost:8080/MfmsReport/rest/generateReportWs/exportPatrolRoutine
-@Path("/generateReportWs")
-public class GenerateReportWs {
+//http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/test
+//http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/exportPatrolRoutine
+@Path("/generatePatrolReportWs")
+public class GeneratePatrolReportWs {
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
 	
 	private String getClassName(){
