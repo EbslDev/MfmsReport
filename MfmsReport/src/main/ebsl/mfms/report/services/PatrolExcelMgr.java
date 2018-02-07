@@ -16,6 +16,8 @@ public class PatrolExcelMgr extends ServiceBase{
 		try{
 			for (int i =0; i < exportPatrolRoutineVoList.size(); i++) {
 				ExportPatrolRoutineVo vo = exportPatrolRoutineVoList.get(i);
+				
+				
 			}
 		} catch (Exception e){
 			logger.error(getClassName() + ".generateExcel() - exportPatrolRoutineVoList=" + exportPatrolRoutineVoList, e);

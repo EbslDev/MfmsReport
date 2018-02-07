@@ -22,7 +22,7 @@ public class PropGenMainConsole {
 			boolean isUsingFileNameRoot = false;
 			if (args.length < 1) {
 				if (!isUsingFileNameRoot) {
-					fileNamesString = "mysql.db.properties,sys.properties";
+					fileNamesString = "mysql.db.properties,sys.properties,report.properties";
 				} else {
 					List<File> fileList = new ArrayList<File>();
 					fileUtils.traverseDir(FILE_NAME_ROOT, fileList);
