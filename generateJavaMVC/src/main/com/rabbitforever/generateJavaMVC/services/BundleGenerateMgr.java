@@ -156,7 +156,7 @@ public class BundleGenerateMgr {
 
 				if (functionString != null) {
 					// setter
-					sb.append("\tpublic void set" + functionString + "(String" + propertyString + "){\n");
+					sb.append("\tpublic void set" + functionString + "(String " + propertyString + "){\n");
 					sb.append("\t\tthis." + propertyString + " = " + propertyString + ";\n");
 					sb.append("\t}\n");
 					// getter
@@ -176,15 +176,15 @@ public class BundleGenerateMgr {
 					String upperEnLang = Misc.upperStringFirstChar(Misc.LANG_EN);
 					String upperTcLang = Misc.upperStringFirstChar(Misc.LANG_TC);
 					// getter
-					sb.append("\tpublic void get" + functionString + "(){\n");
+					sb.append("\tpublic String get" + functionString + "(){\n");
 					sb.append("\t\tString property = null;\n");
-					sb.append("\t\tif(this.lang == null)){\n");
+					sb.append("\t\tif(this.lang == null){\n");
 					sb.append("\t\t\tthis.lang = LANG_EN;\n");
 					sb.append("\t\t}\n");
 					sb.append("\t\tif(this.lang.equals(LANG_TCHI)){\n");
 					sb.append("\t\t\tproperty = this.get" + functionString + upperTcLang + "();\n");
 					sb.append("\t\t} else\n");
-					sb.append("\t\tif(this.lang.equals(LANG_EN){\n");
+					sb.append("\t\tif(this.lang.equals(LANG_EN)){\n");
 					sb.append("\t\t\tproperty = this.get" + functionString + upperEnLang + "();\n");
 					sb.append("\t\t} else {\n");
 					sb.append("\t\t\tproperty = this.get" + functionString + upperEnLang + "();\n");

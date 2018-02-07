@@ -23,6 +23,15 @@ public class SysProperties extends PropertiesBase{
 	private String bundleDirName;
 	private String factoriesDirName;
 	private String factoriesBuilderDirName;
+	private String utilsDirName;
+	
+	
+	public String getUtilsDirName() {
+		return utilsDirName;
+	}
+	public void setUtilsDirName(String utilsDirName) {
+		this.utilsDirName = utilsDirName;
+	}
 	public String getSosDirName() {
 		return sosDirName;
 	}

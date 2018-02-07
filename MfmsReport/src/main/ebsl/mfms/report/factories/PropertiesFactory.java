@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ebsl.mfms.report.bundles.MysqlDbProperties;
+import ebsl.mfms.report.bundles.ReportProperties;
 import ebsl.mfms.report.bundles.SysProperties;
 import ebsl.mfms.report.factories.builders.BundlesBuilder;
 import ebsl.mfms.report.factories.builders.MysqlDbBundlesBuilder;
@@ -17,10 +18,11 @@ public class PropertiesFactory {
 	private BundlesBuilder<SysProperties> sysBundlesUtils;
 	private final String SYS_PROPERTIES_FILE = "sys.properties";
 	private final String MYSQL_DB_PROPERTIES_FILE = "mysql.db.properties";
-	
+	private final String REPORT_PROPERTIES_FILE = "report.properties";
 	private static PropertiesFactory propertiesFactory;
 	private static MysqlDbProperties mysqlDbProperties;
 	private static SysProperties sysProperties;
+	private static ReportProperties reportProperties;
 	private String getClassName() {
 		String className = this.getClassName();
 		return className;
@@ -81,6 +83,23 @@ public class PropertiesFactory {
 			throw ex;
 		}
 		return sysProperties;
+	}
+	
+	public ReportProperties getInstanceOfReportProperties() throws Exception {
+		try {
+			if(sysBundlesUtils == null) {
+				sysBundlesUtils = new SysBundlesBuilder(REPORT_PROPERTIES_FILE);
+			}
+//			reportProperties = (ReportProperties) reportBundlesUtils.build();
+			if (sysProperties == null) {
+				throw new Exception(REPORT_PROPERTIES_FILE + " does not exist!");
+			}
+
+		} catch (Exception ex) {
+			logger.error(className + ".getInstanceOfReportProperties() - ", ex);
+			throw ex;
+		}
+		return reportProperties;
 	}
 
 }

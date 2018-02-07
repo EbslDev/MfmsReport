@@ -64,7 +64,7 @@ public class BundleBuilderGenerateMgr {
 			upperFirstPropertiesName =  objUpperFirstCharClassName + "Properties";
 			lowerFirstPropertiesName = objLowerFirstCharClassName + "Properties";
 			String objUpperFirstCharClassName = Misc.upperStringFirstChar(objLowerFirstCharClassName);
-			String fileFolder = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirectory + "\\models\\builders";
+			String fileFolder = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirectory + "\\" + factoriesDirName + "\\" +  factoriesBuilderDirName + "";
 			String objFile = fileFolder + "\\" + objUpperFirstCharClassName + "BundlesBuilder.java";
 			FileUtils fileUtils = new FileUtils();
 			fileUtils.createDirectoryIfNotExisted(fileFolder);

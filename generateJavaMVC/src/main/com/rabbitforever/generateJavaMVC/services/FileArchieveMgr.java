@@ -33,7 +33,10 @@ public class FileArchieveMgr {
 			String servicesDirName = sysProperties.getServicesDirName();
 			String javaDirName = sysProperties.getJavaDirName();
 			String systemRootDirName = sysProperties.getSystemRootDirectory();
-			
+			String factoriesDirName = sysProperties.getFactoriesDirName();
+			String factoriesBuilderDirName = sysProperties.getFactoriesBuilderDirName();
+			String bundlerDirName = sysProperties.getBundleDirName();
+			String utilsDirName = sysProperties.getUtilsDirName();
 			File tempDir = new File(tempDirPath);
 	
 			// if the directory does not exist, create it
@@ -134,6 +137,24 @@ public class FileArchieveMgr {
 				System.out.println("creating directory: " + daosDirPath);
 				daosDir.mkdir();
 			}				
+			
+			// builder
+			String builderDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName + "\\" + factoriesDirName + "\\" +  factoriesBuilderDirName + "";
+			File builderDir = new File(builderDirPath);
+			if (!builderDir.exists())
+			{
+				System.out.println("creating directory: " + builderDir);
+				builderDir.mkdir();
+			}			
+			
+			// util
+			String utilDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName + "\\" + utilsDirName + "";
+			File utilDir = new File(utilDirPath);
+			if (!utilDir.exists())
+			{
+				System.out.println("creating directory: " + utilDir);
+				utilDir.mkdir();
+			}			
 			
 //			// cmd
 //			String cmdsDirPath = outputRootDirectory + "\\" + javaDirName + "\\" + systemRootDirName +"\\cmds";

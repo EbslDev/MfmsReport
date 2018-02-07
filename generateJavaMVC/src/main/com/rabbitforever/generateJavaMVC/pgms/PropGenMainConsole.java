@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.rabbitforever.generateJavaMVC.services.BundleBuilderGenerateMgr;
 import com.rabbitforever.generateJavaMVC.services.BundleGenerateMgr;
+import com.rabbitforever.generateJavaMVC.services.BundleUtilsGenerateMgr;
+import com.rabbitforever.generateJavaMVC.services.FileArchieveMgr;
 import com.rabbitforever.generateJavaMVC.utils.FileUtils;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -14,6 +16,9 @@ public class PropGenMainConsole {
 
 	public static void main(String[] args) {
 		try {
+			FileArchieveMgr fileArchieveMgr = new FileArchieveMgr();
+			fileArchieveMgr.maintainFileArchieve();
+			
 			FileUtils fileUtils = new FileUtils();
 			String path = new File(".").getCanonicalPath();
 			final String FILE_NAME_ROOT = "d:/universe_git/MfmsReport/properties";
@@ -59,7 +64,10 @@ public class PropGenMainConsole {
 				bundleGenerateMgr.generateBundle();
 				
 				BundleBuilderGenerateMgr bundleBuilderGenerateMgr = new BundleBuilderGenerateMgr(lineList, fileName);
-				bundleBuilderGenerateMgr.generateBuilder();				
+				bundleBuilderGenerateMgr.generateBuilder();	
+				
+				BundleUtilsGenerateMgr bundleUtilsGenerateMgr = new BundleUtilsGenerateMgr(lineList, fileName);
+				bundleUtilsGenerateMgr.generateBundleUtils();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
