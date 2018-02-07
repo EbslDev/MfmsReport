@@ -12,11 +12,13 @@ public class PatrolExcelMgr extends ServiceBase{
 	private String getClassName(){
 		return this.getClass().getName();
 	}
-	public void generateExcel(List<ExportPatrolRoutineVo> exportPatrolRoutineVo ) throws Exception {
+	public void generateExcel(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList) throws Exception {
 		try{
-			
+			for (int i =0; i < exportPatrolRoutineVoList.size(); i++) {
+				ExportPatrolRoutineVo vo = exportPatrolRoutineVoList.get(i);
+			}
 		} catch (Exception e){
-			logger.error(getClassName() + ".generateExcel() - exportPatrolRoutineVo=" + exportPatrolRoutineVo, e);
+			logger.error(getClassName() + ".generateExcel() - exportPatrolRoutineVoList=" + exportPatrolRoutineVoList, e);
 			throw e;
 		}
 	}

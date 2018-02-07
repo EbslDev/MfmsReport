@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ebsl.mfms.report.factories.DbUtilsFactory;
-import ebsl.mfms.report.factories.GeneralUtilsFactory;
+import ebsl.mfms.report.factories.UtilsFactory;
 import ebsl.mfms.report.utils.DbUtils;
 import ebsl.mfms.report.utils.MiscUtils;
 
@@ -21,7 +21,7 @@ public abstract class DaoBase <T>{
 	public final static String CONNECTION_TYPE_JNDI = "jndi";
 	protected DbUtilsFactory dbUtilsFactory;
 	protected DbUtils dbUtils;
-	protected GeneralUtilsFactory generalUtilsFactory;
+	protected UtilsFactory generalUtilsFactory;
 	protected MiscUtils miscUtils;
 	protected Connection connection;
 	protected String connectionType;
@@ -65,7 +65,7 @@ public abstract class DaoBase <T>{
 			if (this.connectionType.equals(CONNECTION_TYPE_JDBC)) {
 				dbUtilsFactory = DbUtilsFactory.getInstanceOfDbUtilsFactory();
 				dbUtils = dbUtilsFactory.getInstanceOfMySqlDbUtils();
-				generalUtilsFactory = GeneralUtilsFactory.getInstanceOfGeneralUtilsFactory();
+				generalUtilsFactory = UtilsFactory.getInstance();
 				miscUtils = generalUtilsFactory.getInstanceOfMiscUtils();
 				connection = dbUtils.getConnection();
 			} else if (this.connectionType.equals(CONNECTION_TYPE_JNDI)) {
