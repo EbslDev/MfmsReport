@@ -10,6 +10,9 @@ import javax.ws.rs.QueryParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import ebsl.mfms.report.models.sos.ExportPatrolRoutineSo;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.services.TblPatrolresultMgr;
@@ -25,19 +28,19 @@ public class GeneratePatrolReportWs {
 	@GET
 	@Path("/test")
 	@Produces("text/plain")
-	public String getAllConsolidateJob(){ 
+	public String test(){ 
 		String returnString = "";
 		try{
-			returnString = "Test";
+			returnString = "Test return from GeneratePatrolReportWs()";
 		}catch (Exception e){
-			logger.error("ConsolidateJobsWs.getAllConsolidateJob() - Exception: ", e);
+			logger.error(getClassName() + ".getAllConsolidateJob() - Exception: ", e);
 		}
 		return returnString;
 	}
 	@GET
-	@Path("/exportPatrolRoutine")
+	@Path("/requestPatrolRoutineJson")
 	@Produces("text/plain")
-	public String exportPatrolRoutine(
+	public String requestPatrolRoutineJson(
 			@QueryParam("siteKey") Integer siteKey,
 			@QueryParam("resultStartDate") String resultStartDate,
 			@QueryParam("resultEndDate") String resultEndDate,
@@ -50,9 +53,9 @@ public class GeneratePatrolReportWs {
 			ExportPatrolRoutineSo so = new ExportPatrolRoutineSo();
 			so.setSiteKey(2);
 			List<ExportPatrolRoutineVo> voList =  manager.readByExportPatrolRoutineSo(so);
-			for(ExportPatrolRoutineVo vo: voList) {
-				
-			}
+			Gson gson = new GsonBuilder().create();
+			returnString = gson.toJson(voList);
+			 
 		}catch (Exception e){
 			logger.error(getClassName() + ".generateReport() - Exception: ", e);
 		}

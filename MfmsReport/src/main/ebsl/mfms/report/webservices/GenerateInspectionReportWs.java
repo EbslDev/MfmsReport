@@ -15,7 +15,7 @@ import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.services.TblPatrolresultMgr;
 
 //http://localhost:8080/MfmsReport/rest/generateInspectionReportWs/test
-//http://localhost:8080/MfmsReport/rest/generateInspectionReportWs/exportInspection
+//http://localhost:8080/MfmsReport/rest/generateInspectionReportWs/requestInspectionJson
 @Path("/generateInspectionReportWs")
 public class GenerateInspectionReportWs {
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
@@ -24,9 +24,9 @@ public class GenerateInspectionReportWs {
 		return this.getClass().getName();
 	}
 	@GET
-	@Path("/exportInspection")
+	@Path("/requestInspectionJson")
 	@Produces("text/plain")
-	public String exportInspection(
+	public String requestInspectionJson(
 			@QueryParam("xxx") Integer siteKey,
 			@QueryParam("xxx") String resultStartDate,
 			@QueryParam("xxx") String resultEndDate,
