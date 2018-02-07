@@ -47,7 +47,11 @@
 			<url>http://download.java.net/maven/2/</url>
 			<layout>default</layout>
 		</repository>		 
-	</repositories>  
+	</repositories>
+    <properties>
+        <jersey2.version>2.25</jersey2.version>
+        <jaxrs.version>2.1</jaxrs.version>
+    </properties>  
 	<dependencies>
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 		<dependency>
@@ -55,23 +59,28 @@
 		    <artifactId>poi</artifactId>
 		    <version>3.9</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-server -->
-		<dependency>
-		    <groupId>com.sun.jersey</groupId>
-		    <artifactId>jersey-server</artifactId>
-		    <version>1.19</version>
-		</dependency>
+        <!-- JAX-RS -->
         <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-servlet</artifactId>
-            <version>1.19</version>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>${jaxrs.version}</version>
+        </dependency>
+        <!-- Jersey 2.19 -->
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>${jersey2.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sun.jersey</groupId>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>1.19</version>
-        </dependency>
+            <version>${jersey2.version}</version>
+        </dependency> 
 <!-- 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
