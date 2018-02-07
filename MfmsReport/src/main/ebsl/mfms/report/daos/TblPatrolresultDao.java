@@ -157,8 +157,8 @@ public class TblPatrolresultDao extends DaoBase<TblPatrolresultEo>{
 		StringBuilder whereSql = null;
 		PreparedStatement preparedStatement = null;
 		try{
-			if (so instanceof ExportPatrolRoutineVo == false) {
-				throw new Exception("so is not an instanceof ExportPatrolRoutineVo");
+			if (so instanceof ExportPatrolRoutineSo == false) {
+				throw new Exception("so is not an instanceof ExportPatrolRoutineSo");
 			}
 			ExportPatrolRoutineSo exportPatrolRoutineSo = (ExportPatrolRoutineSo) so;
 			whereSql = new StringBuilder("where ");

@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import ebsl.mfms.report.models.sos.ExportPatrolRoutineSo;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.services.TblPatrolresultMgr;
-
-//http://localhost:8080/MfmsReport/rest/generateReportWs/generateReport
+//http://localhost:8080/MfmsReport/rest/generateReportWs/test
+//http://localhost:8080/MfmsReport/rest/generateReportWs/exportPatrolRoutine
 @Path("/generateReportWs")
 public class GenerateReportWs {
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
@@ -35,9 +35,9 @@ public class GenerateReportWs {
 		return returnString;
 	}
 	@GET
-	@Path("/generateReport")
+	@Path("/exportPatrolRoutine")
 	@Produces("text/plain")
-	public String generateReport(
+	public String exportPatrolRoutine(
 			@QueryParam("siteKey") Integer siteKey,
 			@QueryParam("resultStartDate") String resultStartDate,
 			@QueryParam("resultEndDate") String resultEndDate,
