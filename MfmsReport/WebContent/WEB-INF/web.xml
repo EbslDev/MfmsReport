@@ -31,9 +31,9 @@
     </servlet-mapping>  
 
 
-<!-- 	<servlet>
+	<servlet>
 	  <servlet-name>Initializer</servlet-name>
 	  <servlet-class>ebsl.mfms.report.systems.Initializer</servlet-class>
 	  <load-on-startup>1</load-on-startup>
-	</servlet>  -->  
+	</servlet>
 </web-app>

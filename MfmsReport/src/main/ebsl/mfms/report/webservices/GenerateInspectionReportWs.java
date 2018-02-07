@@ -23,6 +23,20 @@ public class GenerateInspectionReportWs {
 	private String getClassName(){
 		return this.getClass().getName();
 	}
+	
+	@GET
+	@Path("/test")
+	@Produces("text/plain")
+	public String test(){ 
+		String returnString = "";
+		try{
+			returnString = "Test return from GenerateInspectionReportWs()";
+		}catch (Exception e){
+			logger.error(getClassName() + ".GenerateInspectionReportWs() - Exception: ", e);
+		}
+		return returnString;
+	}
+	
 	@GET
 	@Path("/requestInspectionJson")
 	@Produces("text/plain")
