@@ -114,7 +114,7 @@ public class ServiceGenerateMgr {
 			sb.append("\t\ttry{\n");
 			sb.append("\t\t\tinit(null);\n");
 			sb.append("\t\t} catch (Exception e){\n");
-			sb.append("\t\t\tlogger.error(getClassName() + \"." + serviceClassName + "Mgr() - connectionType=\", e);\n");
+			sb.append("\t\t\tlogger.error(getClassName() + \"." + serviceClassName + "Mgr() - connectionType=null\", e);\n");
 			sb.append("\t\t\tthrow e;\n");
 			sb.append("\t\t}\n");
 			sb.append("\t} // end constructor\n");

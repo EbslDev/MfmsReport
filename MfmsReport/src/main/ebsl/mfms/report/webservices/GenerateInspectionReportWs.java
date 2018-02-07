@@ -57,7 +57,31 @@ public class GenerateInspectionReportWs {
 //				
 //			}
 		}catch (Exception e){
-			logger.error(getClassName() + ".generateReport() - Exception: ", e);
+			logger.error(getClassName() + ".requestInspectionJson() - Exception: ", e);
+		}
+		return returnString;
+	}
+	@GET
+	@Path("/requestInspectionExcel")
+	@Produces("text/plain")
+	public String requestInspectionExcel(
+			@QueryParam("xxx") Integer siteKey,
+			@QueryParam("xxx") String resultStartDate,
+			@QueryParam("xxx") String resultEndDate,
+			@QueryParam("xxx") String routeKeyList,
+			@QueryParam("xxx") String routeLocationList
+			){ 
+		String returnString = "";
+		try{
+//			TblPatrolresultMgr manager = new TblPatrolresultMgr();
+//			ExportPatrolRoutineSo so = new ExportPatrolRoutineSo();
+//			so.setSiteKey(2);
+//			List<ExportPatrolRoutineVo> voList =  manager.readByExportPatrolRoutineSo(so);
+//			for(ExportPatrolRoutineVo vo: voList) {
+//				
+//			}
+		}catch (Exception e){
+			logger.error(getClassName() + ".requestInspectionExcel() - Exception: ", e);
 		}
 		return returnString;
 	}

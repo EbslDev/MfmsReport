@@ -57,9 +57,31 @@ public class GeneratePatrolReportWs {
 			returnString = gson.toJson(voList);
 			 
 		}catch (Exception e){
-			logger.error(getClassName() + ".generateReport() - Exception: ", e);
+			logger.error(getClassName() + ".requestPatrolRoutineJson() - Exception: ", e);
 		}
 		return returnString;
 	}
-	
+	@GET
+	@Path("/requestPatrolRoutineExcel")
+	@Produces("text/plain")
+	public String requestPatrolRoutineExcel(
+			@QueryParam("siteKey") Integer siteKey,
+			@QueryParam("resultStartDate") String resultStartDate,
+			@QueryParam("resultEndDate") String resultEndDate,
+			@QueryParam("routeKeyList") String routeKeyList,
+			@QueryParam("routeLocationList") String routeLocationList
+			){ 
+		String returnString = "";
+		try{
+			TblPatrolresultMgr manager = new TblPatrolresultMgr();
+			ExportPatrolRoutineSo so = new ExportPatrolRoutineSo();
+			so.setSiteKey(2);
+			List<ExportPatrolRoutineVo> voList =  manager.readByExportPatrolRoutineSo(so);
+
+			 
+		}catch (Exception e){
+			logger.error(getClassName() + ".requestPatrolRoutineExcel() - Exception: ", e);
+		}
+		return returnString;
+	}
 }

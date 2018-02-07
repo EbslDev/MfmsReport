@@ -16,7 +16,7 @@ public class TblLocationMgr extends ServiceBase{
 		try{
 			init(null);
 		} catch (Exception e){
-			logger.error(getClassName() + ".TblLocationMgr() - connectionType=", e);
+			logger.error(getClassName() + ".TblLocationMgr() - connectionType=null", e);
 			throw e;
 		}
 	} // end constructor
