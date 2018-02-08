@@ -1,7 +1,11 @@
 package ebsl.mfms.report.services;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
+
+import javax.servlet.ServletOutputStream;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -40,7 +44,17 @@ public class PatrolExcelMgr extends ServiceBase{
 	private String getClassName(){
 		return this.getClass().getName();
 	}
-	public void generateExcel(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList) throws Exception {
+	
+	public void generateExcelAndSave(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList) throws Exception {
+		try{
+			generateExcel(exportPatrolRoutineVoList, null);
+			
+		} catch (Exception e){
+			logger.error(getClassName() + ".generateExcel() - exportPatrolRoutineVoList=" + exportPatrolRoutineVoList, e);
+			throw e;
+		}
+	}
+	public void generateExcel(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList, ByteArrayOutputStream  out) throws Exception {
 		String rootDir = null;
 		String fileName = null;
 		String fileNamePrefix = null;
@@ -71,8 +85,13 @@ public class PatrolExcelMgr extends ServiceBase{
 				Cell cell4 = row.createCell(4);
 				cell4.setCellValue(vo.getReadingResult());	
 			}
-			outputStream = new FileOutputStream(fileName);
-			workbook.write(outputStream);
+			if (out == null) { // write to file Directly
+				outputStream = new FileOutputStream(fileName);
+				workbook.write(outputStream);
+			} else {
+				workbook.write(out);
+			}
+	
 //			workbook.close();
 			
 		} catch (Exception e){
