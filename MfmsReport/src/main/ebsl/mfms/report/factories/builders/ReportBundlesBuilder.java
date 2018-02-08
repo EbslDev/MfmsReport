@@ -36,6 +36,8 @@ public class ReportBundlesBuilder extends BundlesBuilder<ReportProperties>{
 			reportProperties.setInspectionExcelPrefixTc(inspectionExcelPrefixTc);
 			String inspectionExcelSuffixTc = getPropValues("inspection_excel_suffix.tc");
 			reportProperties.setInspectionExcelSuffixTc(inspectionExcelSuffixTc);
+			String reportDirectory = getPropValues("report_directory");
+			reportProperties.setReportDirectory(reportDirectory);
 		} catch (Exception e) {
 			this.logger.error(getClassName() + ".build() - this.fileName=" + this.fileName, e);
 			throw e;

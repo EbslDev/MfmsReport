@@ -15,18 +15,22 @@ import ebsl.mfms.report.factories.PropertiesFactory;
 import ebsl.mfms.report.factories.UtilsFactory;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.utils.CommonUtils;
+import ebsl.mfms.report.utils.FileUtils;
 public class PatrolExcelMgr extends ServiceBase{
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
 	private PropertiesFactory propertiesFactory;
 	private ReportProperties reportProperties;
 	private UtilsFactory utilsFactory;
 	private CommonUtils commonUtils;
+	private FileUtils fileUtils;
+	private final String EXCEL_EXT = ".xlsx";
 	public PatrolExcelMgr() throws Exception{
 		try {
 			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
 			reportProperties = propertiesFactory.getInstanceOfReportProperties();
 			utilsFactory = UtilsFactory.getInstance();
 			commonUtils = utilsFactory.getInstanceOfCommonUtils();
+			fileUtils = utilsFactory.getInstanceOfFileUtils();
 		} catch (Exception e) {
 			logger.error(getClassName() + ".PatrolExcelMgr()" , e);
 			throw e;
@@ -43,7 +47,7 @@ public class PatrolExcelMgr extends ServiceBase{
 		String fileNameSuffix = null;
 		XSSFWorkbook workbook = null;
 		XSSFSheet sheet = null;
-		FileOutputStream outputStream;
+		FileOutputStream outputStream = null;
 		
 		try{
 			workbook = new XSSFWorkbook();
@@ -51,7 +55,8 @@ public class PatrolExcelMgr extends ServiceBase{
 			rootDir = reportProperties.getReportDirectory();
 			fileNamePrefix = reportProperties.getPatrolExcelPrefix();
 			fileNameSuffix = reportProperties.getPatrolExcelSuffix();
-			fileName =rootDir + "/" + fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString();
+			fileName =rootDir + "/" + fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + EXCEL_EXT;
+			fileUtils.createDirectoryIfNotExisted(rootDir);
 			for (int r =0; r < exportPatrolRoutineVoList.size(); r++) {
 				ExportPatrolRoutineVo vo = exportPatrolRoutineVoList.get(r);
 				Row row = sheet.createRow(r);
@@ -73,6 +78,14 @@ public class PatrolExcelMgr extends ServiceBase{
 		} catch (Exception e){
 			logger.error(getClassName() + ".generateExcel() - exportPatrolRoutineVoList=" + exportPatrolRoutineVoList, e);
 			throw e;
+		} finally {
+			if (workbook != null) {
+				workbook = null;
+			}
+			if (outputStream != null) {
+				outputStream.close();
+				outputStream = null;
+			}
 		}
 	}
 }

@@ -10,6 +10,6 @@ public abstract class PropertiesBase {
 	}
 
 	public PropertiesBase() {
-		lang =LANG_TCHI;
+		lang =LANG_EN;
 	}
 }
