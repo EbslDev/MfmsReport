@@ -23,12 +23,12 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class CommonUtils {
 	private final Logger logger = LoggerFactory.getLogger(CommonUtils.class);
-	private UtilsFactory utilsFactory;
-	private CalendarUtils calendarUtils;
+//	private UtilsFactory utilsFactory;
+//	private CalendarUtils calendarUtils;
 	
 	public CommonUtils() {
-		utilsFactory = UtilsFactory.getInstance();
-		calendarUtils = utilsFactory.getInstanceOfCalendarUtils();
+//		utilsFactory = UtilsFactory.getInstance();
+//		calendarUtils = utilsFactory.getInstanceOfCalendarUtils();
 	}
 	private String getClassName() {
 		String className = this.getClassName();
@@ -279,20 +279,20 @@ public class CommonUtils {
 		return mySqlDateString;
 	}
 	
-	public String convertCalendar2MySqlDateString(Calendar cal) throws Exception{
-		String mySqlDateString = "";
-		SimpleDateFormat sdf = null;
-		try{
-			sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			sdf.setTimeZone(calendarUtils.getUtcTimeZone());
-			mySqlDateString = sdf.format(cal.getTime());
-			
-		} catch (Exception e){
-			logger.error(getClassName() + ".convertDate2MySqlDateString() - cal=" + cal, e);
-			throw e;
-		}
-		return mySqlDateString;
-	}
+//	public String convertCalendar2MySqlDateString(Calendar cal) throws Exception{
+//		String mySqlDateString = "";
+//		SimpleDateFormat sdf = null;
+//		try{
+//			sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//			sdf.setTimeZone(calendarUtils.getUtcTimeZone());
+//			mySqlDateString = sdf.format(cal.getTime());
+//			
+//		} catch (Exception e){
+//			logger.error(getClassName() + ".convertDate2MySqlDateString() - cal=" + cal, e);
+//			throw e;
+//		}
+//		return mySqlDateString;
+//	}
 	
 	public String convertUnixTime2DateString(Integer unixtime) throws Exception{
 		Date unixTimeDate = null;
