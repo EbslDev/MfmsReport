@@ -68,7 +68,7 @@ public class PatrolExcelMgr extends ServiceBase{
 			}
 			outputStream = new FileOutputStream(fileName);
 			workbook.write(outputStream);
-			workbook.close();
+//			workbook.close();
 			
 		} catch (Exception e){
 			logger.error(getClassName() + ".generateExcel() - exportPatrolRoutineVoList=" + exportPatrolRoutineVoList, e);
