@@ -101,7 +101,7 @@ public class BundleUtilsGenerateMgr {
 			// --- class
 			sb.append("public class " + utilsClassName + bundleUtilsSuffix + " extends BundlesUtils" + "<" + utilsClassName + propertiesSuffix + ">");
 			sb.append("{\n");
-
+			sb.append("\t\tprivate String className;\n");
 
 
 			// properties
@@ -137,26 +137,34 @@ public class BundleUtilsGenerateMgr {
 			
 			// member variables - EN
 			for (String line : lineList) {
+				String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line, Misc.LANG_EN);
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_EN);
+				String propertyOriginalString = Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line,
+						Misc.LANG_EN);
 				if (propertyString != null) {
-					sb.append("\t\t\tString " + propertyString + "=getPropValues(\"" + line +"\");\n");
+					sb.append("\t\t\tString " + propertyString + "=getPropValues(\"" + propertyOriginalString +"\");\n");
 					sb.append("\t\t\t" + utilsObjectName + propertiesSuffix + ".set" + Misc.upperStringFirstChar(propertyString) + "(" + propertyString + ");\n");
 				}
 			}
 			// member variables - TC
 			for (String line : lineList) {
+				String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line, Misc.LANG_TC);
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line, Misc.LANG_TC);
+				String propertyOriginalString = Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line,
+						Misc.LANG_TC);
 				if (propertyString != null) {
-					sb.append("\t\t\tString " + propertyString + "=getPropValues(\"" + line +"\");\n");
+					sb.append("\t\t\tString " + propertyString + "=getPropValues(\"" + propertyOriginalString +"\");\n");
 					sb.append("\t\t\t" + utilsObjectName + propertiesSuffix + ".set" + Misc.upperStringFirstChar(propertyString) + "(" + propertyString + ");\n");
 				}
 			}
 
 			// methods - no language specification
 			for (String line : lineList) {
+				String functionString = Misc.convertBundleFieldsFormat2JavaFnFormat(line);
 				String propertyString = Misc.convertBundleFieldsFormat2JavaPropertiesFormat(line);
+				String propertyOriginalString = Misc.convertBundleFieldsFormat2OriginalUnderScoreFormat(line);
 				if (propertyString != null) {
-					sb.append("\t\t\tString " + propertyString + "=getPropValues(\"" + line +"\");\n");
+					sb.append("\t\t\tString " + propertyString + "=getPropValues(\"" + propertyOriginalString +"\");\n");
 					sb.append("\t\t\t" + utilsObjectName + propertiesSuffix + ".set" + Misc.upperStringFirstChar(propertyString) + "(" + propertyString + ");\n");
 				}
 			}
