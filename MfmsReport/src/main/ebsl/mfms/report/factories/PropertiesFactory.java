@@ -8,6 +8,7 @@ import ebsl.mfms.report.bundles.ReportProperties;
 import ebsl.mfms.report.bundles.SysProperties;
 import ebsl.mfms.report.factories.builders.BundlesBuilder;
 import ebsl.mfms.report.factories.builders.MysqlDbBundlesBuilder;
+import ebsl.mfms.report.factories.builders.ReportBundlesBuilder;
 import ebsl.mfms.report.factories.builders.SysBundlesBuilder;
 
 public class PropertiesFactory {
@@ -15,7 +16,8 @@ public class PropertiesFactory {
 	private final static String className = PropertiesFactory.class.getName();
 	
 	
-	private BundlesBuilder<SysProperties> sysBundlesUtils;
+	private BundlesBuilder<SysProperties> sysBundlesBuilder;
+	private BundlesBuilder<ReportProperties> reportBundleBuilder;
 	private final String SYS_PROPERTIES_FILE = "sys.properties";
 	private final String MYSQL_DB_PROPERTIES_FILE = "mysql.db.properties";
 	private final String REPORT_PROPERTIES_FILE = "report.properties";
@@ -70,10 +72,10 @@ public class PropertiesFactory {
 	
 	public SysProperties getInstanceOfSysProperties() throws Exception {
 		try {
-			if(sysBundlesUtils == null) {
-				sysBundlesUtils = new SysBundlesBuilder(SYS_PROPERTIES_FILE);
+			if(sysBundlesBuilder == null) {
+				sysBundlesBuilder = new SysBundlesBuilder(SYS_PROPERTIES_FILE);
 			}
-			sysProperties = (SysProperties) sysBundlesUtils.build();
+			sysProperties = (SysProperties) sysBundlesBuilder.build();
 			if (sysProperties == null) {
 				throw new Exception(SYS_PROPERTIES_FILE + " does not exist!");
 			}
@@ -87,11 +89,11 @@ public class PropertiesFactory {
 	
 	public ReportProperties getInstanceOfReportProperties() throws Exception {
 		try {
-			if(sysBundlesUtils == null) {
-				sysBundlesUtils = new SysBundlesBuilder(REPORT_PROPERTIES_FILE);
+			if(reportBundleBuilder == null) {
+				reportBundleBuilder = new ReportBundlesBuilder(REPORT_PROPERTIES_FILE);
 			}
-//			reportProperties = (ReportProperties) reportBundlesUtils.build();
-			if (sysProperties == null) {
+			reportProperties = (ReportProperties) reportBundleBuilder.build();
+			if (reportProperties == null) {
 				throw new Exception(REPORT_PROPERTIES_FILE + " does not exist!");
 			}
 
