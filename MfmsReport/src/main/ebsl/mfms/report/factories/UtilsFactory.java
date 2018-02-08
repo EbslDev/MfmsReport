@@ -21,7 +21,7 @@ public class UtilsFactory {
 		String className = UtilsFactory.class.getName();
 		return className;
 	}
-	public static CommonUtils getInstanceOfCommonUtils()
+	public CommonUtils getInstanceOfCommonUtils()
 	{
 		if (commonUtils == null) {
 			commonUtils = new CommonUtils();

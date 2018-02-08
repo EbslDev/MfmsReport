@@ -8,6 +8,7 @@ public class ReportProperties extends PropertiesBase{
 	public ReportProperties(String lang) {
 		super(lang);
 }
+	private String reportDirectory;
 	private String patrolExcelPrefixEn;
 	private String patrolExcelSuffixEn;
 	private String inspectionExcelPrefixEn;
@@ -16,6 +17,12 @@ public class ReportProperties extends PropertiesBase{
 	private String patrolExcelSuffixTc;
 	private String inspectionExcelPrefixTc;
 	private String inspectionExcelSuffixTc;
+	public void setReportDirectory(String reportDirectory){
+		this.reportDirectory = reportDirectory;
+	}
+	public String getReportDirectory(){
+		return this.reportDirectory;
+	}
 	public void setPatrolExcelPrefixEn(String patrolExcelPrefixEn){
 		this.patrolExcelPrefixEn = patrolExcelPrefixEn;
 	}

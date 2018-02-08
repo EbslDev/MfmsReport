@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 
 import ebsl.mfms.report.models.sos.ExportPatrolRoutineSo;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
+import ebsl.mfms.report.services.PatrolExcelMgr;
 import ebsl.mfms.report.services.TblPatrolresultMgr;
 //http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/test
 //http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/exportPatrolRoutine
@@ -77,7 +78,8 @@ public class GeneratePatrolReportWs {
 			ExportPatrolRoutineSo so = new ExportPatrolRoutineSo();
 			so.setSiteKey(2);
 			List<ExportPatrolRoutineVo> voList =  manager.readByExportPatrolRoutineSo(so);
-
+			PatrolExcelMgr mgr = new PatrolExcelMgr();
+			mgr.generateExcel(voList);
 			 
 		}catch (Exception e){
 			logger.error(getClassName() + ".requestPatrolRoutineExcel() - Exception: ", e);
