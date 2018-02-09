@@ -48,7 +48,7 @@ public class DateUtils {
 		Date date = null;
 		DateFormat formatter = null;
 		try {
-			formatter = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS");
+			formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
 			date = formatter.parse(dateTime);
 		} catch (Exception e) {
 			logger.error(getClassName() + ".convertParamDateTimeString2Date() - dateTime=" + dateTime, e);

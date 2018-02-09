@@ -56,6 +56,10 @@ public abstract class DaoBase <T>{
 	}
 	public void init(String connectionType) throws Exception {
 		try {
+			dbUtilsFactory = DbUtilsFactory.getInstanceOfDbUtilsFactory();
+			dbUtils = dbUtilsFactory.getInstanceOfMySqlDbUtils();
+			generalUtilsFactory = UtilsFactory.getInstance();
+			miscUtils = generalUtilsFactory.getInstanceOfMiscUtils();
 			if (connectionType == null) {
 				this.connectionType = CONNECTION_TYPE_JNDI;
 			} else {
@@ -63,10 +67,7 @@ public abstract class DaoBase <T>{
 			}
 			
 			if (this.connectionType.equals(CONNECTION_TYPE_JDBC)) {
-				dbUtilsFactory = DbUtilsFactory.getInstanceOfDbUtilsFactory();
-				dbUtils = dbUtilsFactory.getInstanceOfMySqlDbUtils();
-				generalUtilsFactory = UtilsFactory.getInstance();
-				miscUtils = generalUtilsFactory.getInstanceOfMiscUtils();
+
 				connection = dbUtils.getConnection();
 			} else if (this.connectionType.equals(CONNECTION_TYPE_JNDI)) {
 				Context initContext = new InitialContext();
