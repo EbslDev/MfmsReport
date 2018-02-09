@@ -52,6 +52,18 @@ public class GeneratePatrolReportWs {
 	private DateUtils dateUtils;
 	private final String EXCEL_EXT = ".xlsx";
 	
+	public GeneratePatrolReportWs() {
+		try {
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			reportProperties = propertiesFactory.getInstanceOfReportProperties();
+			utilsFactory = UtilsFactory.getInstance();
+			commonUtils = utilsFactory.getInstanceOfCommonUtils();
+			fileUtils = utilsFactory.getInstanceOfFileUtils();
+			dateUtils = utilsFactory.getInstanceOfDateUtils();
+		} catch (Exception e) {
+			logger.error(getClassName() + ".GeneratePatrolReportWs() - Exception: ", e);
+		}
+	}
 	private String getClassName(){
 		return this.getClass().getName();
 	}

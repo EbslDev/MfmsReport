@@ -169,12 +169,14 @@ public class TblPatrolresultDao extends DaoBase<TblPatrolresultEo>{
 					whereSql.append("and ");
 				}
 				whereSql.append("pr.pr_SiteKey = ? ");
+				wcount++;
 			}
 			if(exportPatrolRoutineSo.getResultStartDate() != null && exportPatrolRoutineSo.getResultEndDate() != null){
 				if (wcount > 0) {
 					whereSql.append("and ");
 				}
 				whereSql.append("(pr.pr_TimeAttended between ? and ?) ");
+				wcount++;
 			}
 			if(exportPatrolRoutineSo.getRouteKeyList() != null && 
 					exportPatrolRoutineSo.getRouteKeyList().size() > 0){
@@ -196,6 +198,7 @@ public class TblPatrolresultDao extends DaoBase<TblPatrolresultEo>{
 					whereSql.append(routeKey + " ");	
 				}
 				whereSql.append(") ");
+				wcount++;
 				
 			}
 			if(exportPatrolRoutineSo.getRouteLocationKeyList() != null && 
@@ -218,7 +221,7 @@ public class TblPatrolresultDao extends DaoBase<TblPatrolresultEo>{
 					whereSql.append(routeLocationKey + " ");	
 				}
 				whereSql.append(") ");
-				
+				wcount++;
 			}
 			
 			int pcount = 1;

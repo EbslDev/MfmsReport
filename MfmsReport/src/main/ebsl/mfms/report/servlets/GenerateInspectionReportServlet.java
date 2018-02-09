@@ -29,6 +29,9 @@ public class GenerateInspectionReportServlet extends HttpServlet {
 	private CommonUtils commonUtils;
 	private DateUtils dateUtils;
 
+	
+	
+	
 	private String getClassName() {
 		return this.getClass().getName();
 	}
