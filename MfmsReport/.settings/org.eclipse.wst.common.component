@@ -4,6 +4,7 @@
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/" source-path="/WebContent/WEB-INF/classes"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/OutputFiles"/>
         <property name="context-root" value="MfmsReport"/>
         <property name="java-output-path" value="/MfmsReport/build/classes"/>
     </wb-module>

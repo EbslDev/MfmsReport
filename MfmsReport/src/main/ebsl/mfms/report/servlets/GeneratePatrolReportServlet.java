@@ -20,12 +20,14 @@ import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.services.PatrolExcelMgr;
 import ebsl.mfms.report.services.TblPatrolresultMgr;
 import ebsl.mfms.report.utils.CommonUtils;
+import ebsl.mfms.report.utils.DateUtils;
 
 @SuppressWarnings("serial")
 public class GeneratePatrolReportServlet extends HttpServlet {
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
 	private UtilsFactory utilsFactory;
 	private CommonUtils commonUtils;
+	private DateUtils dateUtils;
 	private String getClassName(){
 		return this.getClass().getName();
 	}
@@ -34,6 +36,7 @@ public class GeneratePatrolReportServlet extends HttpServlet {
 		try {
 			utilsFactory = UtilsFactory.getInstance();
 			commonUtils = utilsFactory.getInstanceOfCommonUtils();
+			dateUtils = utilsFactory.getInstanceOfDateUtils();
 		} catch (Exception e) {
 			logger.error(getClassName() + ".ServletException() - Exception: ", e);
 		}
@@ -58,6 +61,13 @@ public class GeneratePatrolReportServlet extends HttpServlet {
 			
 			if (siteKeyString != null && commonUtils.isInteger(siteKeyString)) {
 				siteKey = Integer.parseInt(siteKeyString);
+			}
+			
+			if (resultStartDateString != null) {
+				resultStartDate = dateUtils.convertParamDateTimeString2Date(resultStartDateString);
+			}
+			if (resultEndDateString != null) {
+				resultEndDate = dateUtils.convertParamDateTimeString2Date(resultEndDateString);
 			}
 			
 			if (routeKeyListString != null) {

@@ -2,6 +2,7 @@ package ebsl.mfms.report.servlets;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,56 +11,128 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ebsl.mfms.report.factories.UtilsFactory;
 import ebsl.mfms.report.models.sos.ExportPatrolRoutineSo;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.services.PatrolExcelMgr;
 import ebsl.mfms.report.services.TblPatrolresultMgr;
+import ebsl.mfms.report.utils.CommonUtils;
+import ebsl.mfms.report.utils.DateUtils;
 
 public class GenerateInspectionReportServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	   private String message;
+	private final Logger logger = LoggerFactory.getLogger(getClassName());
+	private UtilsFactory utilsFactory;
+	private CommonUtils commonUtils;
+	private DateUtils dateUtils;
 
-	   public void init() throws ServletException {
-	      // Do required initialization
-	      message = "Hello World";
-	   }
+	private String getClassName() {
+		return this.getClass().getName();
+	}
 
-	   public void doGet(HttpServletRequest request, HttpServletResponse response)
-	      throws ServletException, IOException {
-           ServletOutputStream os = null;
-		   try {
-			   response.setContentType("application/vnd.ms-excel");
+	private String message;
 
-				TblPatrolresultMgr manager = new TblPatrolresultMgr();
-				ExportPatrolRoutineSo so = new ExportPatrolRoutineSo();
-				so.setSiteKey(2);
-				List<ExportPatrolRoutineVo> voList =  manager.readByExportPatrolRoutineSo(so);
-				PatrolExcelMgr mgr = new PatrolExcelMgr();
+	public void init() throws ServletException {
+		try {
+			utilsFactory = UtilsFactory.getInstance();
+			commonUtils = utilsFactory.getInstanceOfCommonUtils();
+			dateUtils = utilsFactory.getInstanceOfDateUtils();
+		} catch (Exception e) {
+			logger.error(getClassName() + ".ServletException() - Exception: ", e);
+		}
+	}
 
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();	
-				mgr.generateExcel(voList, baos);		
-			   
-				byte [] byteArray = baos.toByteArray();
-				response.setContentLength(byteArray.length);
-                os = response.getOutputStream();
-                
-                baos.writeTo(os);
-                
-                baos.close();
-                os.flush();
-                os.close();
-			   response.setHeader("Content-Disposition", "inline; filename=download.xlsx");
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		ServletOutputStream os = null;
+//		ByteArrayOutputStream baos = null;
+//		try {
+//			String siteKeyString = request.getParameter("siteKey");
+//			String resultStartDateString = request.getParameter("resultStartDate");
+//			String resultEndDateString = request.getParameter("resultSEndDate");
+//			String routeKeyListString = request.getParameter("routeKeyList");
+//			String routeLocationListString = request.getParameter("routeLocationList");
+//
+//			Integer siteKey = null;
+//			Date resultStartDate = null;
+//			Date resultEndDate = null;
+//			List<String> routeKeyList = null;
+//			List<String> routeLocationKeyList = null;
+//
+//			if (siteKeyString != null && commonUtils.isInteger(siteKeyString)) {
+//				siteKey = Integer.parseInt(siteKeyString);
+//			}
+//
+//			if (resultStartDateString != null) {
+//				resultStartDate = dateUtils.convertParamDateTimeString2Date(resultStartDateString);
+//			}
+//			if (resultEndDateString != null) {
+//				resultEndDate = dateUtils.convertParamDateTimeString2Date(resultEndDateString);
+//			}
+//
+//			if (routeKeyListString != null) {
+//				routeKeyList = commonUtils.splitByDelimited(routeKeyListString, ",");
+//			}
+//			if (routeLocationListString != null) {
+//				routeLocationKeyList = commonUtils.splitByDelimited(routeLocationListString, ",");
+//			}
+//
+//			ExportPatrolRoutineSo so = new ExportPatrolRoutineSo();
+//			if (siteKey != null) {
+//				so.setSiteKey(siteKey);
+//			}
+//
+//			if (resultStartDate != null) {
+//				so.setResultStartDate(resultStartDate);
+//			}
+//
+//			if (resultEndDate != null) {
+//				so.setResultEndDate(resultEndDate);
+//			}
+//
+//			if (routeKeyList != null) {
+//				so.setRouteKeyList(routeKeyList);
+//			}
+//			if (routeLocationKeyList != null) {
+//				so.setRouteLocationKeyList(routeLocationKeyList);
+//			}
+//
+//			response.setContentType("application/vnd.ms-excel");
+//
+//			TblPatrolresultMgr manager = new TblPatrolresultMgr();
+//
+//			List<ExportPatrolRoutineVo> voList = manager.readByExportPatrolRoutineSo(so);
+//			PatrolExcelMgr mgr = new PatrolExcelMgr();
+//
+//			baos = new ByteArrayOutputStream();
+//			mgr.generateExcel(voList, baos);
+//
+//			byte[] byteArray = baos.toByteArray();
+//			response.setContentLength(byteArray.length);
+//			os = response.getOutputStream();
+//
+//			baos.writeTo(os);
+//
+//			response.setHeader("Content-Disposition", "inline; filename=download.xlsx");
+//
+//		} catch (Exception e) {
+//			logger.error(getClassName() + ".doGet() - Exception: ", e);
+//		} finally {
+//			if (baos != null) {
+//				baos.close();
+//				baos = null;
+//			}
+//			if (os != null) {
+//				os.flush();
+//				os.close();
+//				os = null;
+//			}
+//		}
+	}
 
-		   } catch (Exception e) {
-			   
-		   }
-	   }
-
-	   public void destroy() {
-	      // do nothing.
-	   }
+	public void destroy() {
+		// do nothing.
+	}
 }

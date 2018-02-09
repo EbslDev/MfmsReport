@@ -33,6 +33,18 @@ public class DateUtils {
 		return dateTimeString;
 	}
 
+	public Date convertParamDateTimeString2Date(String dateTime) throws Exception {
+		Date date = null;
+		DateFormat formatter = null;
+		try {
+			formatter = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS");
+			date = formatter.parse(dateTime);
+		} catch (Exception e) {
+			logger.error(getClassName() + ".convertParamDateTimeString2Date() - dateTime=" + dateTime, e);
+			throw e;
+		}
+		return date;
+	}
 	public Date getDefaultNullableDateTime() throws Exception {
 		Calendar cal = null;
 		try {

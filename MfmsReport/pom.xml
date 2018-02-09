@@ -52,6 +52,7 @@
 	<properties>
 		<jersey2.version>2.25</jersey2.version>
 		<jaxrs.version>2.1</jaxrs.version>
+		<jersey2.scope>compile</jersey2.scope>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
@@ -89,6 +90,12 @@
 			<artifactId>jersey-client</artifactId>
 			<version>${jersey2.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+			<version>${jersey2.version}</version>
+			<scope>${jersey2.scope}</scope>
+		</dependency>		
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
