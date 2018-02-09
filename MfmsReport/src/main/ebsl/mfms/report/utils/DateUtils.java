@@ -32,7 +32,18 @@ public class DateUtils {
 		}
 		return dateTimeString;
 	}
-
+	public String convertDateTimeToDisplayDateTimeString(Date date) throws Exception {
+		String dateString = null;
+		DateFormat formatter = null;
+		try {
+			formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			dateString = formatter.format(date);
+		} catch (Exception e) {
+			logger.error(getClassName() + ".convertDateTimeToDisplayDateTimeString() - date=" + date, e);
+			throw e;
+		}
+		return dateString;
+	}
 	public Date convertParamDateTimeString2Date(String dateTime) throws Exception {
 		Date date = null;
 		DateFormat formatter = null;

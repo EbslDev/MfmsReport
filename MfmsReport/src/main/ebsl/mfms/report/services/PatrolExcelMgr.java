@@ -2,10 +2,7 @@ package ebsl.mfms.report.services;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.List;
-
-import javax.servlet.ServletOutputStream;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -19,6 +16,7 @@ import ebsl.mfms.report.factories.PropertiesFactory;
 import ebsl.mfms.report.factories.UtilsFactory;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.utils.CommonUtils;
+import ebsl.mfms.report.utils.DateUtils;
 import ebsl.mfms.report.utils.FileUtils;
 public class PatrolExcelMgr extends ServiceBase{
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
@@ -27,6 +25,7 @@ public class PatrolExcelMgr extends ServiceBase{
 	private UtilsFactory utilsFactory;
 	private CommonUtils commonUtils;
 	private FileUtils fileUtils;
+	private DateUtils dateUtils;
 	private final String EXCEL_EXT = ".xlsx";
 	public PatrolExcelMgr() throws Exception{
 		try {
@@ -35,6 +34,7 @@ public class PatrolExcelMgr extends ServiceBase{
 			utilsFactory = UtilsFactory.getInstance();
 			commonUtils = utilsFactory.getInstanceOfCommonUtils();
 			fileUtils = utilsFactory.getInstanceOfFileUtils();
+			dateUtils = utilsFactory.getInstanceOfDateUtils();
 		} catch (Exception e) {
 			logger.error(getClassName() + ".PatrolExcelMgr()" , e);
 			throw e;
@@ -62,7 +62,7 @@ public class PatrolExcelMgr extends ServiceBase{
 		XSSFWorkbook workbook = null;
 		XSSFSheet sheet = null;
 		FileOutputStream outputStream = null;
-		
+		final int HEADER_ROW = 0;
 		try{
 			workbook = new XSSFWorkbook();
 			sheet = workbook.createSheet("PatrolRoutine");
@@ -71,13 +71,28 @@ public class PatrolExcelMgr extends ServiceBase{
 			fileNameSuffix = reportProperties.getPatrolExcelSuffix();
 			fileName =rootDir + "/" + fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + EXCEL_EXT;
 			fileUtils.createDirectoryIfNotExisted(rootDir);
-			for (int r =0; r < exportPatrolRoutineVoList.size(); r++) {
+			// header row
+			
+			Row headerRow = sheet.createRow(HEADER_ROW);
+			Cell headerCell0 = headerRow.createCell(0); 
+			headerCell0.setCellValue("Route Code");
+			Cell headerCell1 = headerRow.createCell(1);
+			headerCell1.setCellValue("Collection Date & Time");
+			Cell headerCell2 = headerRow.createCell(2);
+			headerCell2.setCellValue("Location code");
+			Cell headerCell3 = headerRow.createCell(3);
+			headerCell3.setCellValue("Location Name");
+			Cell headerCell4 = headerRow.createCell(4);
+			headerCell4.setCellValue("Reading");	
+		
+			// body data rows
+			for (int r =1; r < exportPatrolRoutineVoList.size(); r++) {
 				ExportPatrolRoutineVo vo = exportPatrolRoutineVoList.get(r);
 				Row row = sheet.createRow(r);
 				Cell cell0 = row.createCell(0); 
 				cell0.setCellValue(vo.getRouteCode());
 				Cell cell1 = row.createCell(1);
-				cell1.setCellValue(vo.getCollectionDateTime());
+				cell1.setCellValue(dateUtils.convertDateTimeToDisplayDateTimeString(vo.getCollectionDateTime()));
 				Cell cell2 = row.createCell(2);
 				cell2.setCellValue(vo.getLocationCode());
 				Cell cell3 = row.createCell(3);
