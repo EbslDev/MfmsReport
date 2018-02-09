@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ebsl.mfms.report.bundles.ReportProperties;
+import ebsl.mfms.report.factories.PropertiesFactory;
 import ebsl.mfms.report.factories.UtilsFactory;
 import ebsl.mfms.report.models.sos.ExportPatrolRoutineSo;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
@@ -21,21 +23,29 @@ import ebsl.mfms.report.services.PatrolExcelMgr;
 import ebsl.mfms.report.services.TblPatrolresultMgr;
 import ebsl.mfms.report.utils.CommonUtils;
 import ebsl.mfms.report.utils.DateUtils;
+import ebsl.mfms.report.utils.FileUtils;
 
 @SuppressWarnings("serial")
 public class GeneratePatrolReportServlet extends HttpServlet {
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
+	private PropertiesFactory propertiesFactory;
+	private ReportProperties reportProperties;
 	private UtilsFactory utilsFactory;
 	private CommonUtils commonUtils;
+	private FileUtils fileUtils;
 	private DateUtils dateUtils;
+	private final String EXCEL_EXT = ".xlsx";
 	private String getClassName(){
 		return this.getClass().getName();
 	}
 
 	public void init() throws ServletException {
 		try {
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			reportProperties = propertiesFactory.getInstanceOfReportProperties();
 			utilsFactory = UtilsFactory.getInstance();
 			commonUtils = utilsFactory.getInstanceOfCommonUtils();
+			fileUtils = utilsFactory.getInstanceOfFileUtils();
 			dateUtils = utilsFactory.getInstanceOfDateUtils();
 		} catch (Exception e) {
 			logger.error(getClassName() + ".ServletException() - Exception: ", e);
@@ -45,6 +55,10 @@ public class GeneratePatrolReportServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletOutputStream os = null;
 		ByteArrayOutputStream baos = null;
+		String rootDir = null;
+		String fileName = null;
+		String fileNamePrefix = null;
+		String fileNameSuffix = null;
 		try {
 			String siteKeyString = request.getParameter("siteKey");
 			String resultStartDateString = request.getParameter("resultStartDate");
@@ -115,9 +129,12 @@ public class GeneratePatrolReportServlet extends HttpServlet {
 
 			baos.writeTo(os);
 
+			rootDir = reportProperties.getReportDirectory();
+			fileNamePrefix = reportProperties.getPatrolExcelPrefix();
+			fileNameSuffix = reportProperties.getPatrolExcelSuffix();
+			fileName = fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + EXCEL_EXT;
 
-
-			response.setHeader("Content-Disposition", "inline; filename=download.xlsx");
+			response.setHeader("Content-Disposition", "inline; filename=\""+ fileName + "\"");
 
 		} catch (Exception e) {
 			logger.error(getClassName() + ".doGet() - Exception: ", e);
