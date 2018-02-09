@@ -38,8 +38,8 @@ import ebsl.mfms.report.services.TblPatrolresultMgr;
 import ebsl.mfms.report.utils.CommonUtils;
 import ebsl.mfms.report.utils.DateUtils;
 import ebsl.mfms.report.utils.FileUtils;
-//http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/test
-//http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/exportPatrolRoutine
+//http://localhost:8080/MfmsReport/generatePatrolReportWs/test
+//http://localhost:8080/MfmsReport/generatePatrolReportWs/exportPatrolRoutine
 @Path("/generatePatrolReportWs")
 public class GeneratePatrolReportWs {
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
@@ -68,8 +68,8 @@ public class GeneratePatrolReportWs {
 	}
 	@GET
 	@Path("/requestPatrolRoutineJson")
-	@Produces("text/plain")
-	public String requestPatrolRoutineJson(
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response requestPatrolRoutineJson(
 			@QueryParam("siteKey") Integer siteKey,
 			@QueryParam("resultStartDate") String resultStartDate,
 			@QueryParam("resultEndDate") String resultEndDate,
@@ -77,6 +77,7 @@ public class GeneratePatrolReportWs {
 			@QueryParam("routeLocationList") String routeLocationList
 			){ 
 		String returnString = "";
+		Response response = null;
 		try{
 			TblPatrolresultMgr manager = new TblPatrolresultMgr();
 			ExportPatrolRoutineSo so = new ExportPatrolRoutineSo();
@@ -84,11 +85,14 @@ public class GeneratePatrolReportWs {
 			List<ExportPatrolRoutineVo> voList =  manager.readByExportPatrolRoutineSo(so);
 			Gson gson = new GsonBuilder().create();
 			returnString = gson.toJson(voList);
+			
+			ResponseBuilder builder = Response.status(201).entity(returnString);
+			response = builder.build();
 			 
 		}catch (Exception e){
 			logger.error(getClassName() + ".requestPatrolRoutineJson() - Exception: ", e);
 		}
-		return returnString;
+		return response;
 	}
 	@GET
 	@Path("/requestPatrolRoutineExcel")
@@ -151,7 +155,9 @@ public class GeneratePatrolReportWs {
 			response = builder.build();
 
 		}catch (Exception e){
-			logger.error(getClassName() + ".requestPatrolRoutineExcel() - Exception: ", e);
+			logger.error(getClassName() + ".requestPatrolRoutineExcel() - siteKey=" + siteKey + 
+					",resultStartDate=" + resultStartDate + ",resultEndDate=" + resultEndDate + 
+					",routeKeyList=" + routeKeyList + ",routeLocationList=" + routeLocationList, e);
 		}
 		return response;
 	}
