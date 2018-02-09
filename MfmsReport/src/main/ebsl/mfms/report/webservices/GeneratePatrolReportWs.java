@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -100,11 +101,11 @@ public class GeneratePatrolReportWs {
     @Produces(MediaType.TEXT_PLAIN)
 //	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response requestPatrolRoutineExcel(
-			@QueryParam("siteKey") Integer siteKey,
-			@QueryParam("resultStartDate") String resultStartDate,
-			@QueryParam("resultEndDate") String resultEndDate,
-			@QueryParam("routeKeyList") String routeKeyList,
-			@QueryParam("routeLocationList") String routeLocationList
+			@QueryParam("siteKey") String siteKeyString,
+			@QueryParam("resultStartDate") String resultStartDateString,
+			@QueryParam("resultEndDate") String resultEndDateString,
+			@QueryParam("routeKeyList") String routeKeyListString,
+			@QueryParam("routeLocationList") String routeLocationListString
 			){
 		String rootDir = null;
 		String fileName = null;
@@ -113,9 +114,57 @@ public class GeneratePatrolReportWs {
 		Response response = null;
 		StreamingOutput  stream = null;
 		try{
-			TblPatrolresultMgr manager = new TblPatrolresultMgr();
+			
+			Integer siteKey = null;
+			Date resultStartDate = null;
+			Date resultEndDate = null;
+			List<String> routeKeyList = null;
+			List<String> routeLocationKeyList = null;
+			
+
+			
+			
+			if (siteKeyString != null && commonUtils.isInteger(siteKeyString)) {
+				siteKey = Integer.parseInt(siteKeyString);
+			}
+			
+			if (resultStartDateString != null) {
+				resultStartDate = dateUtils.convertParamDateTimeString2Date(resultStartDateString);
+			}
+			if (resultEndDateString != null) {
+				resultEndDate = dateUtils.convertParamDateTimeString2Date(resultEndDateString);
+			}
+			
+			if (routeKeyListString != null) {
+				routeKeyList = commonUtils.splitByDelimited(routeKeyListString, ",");
+			}
+			if (routeLocationListString != null) {
+				routeLocationKeyList = commonUtils.splitByDelimited(routeLocationListString, ",");
+			}
+			
+			
 			ExportPatrolRoutineSo so = new ExportPatrolRoutineSo();
-			so.setSiteKey(2);
+			if (siteKey != null) {
+				so.setSiteKey(siteKey);
+			}
+			
+			if (resultStartDate != null) {
+				so.setResultStartDate(resultStartDate);
+			}
+			
+			if (resultEndDate != null) {
+				so.setResultEndDate(resultEndDate);
+			}
+			
+			if (routeKeyList != null) {
+				so.setRouteKeyList(routeKeyList);
+			}
+			if (routeLocationKeyList != null) {
+				so.setRouteLocationKeyList(routeLocationKeyList);
+			}
+			
+			
+			TblPatrolresultMgr manager = new TblPatrolresultMgr();
 			List<ExportPatrolRoutineVo> voList =  manager.readByExportPatrolRoutineSo(so);
 			PatrolExcelMgr mgr = new PatrolExcelMgr();
 
@@ -155,9 +204,9 @@ public class GeneratePatrolReportWs {
 			response = builder.build();
 
 		}catch (Exception e){
-			logger.error(getClassName() + ".requestPatrolRoutineExcel() - siteKey=" + siteKey + 
-					",resultStartDate=" + resultStartDate + ",resultEndDate=" + resultEndDate + 
-					",routeKeyList=" + routeKeyList + ",routeLocationList=" + routeLocationList, e);
+			logger.error(getClassName() + ".requestPatrolRoutineExcel() - siteKey=" + siteKeyString + 
+					",resultStartDate=" + resultStartDateString + ",resultEndDate=" + resultEndDateString + 
+					",routeKeyList=" + routeKeyListString + ",routeLocationList=" + routeLocationListString, e);
 		}
 		return response;
 	}
