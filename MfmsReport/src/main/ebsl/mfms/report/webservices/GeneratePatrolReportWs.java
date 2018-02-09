@@ -28,16 +28,29 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import ebsl.mfms.report.bundles.ReportProperties;
+import ebsl.mfms.report.factories.PropertiesFactory;
+import ebsl.mfms.report.factories.UtilsFactory;
 import ebsl.mfms.report.models.sos.ExportPatrolRoutineSo;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.services.PatrolExcelMgr;
 import ebsl.mfms.report.services.TblPatrolresultMgr;
+import ebsl.mfms.report.utils.CommonUtils;
+import ebsl.mfms.report.utils.DateUtils;
+import ebsl.mfms.report.utils.FileUtils;
 //http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/test
 //http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/exportPatrolRoutine
 @Path("/generatePatrolReportWs")
 public class GeneratePatrolReportWs {
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
-
+	private PropertiesFactory propertiesFactory;
+	private ReportProperties reportProperties;
+	private UtilsFactory utilsFactory;
+	private CommonUtils commonUtils;
+	private FileUtils fileUtils;
+	private DateUtils dateUtils;
+	private final String EXCEL_EXT = ".xlsx";
+	
 	private String getClassName(){
 		return this.getClass().getName();
 	}
@@ -89,7 +102,10 @@ public class GeneratePatrolReportWs {
 			@QueryParam("routeKeyList") String routeKeyList,
 			@QueryParam("routeLocationList") String routeLocationList
 			){
-
+		String rootDir = null;
+		String fileName = null;
+		String fileNamePrefix = null;
+		String fileNameSuffix = null;
 		Response response = null;
 		StreamingOutput  stream = null;
 		try{
@@ -112,11 +128,25 @@ public class GeneratePatrolReportWs {
 	            }
 	        };
 			
+	        
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			reportProperties = propertiesFactory.getInstanceOfReportProperties();
+			utilsFactory = UtilsFactory.getInstance();
+			commonUtils = utilsFactory.getInstanceOfCommonUtils();
+			fileUtils = utilsFactory.getInstanceOfFileUtils();
+			dateUtils = utilsFactory.getInstanceOfDateUtils();
+	        
+			rootDir = reportProperties.getReportDirectory();
+			fileNamePrefix = reportProperties.getPatrolExcelPrefix();
+			fileNameSuffix = reportProperties.getPatrolExcelSuffix();
+			fileName = fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + EXCEL_EXT;
+
+	        
 	
 			ResponseBuilder builder = 
 					Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
 				    .header("content-disposition",
-				      "attachment; filename = patrol.xlsx");
+				      "attachment; filename = \"" + fileName + "\"");
 
 			response = builder.build();
 
