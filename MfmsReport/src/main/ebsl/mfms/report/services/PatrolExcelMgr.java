@@ -85,20 +85,22 @@ public class PatrolExcelMgr extends ServiceBase{
 			Cell headerCell4 = headerRow.createCell(4);
 			headerCell4.setCellValue("Reading");	
 		
-			// body data rows
-			for (int r =1; r < exportPatrolRoutineVoList.size(); r++) {
-				ExportPatrolRoutineVo vo = exportPatrolRoutineVoList.get(r);
-				Row row = sheet.createRow(r);
-				Cell cell0 = row.createCell(0); 
-				cell0.setCellValue(vo.getRouteCode());
-				Cell cell1 = row.createCell(1);
-				cell1.setCellValue(dateUtils.convertDateTimeToDisplayDateTimeString(vo.getCollectionDateTime()));
-				Cell cell2 = row.createCell(2);
-				cell2.setCellValue(vo.getLocationCode());
-				Cell cell3 = row.createCell(3);
-				cell3.setCellValue(vo.getLocationName());
-				Cell cell4 = row.createCell(4);
-				cell4.setCellValue(vo.getReadingResult());	
+			if (exportPatrolRoutineVoList != null ) {
+				// body data rows
+				for (int r =1; r < exportPatrolRoutineVoList.size(); r++) {
+					ExportPatrolRoutineVo vo = exportPatrolRoutineVoList.get(r);
+					Row row = sheet.createRow(r);
+					Cell cell0 = row.createCell(0); 
+					cell0.setCellValue(vo.getRouteCode());
+					Cell cell1 = row.createCell(1);
+					cell1.setCellValue(dateUtils.convertDateTimeToDisplayDateTimeString(vo.getCollectionDateTime()));
+					Cell cell2 = row.createCell(2);
+					cell2.setCellValue(vo.getLocationCode());
+					Cell cell3 = row.createCell(3);
+					cell3.setCellValue(vo.getLocationName());
+					Cell cell4 = row.createCell(4);
+					cell4.setCellValue(vo.getReadingResult());	
+				}
 			}
 			if (out == null) { // write to file Directly
 				outputStream = new FileOutputStream(fileName);

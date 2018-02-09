@@ -238,7 +238,7 @@ public class TblPatrolresultDao extends DaoBase<TblPatrolresultEo>{
 				preparedStatement.setDate(pcount, miscUtils.convertUtilDate2SqlDate(exportPatrolRoutineSo.getResultEndDate()));
 				pcount++;
 			}
-	
+			
 			ResultSet rs = preparedStatement.executeQuery();
 			while(rs.next()) {
 				if (exportPatrolRoutineVoList == null){
