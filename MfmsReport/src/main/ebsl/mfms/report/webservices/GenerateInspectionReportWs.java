@@ -6,6 +6,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +17,8 @@ import ebsl.mfms.report.models.sos.ExportPatrolRoutineSo;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.services.TblPatrolresultMgr;
 
-//http://localhost:8080/MfmsReport/rest/generateInspectionReportWs/test
-//http://localhost:8080/MfmsReport/rest/generateInspectionReportWs/requestInspectionJson
+//http://localhost:8080/MfmsReport/generateInspectionReportWs/test
+//http://localhost:8080/MfmsReport/generateInspectionReportWs/requestInspectionJson
 @Path("/generateInspectionReportWs")
 public class GenerateInspectionReportWs {
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
@@ -63,8 +66,8 @@ public class GenerateInspectionReportWs {
 	}
 	@GET
 	@Path("/requestInspectionExcel")
-	@Produces("text/plain")
-	public String requestInspectionExcel(
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response requestInspectionExcel(
 			@QueryParam("xxx") Integer siteKey,
 			@QueryParam("xxx") String resultStartDate,
 			@QueryParam("xxx") String resultEndDate,
@@ -72,6 +75,7 @@ public class GenerateInspectionReportWs {
 			@QueryParam("xxx") String routeLocationList
 			){ 
 		String returnString = "";
+		Response response = null;
 		try{
 //			TblPatrolresultMgr manager = new TblPatrolresultMgr();
 //			ExportPatrolRoutineSo so = new ExportPatrolRoutineSo();
@@ -80,9 +84,12 @@ public class GenerateInspectionReportWs {
 //			for(ExportPatrolRoutineVo vo: voList) {
 //				
 //			}
+			
+			ResponseBuilder builder = Response.status(201).entity(returnString);
+			response = builder.build();
 		}catch (Exception e){
-			logger.error(getClassName() + ".requestInspectionExcel() - Exception: ", e);
+			logger.error(getClassName() + ".requestInspectionExcel() xxx=" + siteKey + ",xxx=" + resultStartDate, e);
 		}
-		return returnString;
+		return response;
 	}
 }
