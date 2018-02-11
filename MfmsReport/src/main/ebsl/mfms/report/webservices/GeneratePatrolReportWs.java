@@ -40,7 +40,7 @@ import ebsl.mfms.report.utils.CommonUtils;
 import ebsl.mfms.report.utils.DateUtils;
 import ebsl.mfms.report.utils.FileUtils;
 //http://localhost:8080/MfmsReport/generatePatrolReportWs/test
-//http://localhost:8080/MfmsReport/generatePatrolReportWs/exportPatrolRoutine
+//http://localhost:8080/MfmsReport/generatePatrolReportWs/requestPatrolRoutineJson
 @Path("/generatePatrolReportWs")
 public class GeneratePatrolReportWs {
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
