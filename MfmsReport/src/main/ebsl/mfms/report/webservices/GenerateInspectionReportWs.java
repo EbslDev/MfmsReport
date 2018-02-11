@@ -24,8 +24,8 @@ import ebsl.mfms.report.utils.CommonUtils;
 import ebsl.mfms.report.utils.DateUtils;
 import ebsl.mfms.report.utils.FileUtils;
 
-//http://localhost:8080/MfmsReport/generateInspectionReportWs/test
-//http://localhost:8080/MfmsReport/generateInspectionReportWs/requestInspectionJson
+//http://localhost:8080/MfmsReport/rest/generateInspectionReportWs/test
+//http://localhost:8080/MfmsReport/rest/generateInspectionReportWs/requestInspectionJson
 @Path("/generateInspectionReportWs")
 public class GenerateInspectionReportWs {
 	private final Logger logger = LoggerFactory.getLogger(getClassName());
