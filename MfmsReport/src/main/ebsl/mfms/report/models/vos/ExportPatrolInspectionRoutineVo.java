@@ -12,7 +12,7 @@ public class ExportPatrolInspectionRoutineVo extends VoBase{
 	private List<String> photoPaths;
 	
 	
-	public Date getpPatrolDate() {
+	public Date getPatrolDate() {
 		return patrolDate;
 	}
 	public void setPatrolDate(Date patrolDate) {
