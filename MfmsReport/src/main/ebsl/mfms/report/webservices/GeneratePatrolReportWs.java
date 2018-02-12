@@ -182,7 +182,8 @@ public class GeneratePatrolReportWs {
 
 			ByteArrayOutputStream oStream = new ByteArrayOutputStream();
 //			mgr.generateExcelAndSave(voList);	
-			mgr.generateExcel(voList, oStream);			
+			//TODO uncomment the function after finished
+//			mgr.generateExcel(voList, oStream);			
 			
 
 	        stream = new StreamingOutput() {

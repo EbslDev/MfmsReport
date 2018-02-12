@@ -29,6 +29,7 @@ public class DbUtilsFactory {
 			}
 		} catch (Exception e) {
 			logger.error(getClassName() + ".getInstanceOfMySqlDbUtils()", e);
+			throw e;
 		}
 		return mySqlDbUtils;
 	}

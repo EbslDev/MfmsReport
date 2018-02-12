@@ -1,5 +1,6 @@
 package ebsl.mfms.report.factories.builders;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +26,7 @@ public abstract class BundlesBuilder <T> {
 	protected CommonUtils commonUtils;
 	protected FileUtils fileUtils;
 	protected DateUtils dateUtils;
+	private static int initCount;
 	
 	public BundlesBuilder(String fileName) throws Exception{
 		this.fileName = fileName;
@@ -40,13 +42,11 @@ public abstract class BundlesBuilder <T> {
 		try {
 			
 			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
-			reportProperties = propertiesFactory.getInstanceOfReportProperties();
 			utilsFactory = UtilsFactory.getInstance();
-			commonUtils = utilsFactory.getInstanceOfCommonUtils();
-			fileUtils = utilsFactory.getInstanceOfFileUtils();
-			dateUtils = utilsFactory.getInstanceOfDateUtils();
+			
 			
 			inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+
 			if (inputStream != null) {
 				properties.load(inputStream);
 			} else {

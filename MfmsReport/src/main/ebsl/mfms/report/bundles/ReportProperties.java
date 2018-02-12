@@ -12,12 +12,16 @@ public class ReportProperties extends PropertiesBase{
 	private Integer noOfRecordsPerFile;
 	private String patrolExcelPrefixEn;
 	private String patrolExcelSuffixEn;
+	private String patrolExcelSheetNameEn;
 	private String inspectionExcelPrefixEn;
 	private String inspectionExcelSuffixEn;
+	private String inspectionExcelSheetNameEn;
 	private String patrolExcelPrefixTc;
 	private String patrolExcelSuffixTc;
+	private String patrolExcelSheetNameTc;
 	private String inspectionExcelPrefixTc;
 	private String inspectionExcelSuffixTc;
+	private String inspectionExcelSheetNameTc;
 	public void setReportDirectory(String reportDirectory){
 		this.reportDirectory = reportDirectory;
 	}
@@ -42,6 +46,12 @@ public class ReportProperties extends PropertiesBase{
 	public String getPatrolExcelSuffixEn(){
 		return this.patrolExcelSuffixEn;
 	}
+	public void setPatrolExcelSheetNameEn(String patrolExcelSheetNameEn){
+		this.patrolExcelSheetNameEn = patrolExcelSheetNameEn;
+	}
+	public String getPatrolExcelSheetNameEn(){
+		return this.patrolExcelSheetNameEn;
+	}
 	public void setInspectionExcelPrefixEn(String inspectionExcelPrefixEn){
 		this.inspectionExcelPrefixEn = inspectionExcelPrefixEn;
 	}
@@ -53,6 +63,12 @@ public class ReportProperties extends PropertiesBase{
 	}
 	public String getInspectionExcelSuffixEn(){
 		return this.inspectionExcelSuffixEn;
+	}
+	public void setInspectionExcelSheetNameEn(String inspectionExcelSheetNameEn){
+		this.inspectionExcelSheetNameEn = inspectionExcelSheetNameEn;
+	}
+	public String getInspectionExcelSheetNameEn(){
+		return this.inspectionExcelSheetNameEn;
 	}
 	public void setPatrolExcelPrefixTc(String patrolExcelPrefixTc){
 		this.patrolExcelPrefixTc = patrolExcelPrefixTc;
@@ -66,6 +82,12 @@ public class ReportProperties extends PropertiesBase{
 	public String getPatrolExcelSuffixTc(){
 		return this.patrolExcelSuffixTc;
 	}
+	public void setPatrolExcelSheetNameTc(String patrolExcelSheetNameTc){
+		this.patrolExcelSheetNameTc = patrolExcelSheetNameTc;
+	}
+	public String getPatrolExcelSheetNameTc(){
+		return this.patrolExcelSheetNameTc;
+	}
 	public void setInspectionExcelPrefixTc(String inspectionExcelPrefixTc){
 		this.inspectionExcelPrefixTc = inspectionExcelPrefixTc;
 	}
@@ -77,6 +99,12 @@ public class ReportProperties extends PropertiesBase{
 	}
 	public String getInspectionExcelSuffixTc(){
 		return this.inspectionExcelSuffixTc;
+	}
+	public void setInspectionExcelSheetNameTc(String inspectionExcelSheetNameTc){
+		this.inspectionExcelSheetNameTc = inspectionExcelSheetNameTc;
+	}
+	public String getInspectionExcelSheetNameTc(){
+		return this.inspectionExcelSheetNameTc;
 	}
 	public String getPatrolExcelPrefix(){
 		String property = null;
@@ -105,6 +133,21 @@ public class ReportProperties extends PropertiesBase{
 			property = this.getPatrolExcelSuffixEn();
 		} else {
 			property = this.getPatrolExcelSuffixEn();
+		}
+		return property;
+	}
+	public String getPatrolExcelSheetName(){
+		String property = null;
+		if(this.lang == null){
+			this.lang = LANG_EN;
+		}
+		if(this.lang.equals(LANG_TCHI)){
+			property = this.getPatrolExcelSheetNameTc();
+		} else
+		if(this.lang.equals(LANG_EN)){
+			property = this.getPatrolExcelSheetNameEn();
+		} else {
+			property = this.getPatrolExcelSheetNameEn();
 		}
 		return property;
 	}
@@ -138,4 +181,20 @@ public class ReportProperties extends PropertiesBase{
 		}
 		return property;
 	}
+	public String getInspectionExcelSheetName(){
+		String property = null;
+		if(this.lang == null){
+			this.lang = LANG_EN;
+		}
+		if(this.lang.equals(LANG_TCHI)){
+			property = this.getInspectionExcelSheetNameTc();
+		} else
+		if(this.lang.equals(LANG_EN)){
+			property = this.getInspectionExcelSheetNameEn();
+		} else {
+			property = this.getInspectionExcelSheetNameEn();
+		}
+		return property;
+	}
+
 }

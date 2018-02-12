@@ -1,5 +1,7 @@
 package ebsl.mfms.report.utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,18 +9,19 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ebsl.mfms.report.factories.UtilsFactory;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class CommonUtils {
@@ -31,7 +34,7 @@ public class CommonUtils {
 //		calendarUtils = utilsFactory.getInstanceOfCalendarUtils();
 	}
 	private String getClassName() {
-		String className = this.getClassName();
+		String className = this.getClass().getName();
 		return className;
 	}
 	public void trimStringArrayElement(String [] strArray) throws Exception{
@@ -370,7 +373,7 @@ public class CommonUtils {
 		    }
 		} catch (Exception e){
 			if (logger.isDebugEnabled()){
-				logger.debug("CommonUtils.safeLongToInt() - cannot be cast to int without changing its value.");
+				logger.debug(getClassName() + ".safeLongToInt() - cannot be cast to int without changing its value.");
 			}
 			logger.error(getClassName() + ".safeLongToInt() - l=" + l, e);
 			throw e;
@@ -385,12 +388,36 @@ public class CommonUtils {
 		    }
 		} catch (Exception e){
 			if (logger.isDebugEnabled()){
-				logger.debug("CommonUtils.safeDoubleToFloat() - cannot be cast to float without changing its value.");
+				logger.debug(getClassName() + ".safeDoubleToFloat() - cannot be cast to float without changing its value.");
 			}
 			logger.error(getClassName() + ".safeDoubleToFloat() - d=" + d, e);
 			throw e;
 		}
 	    return (float) d;
 	}
-	
+
+	public void compressBytes(ByteArrayOutputStream outByteArrayOutputStream, List<ByteArrayOutputStream> inputByteArrayOutputStreamList) throws Exception {
+		ZipOutputStream zos = null;
+		try{
+			zos = new ZipOutputStream(outByteArrayOutputStream);
+			zos.setLevel(ZipOutputStream.STORED);
+			for (ByteArrayOutputStream baos: inputByteArrayOutputStreamList) {
+				ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+				ZipInputStream zipStream = new ZipInputStream(bais);
+				ZipEntry entry = null;
+				while ((entry = zipStream.getNextEntry()) != null) {
+//				    String entryName = entry.getName();
+					zos.putNextEntry(entry);
+				    zipStream.closeEntry();
+				}
+			}
+		} catch (Exception e){
+			logger.error(getClassName() + ".compressBytes()");
+			throw e;
+		} finally {
+			if (zos != null) {
+				zos.close();
+			}
+		}
+	}
 }

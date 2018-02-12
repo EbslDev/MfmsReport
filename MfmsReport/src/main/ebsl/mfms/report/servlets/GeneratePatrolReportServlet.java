@@ -121,7 +121,8 @@ public class GeneratePatrolReportServlet extends HttpServlet {
 			PatrolExcelMgr mgr = new PatrolExcelMgr();
 
 			baos = new ByteArrayOutputStream();
-			mgr.generateExcel(voList, baos);
+			//TODO uncomment the function after finished
+//			mgr.generateExcel(voList, baos);
 
 			byte[] byteArray = baos.toByteArray();
 			response.setContentLength(byteArray.length);

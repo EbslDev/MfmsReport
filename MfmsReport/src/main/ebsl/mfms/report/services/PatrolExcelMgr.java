@@ -27,6 +27,9 @@ public class PatrolExcelMgr extends ServiceBase{
 	private FileUtils fileUtils;
 	private DateUtils dateUtils;
 	private final String EXCEL_EXT = ".xlsx";
+	private Integer noOfRecordsPerFile;
+	private String patrolExcelSheetName;
+	
 	public PatrolExcelMgr() throws Exception{
 		try {
 			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
@@ -35,6 +38,8 @@ public class PatrolExcelMgr extends ServiceBase{
 			commonUtils = utilsFactory.getInstanceOfCommonUtils();
 			fileUtils = utilsFactory.getInstanceOfFileUtils();
 			dateUtils = utilsFactory.getInstanceOfDateUtils();
+			noOfRecordsPerFile = reportProperties.getNoOfRecordsPerFile();
+			patrolExcelSheetName = reportProperties.getInspectionExcelSheetName();
 		} catch (Exception e) {
 			logger.error(getClassName() + ".PatrolExcelMgr()" , e);
 			throw e;
@@ -47,33 +52,17 @@ public class PatrolExcelMgr extends ServiceBase{
 	
 	public void generateExcelAndSave(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList) throws Exception {
 		try{
-			generateExcel(exportPatrolRoutineVoList, null);
+			generateExcels(exportPatrolRoutineVoList, null);
 			
 		} catch (Exception e){
 			logger.error(getClassName() + ".generateExcel() - exportPatrolRoutineVoList=" + exportPatrolRoutineVoList, e);
 			throw e;
 		}
 	}
-	public void generateExcel(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList, ByteArrayOutputStream  byteArrayOutputStream) throws Exception {
-		String rootDir = null;
-		String fileName = null;
-		String fileNamePrefix = null;
-		String fileNameSuffix = null;
-		XSSFWorkbook workbook = null;
-		XSSFSheet sheet = null;
-		FileOutputStream outputStream = null;
-		final int HEADER_ROW = 0;
-		try{
-			workbook = new XSSFWorkbook();
-			sheet = workbook.createSheet("PatrolRoutine");
-			rootDir = reportProperties.getReportDirectory();
-			fileNamePrefix = reportProperties.getPatrolExcelPrefix();
-			fileNameSuffix = reportProperties.getPatrolExcelSuffix();
-			fileName =rootDir + "/" + fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + EXCEL_EXT;
-			fileUtils.createDirectoryIfNotExisted(rootDir);
-			// header row
-			
-			Row headerRow = sheet.createRow(HEADER_ROW);
+	
+	private void createHeaderRow(XSSFSheet sheet, Integer headerRowIndex) throws Exception{
+		try {
+			Row headerRow = sheet.createRow(headerRowIndex);
 			Cell headerCell0 = headerRow.createCell(0); 
 			headerCell0.setCellValue("Route Code");
 			Cell headerCell1 = headerRow.createCell(1);
@@ -84,12 +73,49 @@ public class PatrolExcelMgr extends ServiceBase{
 			headerCell3.setCellValue("Location Name");
 			Cell headerCell4 = headerRow.createCell(4);
 			headerCell4.setCellValue("Reading");	
-		
+		}catch (Exception e) {
+			logger.error(getClassName() + ".createHeaderRow() - headerRowIndex=" + headerRowIndex, e);
+			throw e;
+		}
+	}
+
+	private void generateExcel(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList, 
+			Integer fromIndex, Integer fileIndex, ByteArrayOutputStream byteArrayOutputStream) throws Exception {
+		String rootDir = null;
+		String fileName = null;
+		String fileNamePrefix = null;
+		String fileNameSuffix = null;
+		XSSFWorkbook workbook = null;
+		XSSFSheet sheet = null;
+		FileOutputStream outputStream = null;
+		final int HEADER_ROW = 0;
+		Integer toIndex = null;
+		try{
+			toIndex = this.noOfRecordsPerFile + fromIndex;
+			if (toIndex > exportPatrolRoutineVoList.size()) {
+				toIndex = exportPatrolRoutineVoList.size();
+			}
+			
+			workbook = new XSSFWorkbook();
+			sheet = workbook.createSheet(patrolExcelSheetName + fileIndex);
+			rootDir = reportProperties.getReportDirectory();
+			fileNamePrefix = reportProperties.getPatrolExcelPrefix();
+			fileNameSuffix = reportProperties.getPatrolExcelSuffix();
+			fileName =rootDir + "/" + fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + "_" + fileIndex + EXCEL_EXT;
+			fileUtils.createDirectoryIfNotExisted(rootDir);
+			// header row
 			if (exportPatrolRoutineVoList != null ) {
 				// body data rows
-				for (int r =1; r < exportPatrolRoutineVoList.size(); r++) {
+				for (int r = fromIndex; r < toIndex; r++) {
+					int thisFileIndexList = r % noOfRecordsPerFile;
+					int excelRowIndex = thisFileIndexList + 1;
+					
+					if (thisFileIndexList == 0) {
+						createHeaderRow(sheet, HEADER_ROW);						
+					}
+
 					ExportPatrolRoutineVo vo = exportPatrolRoutineVoList.get(r);
-					Row row = sheet.createRow(r);
+					Row row = sheet.createRow(excelRowIndex);
 					Cell cell0 = row.createCell(0); 
 					cell0.setCellValue(vo.getRouteCode());
 					Cell cell1 = row.createCell(1);
@@ -123,5 +149,36 @@ public class PatrolExcelMgr extends ServiceBase{
 				outputStream = null;
 			}
 		}
+	}
+	public void generateExcels(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList, List<ByteArrayOutputStream>  byteArrayOutputStreamList) throws Exception {
+		try{
+
+			if (exportPatrolRoutineVoList != null ) {
+				// body data rows
+				int fileIndexCount = 1;
+				for (int r =0; r < exportPatrolRoutineVoList.size(); r++) {
+					int voListIndex = r % noOfRecordsPerFile;
+
+					
+					if (voListIndex == 0) {
+						if (byteArrayOutputStreamList != null) { // generate byteArrayOutputStreamList
+							ByteArrayOutputStream oStream = new ByteArrayOutputStream();
+							generateExcel(exportPatrolRoutineVoList, r, fileIndexCount, oStream);
+							byteArrayOutputStreamList.add(oStream);
+						} else { // output to files
+							generateExcel(exportPatrolRoutineVoList, r, fileIndexCount, null);
+						}
+						fileIndexCount++;
+					}
+				}
+			}
+
+	
+//			workbook.close();
+			
+		} catch (Exception e){
+			logger.error(getClassName() + ".generateExcel() - exportPatrolRoutineVoList=" + exportPatrolRoutineVoList, e);
+			throw e;
+		} 
 	}
 }
