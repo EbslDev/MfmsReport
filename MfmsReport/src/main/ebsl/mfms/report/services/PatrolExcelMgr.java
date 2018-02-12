@@ -54,7 +54,7 @@ public class PatrolExcelMgr extends ServiceBase{
 			throw e;
 		}
 	}
-	public void generateExcel(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList, ByteArrayOutputStream  out) throws Exception {
+	public void generateExcel(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList, ByteArrayOutputStream  byteArrayOutputStream) throws Exception {
 		String rootDir = null;
 		String fileName = null;
 		String fileNamePrefix = null;
@@ -102,11 +102,11 @@ public class PatrolExcelMgr extends ServiceBase{
 					cell4.setCellValue(vo.getReadingResult());	
 				}
 			}
-			if (out == null) { // write to file Directly
+			if (byteArrayOutputStream == null) { // write to file Directly
 				outputStream = new FileOutputStream(fileName);
 				workbook.write(outputStream);
 			} else {
-				workbook.write(out);
+				workbook.write(byteArrayOutputStream);
 			}
 	
 //			workbook.close();

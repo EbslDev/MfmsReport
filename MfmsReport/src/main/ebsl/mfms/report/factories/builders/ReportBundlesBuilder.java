@@ -38,6 +38,13 @@ public class ReportBundlesBuilder extends BundlesBuilder<ReportProperties>{
 			reportProperties.setInspectionExcelSuffixTc(inspectionExcelSuffixTc);
 			String reportDirectory = getPropValues("report_directory");
 			reportProperties.setReportDirectory(reportDirectory);
+			String noOfRecordsPerFileString = getPropValues("no_of_records_per_file");
+
+			if (noOfRecordsPerFileString != null && commonUtils.isInteger(noOfRecordsPerFileString)) {
+				Integer noOfRecordsPerFile = null;
+				reportProperties.setNoOfRecordsPerFile(noOfRecordsPerFile);
+			}
+
 		} catch (Exception e) {
 			this.logger.error(getClassName() + ".build() - this.fileName=" + this.fileName, e);
 			throw e;

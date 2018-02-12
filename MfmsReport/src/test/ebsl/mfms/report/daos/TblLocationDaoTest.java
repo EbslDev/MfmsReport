@@ -94,9 +94,8 @@ public class TblLocationDaoTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
 	}
+	
 	@Ignore
 	@Test
 	public void testUpdateTblLocationEo() {

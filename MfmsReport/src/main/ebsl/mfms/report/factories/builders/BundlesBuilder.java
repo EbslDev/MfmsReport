@@ -8,10 +8,24 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ebsl.mfms.report.bundles.ReportProperties;
+import ebsl.mfms.report.factories.PropertiesFactory;
+import ebsl.mfms.report.factories.UtilsFactory;
+import ebsl.mfms.report.utils.CommonUtils;
+import ebsl.mfms.report.utils.DateUtils;
+import ebsl.mfms.report.utils.FileUtils;
+
 public abstract class BundlesBuilder <T> {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private Properties properties;
 	protected String fileName;
+	protected PropertiesFactory propertiesFactory;
+	protected ReportProperties reportProperties;
+	protected UtilsFactory utilsFactory;
+	protected CommonUtils commonUtils;
+	protected FileUtils fileUtils;
+	protected DateUtils dateUtils;
+	
 	public BundlesBuilder(String fileName) throws Exception{
 		this.fileName = fileName;
 		init();
@@ -24,6 +38,14 @@ public abstract class BundlesBuilder <T> {
 		InputStream inputStream = null;
 		properties = new Properties();
 		try {
+			
+			propertiesFactory = PropertiesFactory.getInstanceOfPropertiesFactory();
+			reportProperties = propertiesFactory.getInstanceOfReportProperties();
+			utilsFactory = UtilsFactory.getInstance();
+			commonUtils = utilsFactory.getInstanceOfCommonUtils();
+			fileUtils = utilsFactory.getInstanceOfFileUtils();
+			dateUtils = utilsFactory.getInstanceOfDateUtils();
+			
 			inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
 			if (inputStream != null) {
 				properties.load(inputStream);

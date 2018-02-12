@@ -9,6 +9,7 @@ public class ReportProperties extends PropertiesBase{
 		super(lang);
 }
 	private String reportDirectory;
+	private Integer noOfRecordsPerFile;
 	private String patrolExcelPrefixEn;
 	private String patrolExcelSuffixEn;
 	private String inspectionExcelPrefixEn;
@@ -22,6 +23,12 @@ public class ReportProperties extends PropertiesBase{
 	}
 	public String getReportDirectory(){
 		return this.reportDirectory;
+	}
+	public void setNoOfRecordsPerFile(Integer noOfRecordsPerFile){
+		this.noOfRecordsPerFile = noOfRecordsPerFile;
+	}
+	public Integer getNoOfRecordsPerFile(){
+		return this.noOfRecordsPerFile;
 	}
 	public void setPatrolExcelPrefixEn(String patrolExcelPrefixEn){
 		this.patrolExcelPrefixEn = patrolExcelPrefixEn;
