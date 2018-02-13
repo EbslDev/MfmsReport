@@ -1,12 +1,9 @@
 package ebsl.mfms.report.services;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -32,6 +29,7 @@ public class PatrolExcelMgr extends ServiceBase{
 	private FileUtils fileUtils;
 	private DateUtils dateUtils;
 	private final String EXCEL_EXT = ".xlsx";
+	private final String ZIP_EXT = ".zip";
 	private Integer noOfRecordsPerFile;
 	private String patrolExcelSheetName;
 	
@@ -190,6 +188,41 @@ public class PatrolExcelMgr extends ServiceBase{
 			throw e;
 		} 
 	}
+	
+	public void compressByteArrayOutputStreamListAndSave(List<CompressFileDto> compressFileDtoList) throws Exception {
+		ByteArrayOutputStream outByteArrayOutputStream = null;
+		OutputStream outputStream = null;
+		String rootDir = null;
+		String fileName = null;
+		String fileNamePath = null;
+		String fileNamePrefix = null;
+		String fileNameSuffix = null;
+		try{
+			rootDir = reportProperties.getReportDirectory();
+			fileNamePrefix = reportProperties.getPatrolExcelPrefix();
+			fileNameSuffix = reportProperties.getPatrolExcelSuffix();
+			fileName = fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + ZIP_EXT;
+			fileNamePath =rootDir + "/" + fileName;
+			fileUtils.createDirectoryIfNotExisted(rootDir);
+			
+			outByteArrayOutputStream = new ByteArrayOutputStream();
+			commonUtils.compressBytes(outByteArrayOutputStream, compressFileDtoList);
+			
+			outputStream = new FileOutputStream(fileNamePath);
+			outByteArrayOutputStream.writeTo(outputStream);
+			
+		} catch (Exception e){
+			logger.error(getClassName() + ".compressByteArrayOutputStreamList()");
+			throw e;
+		} finally {
+			if (outputStream != null) {
+				outputStream.close();
+				outputStream = null;
+			}
+		}
+
+	}
+	
 	public ByteArrayOutputStream compressByteArrayOutputStreamList(List<CompressFileDto> compressFileDtoList) throws Exception {
 		ByteArrayOutputStream outByteArrayOutputStream = null;
 		try{

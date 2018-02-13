@@ -54,6 +54,8 @@ public class PatrolExelMgrTest {
 			List<ByteArrayOutputStream> byteArrayOutputStreamList = new ArrayList<ByteArrayOutputStream>();
 			pMgr.generateExcels(exportPatrolRoutineVoList, null);
 
+//			pMgr.compressByteArrayOutputStreamListAndSave(compressFileDtoList);
+			
 			Assert.assertTrue(exportPatrolRoutineVoList.size() > 0);
 		} catch (Exception e) {
 			e.printStackTrace();
