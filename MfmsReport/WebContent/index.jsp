@@ -12,7 +12,7 @@ sample query string:<br/>
 http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/requestPatrolRoutineJson?siteKey=2&amp;routeKeyList=1,2,3,4&amp;resultStartDate=19700101_000000&amp;resultEndDate=20180101_235900<br/>
 </p>
 <p>
-<a href="http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/requestPatrolRoutineExcel?siteKey=2">requestPatrolReportJson</a><br/>
+<a href="http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/requestPatrolRoutineExcel?siteKey=2">requestPatrolRoutineExcel</a><br/>
 http://localhost:8080/MfmsReport/rest/generatePatrolReportWs/requestPatrolRoutineExcel?siteKey=2&amp;routeKeyList=1,2,3,4&amp;resultStartDate=19700101_000000&amp;resultEndDate=20180101_235900<br/>
 </p>
 <h2>Inspection Report</h2>

@@ -22,6 +22,7 @@ import java.util.zip.ZipOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ebsl.mfms.report.models.dtos.CompressFileDto;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class CommonUtils {
@@ -395,29 +396,59 @@ public class CommonUtils {
 		}
 	    return (float) d;
 	}
-
-	public void compressBytes(ByteArrayOutputStream outByteArrayOutputStream, List<ByteArrayOutputStream> inputByteArrayOutputStreamList) throws Exception {
+	public void compressBytes(ByteArrayOutputStream outByteArrayOutputStream, List<CompressFileDto>  compressFileDtoList) throws Exception {
 		ZipOutputStream zos = null;
 		try{
 			zos = new ZipOutputStream(outByteArrayOutputStream);
 			zos.setLevel(ZipOutputStream.STORED);
-			for (ByteArrayOutputStream baos: inputByteArrayOutputStreamList) {
-				ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-				ZipInputStream zipStream = new ZipInputStream(bais);
-				ZipEntry entry = null;
-				while ((entry = zipStream.getNextEntry()) != null) {
-//				    String entryName = entry.getName();
-					zos.putNextEntry(entry);
-				    zipStream.closeEntry();
-				}
+			for (int i = 0; i < compressFileDtoList.size(); i++) {
+				CompressFileDto compressFileDto = compressFileDtoList.get(i);
+				ByteArrayOutputStream baos = compressFileDto.getByteArrayOutputStream();
+				String fileName = compressFileDto.getFileName();
+				ZipEntry zipEntry = new ZipEntry(fileName);
+				zos.putNextEntry(zipEntry);
+				zos.write(baos.toByteArray());
+				zos.closeEntry();
 			}
+			
 		} catch (Exception e){
 			logger.error(getClassName() + ".compressBytes()");
 			throw e;
 		} finally {
 			if (zos != null) {
 				zos.close();
+				
 			}
 		}
+		
 	}
+//	public void compressBytes(ByteArrayOutputStream outByteArrayOutputStream, List<ByteArrayOutputStream> inputByteArrayOutputStreamList) throws Exception {
+//		ZipOutputStream zos = null;
+//		try{
+//			zos = new ZipOutputStream(outByteArrayOutputStream);
+//			zos.setLevel(ZipOutputStream.STORED);
+//			for (int i = 0; i < inputByteArrayOutputStreamList.size(); i++) {
+//				ByteArrayOutputStream baos = inputByteArrayOutputStreamList.get(i);
+//				ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+//				ZipInputStream zipStream = new ZipInputStream(bais);
+//				if (i == 0) {
+//				ZipEntry entry = null;
+//				while ((entry = zipStream.getNextEntry()) != null) {
+//				    String entryName = entry.getName();
+//				    
+//					zos.putNextEntry(entry);
+//
+//				}
+//			    zipStream.closeEntry();
+//				}
+//			}
+//		} catch (Exception e){
+//			logger.error(getClassName() + ".compressBytes()");
+//			throw e;
+//		} finally {
+//			if (zos != null) {
+//				zos.close();
+//			}
+//		}
+//	}
 }

@@ -1,20 +1,14 @@
 package ebsl.mfms.report.webservices;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
@@ -32,6 +26,7 @@ import com.google.gson.GsonBuilder;
 import ebsl.mfms.report.bundles.ReportProperties;
 import ebsl.mfms.report.factories.PropertiesFactory;
 import ebsl.mfms.report.factories.UtilsFactory;
+import ebsl.mfms.report.models.dtos.CompressFileDto;
 import ebsl.mfms.report.models.sos.ExportPatrolRoutineSo;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.services.PatrolExcelMgr;
@@ -51,6 +46,7 @@ public class GeneratePatrolReportWs {
 	private FileUtils fileUtils;
 	private DateUtils dateUtils;
 	private final String EXCEL_EXT = ".xlsx";
+	private final String ZIP_EXT = ".zip";
 	
 	public GeneratePatrolReportWs() {
 		try {
@@ -180,16 +176,20 @@ public class GeneratePatrolReportWs {
 			List<ExportPatrolRoutineVo> voList =  manager.readByExportPatrolRoutineSo(so);
 			PatrolExcelMgr mgr = new PatrolExcelMgr();
 
-			ByteArrayOutputStream oStream = new ByteArrayOutputStream();
+//			List<ByteArrayOutputStream> byteArrayOutputStreamList = new ArrayList<ByteArrayOutputStream>();
 //			mgr.generateExcelAndSave(voList);	
-			//TODO uncomment the function after finished
+		
+			List<CompressFileDto> compressFileDtoList = new ArrayList<CompressFileDto>();
+			
+			mgr.generateExcels(voList, compressFileDtoList);
+			ByteArrayOutputStream byteArrayOutputStream = mgr.compressByteArrayOutputStreamList(compressFileDtoList);
 //			mgr.generateExcel(voList, oStream);			
 			
 
 	        stream = new StreamingOutput() {
 	            @Override
 	            public void write(OutputStream os) throws IOException, WebApplicationException {
-	                os.write(oStream.toByteArray());
+	                os.write(byteArrayOutputStream.toByteArray());
 	                os.flush();
 	            }
 	        };
@@ -205,7 +205,7 @@ public class GeneratePatrolReportWs {
 			rootDir = reportProperties.getReportDirectory();
 			fileNamePrefix = reportProperties.getPatrolExcelPrefix();
 			fileNameSuffix = reportProperties.getPatrolExcelSuffix();
-			fileName = fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + EXCEL_EXT;
+			fileName = fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + ZIP_EXT;
 
 	        
 	

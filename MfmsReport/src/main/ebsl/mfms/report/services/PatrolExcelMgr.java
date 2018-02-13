@@ -1,8 +1,12 @@
 package ebsl.mfms.report.services;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -14,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import ebsl.mfms.report.bundles.ReportProperties;
 import ebsl.mfms.report.factories.PropertiesFactory;
 import ebsl.mfms.report.factories.UtilsFactory;
+import ebsl.mfms.report.models.dtos.CompressFileDto;
 import ebsl.mfms.report.models.vos.ExportPatrolRoutineVo;
 import ebsl.mfms.report.utils.CommonUtils;
 import ebsl.mfms.report.utils.DateUtils;
@@ -80,9 +85,10 @@ public class PatrolExcelMgr extends ServiceBase{
 	}
 
 	private void generateExcel(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList, 
-			Integer fromIndex, Integer fileIndex, ByteArrayOutputStream byteArrayOutputStream) throws Exception {
+			Integer fromIndex, Integer fileIndex, CompressFileDto compressFileDto) throws Exception {
 		String rootDir = null;
 		String fileName = null;
+		String fileNamePath = null;
 		String fileNamePrefix = null;
 		String fileNameSuffix = null;
 		XSSFWorkbook workbook = null;
@@ -101,7 +107,8 @@ public class PatrolExcelMgr extends ServiceBase{
 			rootDir = reportProperties.getReportDirectory();
 			fileNamePrefix = reportProperties.getPatrolExcelPrefix();
 			fileNameSuffix = reportProperties.getPatrolExcelSuffix();
-			fileName =rootDir + "/" + fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + "_" + fileIndex + EXCEL_EXT;
+			fileName = fileNamePrefix + "_" + fileNameSuffix +  commonUtils.genTimestampString() + "_" + fileIndex + EXCEL_EXT;
+			fileNamePath =rootDir + "/" + fileName;
 			fileUtils.createDirectoryIfNotExisted(rootDir);
 			// header row
 			if (exportPatrolRoutineVoList != null ) {
@@ -128,11 +135,14 @@ public class PatrolExcelMgr extends ServiceBase{
 					cell4.setCellValue(vo.getReadingResult());	
 				}
 			}
-			if (byteArrayOutputStream == null) { // write to file Directly
-				outputStream = new FileOutputStream(fileName);
+			if (compressFileDto == null) { // write to file Directly
+				outputStream = new FileOutputStream(fileNamePath);
 				workbook.write(outputStream);
 			} else {
+				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 				workbook.write(byteArrayOutputStream);
+				compressFileDto.setByteArrayOutputStream(byteArrayOutputStream);
+				compressFileDto.setFileName(fileName);
 			}
 	
 //			workbook.close();
@@ -150,7 +160,7 @@ public class PatrolExcelMgr extends ServiceBase{
 			}
 		}
 	}
-	public void generateExcels(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList, List<ByteArrayOutputStream>  byteArrayOutputStreamList) throws Exception {
+	public void generateExcels(List<ExportPatrolRoutineVo> exportPatrolRoutineVoList, List<CompressFileDto>  compressFileDtoList) throws Exception {
 		try{
 
 			if (exportPatrolRoutineVoList != null ) {
@@ -161,10 +171,10 @@ public class PatrolExcelMgr extends ServiceBase{
 
 					
 					if (voListIndex == 0) {
-						if (byteArrayOutputStreamList != null) { // generate byteArrayOutputStreamList
-							ByteArrayOutputStream oStream = new ByteArrayOutputStream();
-							generateExcel(exportPatrolRoutineVoList, r, fileIndexCount, oStream);
-							byteArrayOutputStreamList.add(oStream);
+						if (compressFileDtoList != null) { // generate byteArrayOutputStreamList
+							CompressFileDto compressFileDto = new CompressFileDto();
+							generateExcel(exportPatrolRoutineVoList, r, fileIndexCount, compressFileDto);
+							compressFileDtoList.add(compressFileDto);
 						} else { // output to files
 							generateExcel(exportPatrolRoutineVoList, r, fileIndexCount, null);
 						}
@@ -173,12 +183,22 @@ public class PatrolExcelMgr extends ServiceBase{
 				}
 			}
 
-	
 //			workbook.close();
 			
 		} catch (Exception e){
 			logger.error(getClassName() + ".generateExcel() - exportPatrolRoutineVoList=" + exportPatrolRoutineVoList, e);
 			throw e;
 		} 
+	}
+	public ByteArrayOutputStream compressByteArrayOutputStreamList(List<CompressFileDto> compressFileDtoList) throws Exception {
+		ByteArrayOutputStream outByteArrayOutputStream = null;
+		try{
+			outByteArrayOutputStream = new ByteArrayOutputStream();
+			commonUtils.compressBytes(outByteArrayOutputStream, compressFileDtoList);
+		} catch (Exception e){
+			logger.error(getClassName() + ".compressByteArrayOutputStreamList()");
+			throw e;
+		}
+		return outByteArrayOutputStream;
 	}
 }
