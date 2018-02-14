@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import ebsl.mfms.report.factories.DbUtilsFactory;
 import ebsl.mfms.report.factories.UtilsFactory;
+import ebsl.mfms.report.utils.DateUtils;
 import ebsl.mfms.report.utils.DbUtils;
 import ebsl.mfms.report.utils.MiscUtils;
 
@@ -21,6 +22,7 @@ public abstract class DaoBase <T>{
 	public final static String CONNECTION_TYPE_JNDI = "jndi";
 	protected DbUtilsFactory dbUtilsFactory;
 	protected DbUtils dbUtils;
+	protected DateUtils dateUtils;
 	protected UtilsFactory generalUtilsFactory;
 	protected MiscUtils miscUtils;
 	protected Connection connection;
@@ -60,6 +62,7 @@ public abstract class DaoBase <T>{
 			dbUtils = dbUtilsFactory.getInstanceOfMySqlDbUtils();
 			generalUtilsFactory = UtilsFactory.getInstance();
 			miscUtils = generalUtilsFactory.getInstanceOfMiscUtils();
+			dateUtils = generalUtilsFactory.getInstanceOfDateUtils();
 			if (connectionType == null) {
 				this.connectionType = CONNECTION_TYPE_JNDI;
 			} else {

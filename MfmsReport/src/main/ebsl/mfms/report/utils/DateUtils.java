@@ -44,6 +44,18 @@ public class DateUtils {
 		}
 		return dateString;
 	}
+	public String convertDate2ParamDateString(Date date) throws Exception {
+		String dateString = null;
+		DateFormat formatter = null;
+		try {
+			formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+			dateString = formatter.format(date);
+		} catch (Exception e) {
+			logger.error(getClassName() + ".convertDate2ParamDateString() - date=" + date, e);
+			throw e;
+		}
+		return dateString;
+	}
 	public Date convertParamDateTimeString2Date(String dateTime) throws Exception {
 		Date date = null;
 		DateFormat formatter = null;

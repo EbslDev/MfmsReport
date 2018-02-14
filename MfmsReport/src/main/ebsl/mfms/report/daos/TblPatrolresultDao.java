@@ -255,6 +255,8 @@ public class TblPatrolresultDao extends DaoBase<TblPatrolresultEo>{
 				vo.setLocationName(locationName);
 				Date timeAttended = rs.getDate("pr_timeAttended");
 				vo.setCollectionDateTime(timeAttended);
+				String timeAttendedString = dateUtils.convertDate2ParamDateString(timeAttended);
+				vo.setCollectionDateTimeString(timeAttendedString);
 				exportPatrolRoutineVoList.add(vo);
 			}
 		}

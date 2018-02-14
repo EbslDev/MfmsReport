@@ -5,6 +5,13 @@ import java.util.Date;
 public class ExportPatrolRoutineVo extends VoBase{
 	private String routeCode;
 	private Date collectionDateTime;
+	private String collectionDateTimeString;
+	public String getCollectionDateTimeString() {
+		return collectionDateTimeString;
+	}
+	public void setCollectionDateTimeString(String collectionDateTimeString) {
+		this.collectionDateTimeString = collectionDateTimeString;
+	}
 	private String locationCode;
 	private String locationName;
 	private Integer readingResult;
