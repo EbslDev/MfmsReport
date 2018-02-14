@@ -47,7 +47,12 @@ public class ReportBundlesBuilder extends BundlesBuilder<ReportProperties>{
 			String reportDirectory = getPropValues("report_directory");
 			reportProperties.setReportDirectory(reportDirectory);
 			String noOfRecordsPerFileString = getPropValues("no_of_records_per_file");
-
+			String saveExcelsToServerString = getPropValues("save_excels_to_server");
+			Boolean saveExcelsToServer = Boolean.parseBoolean(saveExcelsToServerString);
+			reportProperties.setSaveExcelsToServer(saveExcelsToServer);
+			String saveCompressedFilesToServerString = getPropValues("save_compressed_files_to_server");
+			Boolean saveCompressedFilesToServer = Boolean.parseBoolean(saveCompressedFilesToServerString);
+			reportProperties.setSaveCompressedFilesToServer(saveCompressedFilesToServer);
 			if (commonUtils == null) {
 				commonUtils = utilsFactory.getInstanceOfCommonUtils();
 			}

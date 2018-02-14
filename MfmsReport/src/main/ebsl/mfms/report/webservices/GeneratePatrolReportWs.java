@@ -182,7 +182,18 @@ public class GeneratePatrolReportWs {
 			List<CompressFileDto> compressFileDtoList = new ArrayList<CompressFileDto>();
 			
 			mgr.generateExcels(voList, compressFileDtoList);
+			Boolean saveExcelsToServer = reportProperties.getSaveExcelsToServer();
+			if (saveExcelsToServer) {
+				mgr.generateExcelAndSave(voList);
+			}
+			
 			ByteArrayOutputStream byteArrayOutputStream = mgr.compressByteArrayOutputStreamList(compressFileDtoList);
+			
+			Boolean saveCompressedFileToServer = reportProperties.getSaveCompressedFilesToServer();
+			if (saveCompressedFileToServer && compressFileDtoList != null && compressFileDtoList.size() > 0) {
+				mgr.compressByteArrayOutputStreamListAndSave(compressFileDtoList);
+			}
+			
 //			mgr.generateExcel(voList, oStream);			
 			
 

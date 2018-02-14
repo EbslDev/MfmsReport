@@ -10,6 +10,8 @@ public class ReportProperties extends PropertiesBase{
 }
 	private String reportDirectory;
 	private Integer noOfRecordsPerFile;
+	private Boolean saveExcelsToServer;
+	private Boolean saveCompressedFilesToServer;
 	private String patrolExcelPrefixEn;
 	private String patrolExcelSuffixEn;
 	private String patrolExcelSheetNameEn;
@@ -33,6 +35,18 @@ public class ReportProperties extends PropertiesBase{
 	}
 	public Integer getNoOfRecordsPerFile(){
 		return this.noOfRecordsPerFile;
+	}
+	public void setSaveExcelsToServer(Boolean saveExcelsToServer){
+		this.saveExcelsToServer = saveExcelsToServer;
+	}
+	public Boolean getSaveExcelsToServer(){
+		return this.saveExcelsToServer;
+	}
+	public void setSaveCompressedFilesToServer(Boolean saveCompressedFilesToServer){
+		this.saveCompressedFilesToServer = saveCompressedFilesToServer;
+	}
+	public Boolean getSaveCompressedFilesToServer(){
+		return this.saveCompressedFilesToServer;
 	}
 	public void setPatrolExcelPrefixEn(String patrolExcelPrefixEn){
 		this.patrolExcelPrefixEn = patrolExcelPrefixEn;

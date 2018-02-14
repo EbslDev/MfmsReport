@@ -180,7 +180,7 @@ public class PatrolExcelMgr extends ServiceBase{
 					}
 				}
 			}
-
+			
 //			workbook.close();
 			
 		} catch (Exception e){
