@@ -2,11 +2,11 @@
     <wb-module deploy-name="MfmsReport">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
-        <wb-resource deploy-path="/" source-path="/WebContent/WEB-INF/classes"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/properties"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/configs"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/OutputFiles"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test"/>
         <property name="context-root" value="MfmsReport"/>
-        <property name="java-output-path" value="/MfmsReport/build/classes"/>
+        <property name="java-output-path" value="/MfmsReport/target/classes"/>
     </wb-module>
 </project-modules>

@@ -54,7 +54,21 @@
 		<jaxrs.version>2.1</jaxrs.version>
 		<jersey2.scope>compile</jersey2.scope>
 	</properties>
+
 	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-juli -->
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-juli</artifactId>
+			<version>8.5.27</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.extras/tomcat-extras-juli-adapters -->
+		<dependency>
+			<groupId>org.apache.tomcat.extras</groupId>
+			<artifactId>tomcat-extras-juli-adapters</artifactId>
+			<version>8.5.2</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>

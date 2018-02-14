@@ -14,7 +14,7 @@ public class Initializer extends HttpServlet{
 	}
 	public void init() throws ServletException{
 		try{
-
+			logger.info(getClassName() + ".init() - MfmsReport is initialized!");
 		} catch (Exception e){
 			logger.error("InitializerImpl.init()", e);
 		}
