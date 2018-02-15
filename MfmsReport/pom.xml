@@ -50,9 +50,13 @@
 		</repository>
 	</repositories>
 	<properties>
-		<jersey2.version>2.25</jersey2.version>
-		<jaxrs.version>2.1</jaxrs.version>
-		<jersey2.scope>compile</jersey2.scope>
+		<jersey.version.java.1.8>2.25</jersey.version.java.1.8>
+		<jaxrs.version.java.1.8>2.1</jaxrs.version.java.1.8>
+		<jersey.scope.java.1.8>compile</jersey.scope.java.1.8>
+
+		<jersey.version.java.1.7>1.19.2</jersey.version.java.1.7>
+		<jaxrs.version.java.1.7>2.0</jaxrs.version.java.1.7>
+		
 		<poi.java.1.7>3.17</poi.java.1.7>
 		<poi.java.1.8>3.9</poi.java.1.8>
 	</properties>
@@ -88,30 +92,58 @@
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
-			<version>${jaxrs.version}</version>
+			<version>${jaxrs.version.java.1.8}</version>
 		</dependency>
-		<!-- Jersey 2.19 -->
+		
+		
+		
+		<!-- Jersey 1.x org.glassfish.jersey.* -->
+<!-- 		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-servlet</artifactId>
+			<version>${jersey.version.java.1.7}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>${jersey.version.java.1.7}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey.version.java.1.7}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>${jersey.version.java.1.7}</version>
+			<scope>${jersey.scope.java.1.7}</scope>
+		</dependency> -->
+		
+		
+		<!-- Jersey 2.19 org.glassfish.jersey.* -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
-			<version>${jersey2.version}</version>
+			<version>${jersey.version.java.1.8}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
-			<version>${jersey2.version}</version>
+			<version>${jersey.version.java.1.8}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
-			<version>${jersey2.version}</version>
+			<version>${jersey.version.java.1.8}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-multipart</artifactId>
-			<version>${jersey2.version}</version>
-			<scope>${jersey2.scope}</scope>
+			<version>${jersey.version.java.1.8}</version>
+			<scope>${jersey.scope.java.1.8}</scope>
 		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
